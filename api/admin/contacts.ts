@@ -30,6 +30,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
   try {
     if (format === 'csv') {
+      // Bulk PII export is admin-only; agents keep the paginated on-screen list.
+      if (user.role !== 'admin') return sendJson(res, 403, { ok: false, error: 'forbidden' });
       const rows = (await paramQuery<Row>(
         `SELECT name, email, phone, message, created_at FROM contact_messages ${where} ORDER BY created_at DESC LIMIT 5000`,
         params,

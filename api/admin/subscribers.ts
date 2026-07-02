@@ -57,6 +57,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
   try {
     if (format === 'csv') {
+      // Bulk PII export is admin-only; agents keep the paginated on-screen list.
+      if (user.role !== 'admin') return sendJson(res, 403, { ok: false, error: 'forbidden' });
       const rows = await paramQuery<Row>(
         `SELECT email, confirmed, consent_at, unsubscribed_at, locale
            FROM newsletter_subscribers ${where}
