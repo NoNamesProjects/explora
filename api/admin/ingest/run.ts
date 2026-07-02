@@ -11,7 +11,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   if (req.method !== 'POST') { res.statusCode = 405; res.setHeader('Allow', 'POST'); return res.end(); }
 
   const sql = db();
-  // Concurrency guard — don't start a second run while one is in flight.
+  // Courtesy fast-path: report an in-flight run with its runId. The REAL
+  // single-flight guard is runIngest's atomic claim (unique partial index on
+  // ingest_runs(status)='running'), which also covers the cron + CLI paths.
   const running = (await sql`
     SELECT run_id FROM ingest_runs
     WHERE status = 'running' AND started_at > now() - interval '30 minutes'

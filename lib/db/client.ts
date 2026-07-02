@@ -71,6 +71,29 @@ export async function paramQuery<T = any>(text: string, params: unknown[] = []):
 }
 
 /**
+ * Run a set of statements atomically on either driver. `build` receives the
+ * transaction-scoped sql instance and returns the statements to run:
+ *  - Neon HTTP: sql.transaction(txSql => [...]) — one batched HTTP transaction
+ *    (statements must be built from the passed txSql, not the root sql);
+ *  - porsager: sql.begin(tx => …) — statements execute inside BEGIN/COMMIT.
+ * Used by the ingest's journey_days delete+reinsert so a crash can never leave
+ * a journey with its days deleted but not yet re-inserted.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function runInTransaction(build: (tx: any) => any[]): Promise<void> {
+  const sql = db();
+  if (dbIsNeon()) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await sql.transaction((txSql: any) => build(txSql));
+  } else {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await sql.begin(async (tx: any) => {
+      for (const stmt of build(tx)) await stmt;
+    });
+  }
+}
+
+/**
  * Produce the right bound value for a `${...}::jsonb` parameter on each driver.
  * Neon's HTTP driver wants a JSON **string** (then `::jsonb` parses it); porsager
  * wants the object via its `sql.json()` wrapper (handing it a pre-stringified

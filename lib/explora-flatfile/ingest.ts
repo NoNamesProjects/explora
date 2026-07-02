@@ -24,7 +24,7 @@ import {
   type ParsedExcursion,
 } from './parse-generic';
 import { assemble } from './assemble';
-import { db, dbIsNeon, jsonbArg } from '../db/client';
+import { db, dbIsNeon, jsonbArg, runInTransaction } from '../db/client';
 
 export interface IngestResult {
   runId: string;
@@ -40,6 +40,8 @@ export interface IngestResult {
     excursions: number;
   };
   notes?: string;
+  /** Pricing files that failed to download/parse this run (run proceeds without them). */
+  failedFiles?: string[];
 }
 
 export class IngestAbort extends Error {
@@ -57,10 +59,28 @@ export async function runIngest(opts: { dryRun?: boolean } = {}): Promise<Ingest
   const t0 = Date.now();
   const sql = db();
 
+  // 0. Cross-process single-flight. A partial unique index on
+  //    ingest_runs(status) WHERE status='running' makes this INSERT an atomic
+  //    claim on both drivers — a second concurrent run (cron + manual admin +
+  //    CLI, any process) gets a unique violation and aborts before touching
+  //    Okta or the catalog. Stale claims (crashed runs) are swept first.
   await sql`
-    INSERT INTO ingest_runs (run_id, status)
-    VALUES (${runId}, 'running')
+    UPDATE ingest_runs
+    SET status = 'failed', finished_at = now(),
+        notes = COALESCE(notes, 'stale — swept at next run start')
+    WHERE status = 'running' AND started_at < now() - interval '30 minutes'
   `;
+  try {
+    await sql`
+      INSERT INTO ingest_runs (run_id, status)
+      VALUES (${runId}, 'running')
+    `;
+  } catch (e) {
+    if ((e as { code?: string })?.code === '23505') {
+      throw new IngestAbort('another ingest is already running');
+    }
+    throw e;
+  }
 
   try {
     // 1. Auth + list (consumes the token)
@@ -74,17 +94,41 @@ export async function runIngest(opts: { dryRun?: boolean } = {}): Promise<Ingest
       );
     }
 
-    // 2. Download + parse the itinerary workbook (ports, ships, day-by-day).
-    const genericBuf = await downloadFile(latest.generic.file.s3SignedUrl);
+    // 2. Download EVERYTHING first (S3 URLs are presigned with a short TTL —
+    //    parsing between downloads used to let the pricing URLs expire), then
+    //    parse. The itinerary master must succeed; pricing files are settled
+    //    individually so one bad currency file no longer fails the whole run.
+    const [genericBuf, pricingSettled] = await Promise.all([
+      downloadFile(latest.generic.file.s3SignedUrl),
+      Promise.allSettled(
+        latest.pricing.map(async (p) => ({ p, buf: await downloadFile(p.file.s3SignedUrl) })),
+      ),
+    ]);
     const generic = parseGeneric(genericBuf);
 
-    // 3. Download + parse pricing per currency (in parallel — S3 URLs are
-    //    presigned, so concurrent fetches are fine.)
-    const pricingResults = await Promise.all(
-      latest.pricing.map(async (p) =>
-        parsePricing(await downloadFile(p.file.s3SignedUrl), p.currency),
-      ),
-    );
+    const pricingResults: ReturnType<typeof parsePricing>[] = [];
+    const okCurrencies: string[] = [];
+    const failedFiles: string[] = [];
+    for (let i = 0; i < pricingSettled.length; i++) {
+      const ref = latest.pricing[i];
+      const settled = pricingSettled[i];
+      if (settled.status === 'rejected') {
+        failedFiles.push(ref.file.fileName);
+        console.error(`[ingest] pricing ${ref.currency} download failed:`, settled.reason instanceof Error ? settled.reason.message : settled.reason);
+        continue;
+      }
+      try {
+        pricingResults.push(parsePricing(settled.value.buf, ref.currency));
+        okCurrencies.push(ref.currency);
+      } catch (e) {
+        failedFiles.push(ref.file.fileName);
+        console.error(`[ingest] pricing ${ref.currency} parse failed:`, e instanceof Error ? e.message : e);
+      }
+    }
+    if (latest.pricing.length > 0 && okCurrencies.length === 0) {
+      throw new Error(`all ${latest.pricing.length} pricing files failed (${failedFiles.join(', ')})`);
+    }
+    const failNote = failedFiles.length ? ` (${failedFiles.length} pricing file(s) skipped: ${failedFiles.join(', ')})` : '';
 
     // 4. Merge the two sources into one upsert-ready dataset.
     const data = assemble(generic, pricingResults);
@@ -106,7 +150,8 @@ export async function runIngest(opts: { dryRun?: boolean } = {}): Promise<Ingest
         SET status = 'ok', finished_at = now(),
             journey_count = ${counts.journeys},
             fare_count = ${counts.fares},
-            notes = ${'dry run — no DB writes'}
+            failed_files = ${failedFiles.length},
+            notes = ${'dry run — no DB writes' + failNote}
         WHERE run_id = ${runId}
       `;
       return {
@@ -114,11 +159,12 @@ export async function runIngest(opts: { dryRun?: boolean } = {}): Promise<Ingest
         status: 'dry-run',
         durationMs: Date.now() - t0,
         counts,
-        notes: 'dry run — no DB writes',
+        notes: 'dry run — no DB writes' + failNote,
+        failedFiles,
       };
     }
 
-    // 4. 30%-drop guard BEFORE any destructive change.
+    // 4. 30%-drop guards BEFORE any destructive change — journeys AND fares.
     const [{ yesterday_count }] = (await sql`
       SELECT COUNT(*)::int AS yesterday_count
       FROM journeys
@@ -133,6 +179,30 @@ export async function runIngest(opts: { dryRun?: boolean } = {}): Promise<Ingest
         SET status = 'aborted', finished_at = now(),
             journey_count = ${counts.journeys},
             fare_count = ${counts.fares},
+            failed_files = ${failedFiles.length},
+            notes = ${note}
+        WHERE run_id = ${runId}
+      `;
+      throw new IngestAbort(note);
+    }
+
+    // Fare guard: only over the currencies that parsed this run (a skipped
+    // file's fares are left untouched below, so they don't count against us).
+    const [{ existing_fares }] = (await sql`
+      SELECT COUNT(*)::int AS existing_fares
+      FROM fares
+      WHERE now_available = true AND currency = ANY(${okCurrencies})
+    `) as Array<{ existing_fares: number }>;
+    if (existing_fares > 0 && counts.fares < existing_fares * DROP_GUARD_RATIO) {
+      const note = `aborted — today's fares (${counts.fares}) < ${Math.round(
+        DROP_GUARD_RATIO * 100,
+      )}% of yesterday's (${existing_fares}) across ${okCurrencies.join('/')}. No writes applied.`;
+      await sql`
+        UPDATE ingest_runs
+        SET status = 'aborted', finished_at = now(),
+            journey_count = ${counts.journeys},
+            fare_count = ${counts.fares},
+            failed_files = ${failedFiles.length},
             notes = ${note}
         WHERE run_id = ${runId}
       `;
@@ -155,7 +225,7 @@ export async function runIngest(opts: { dryRun?: boolean } = {}): Promise<Ingest
 
     // 8. Ghost-resilient soft-delete on journeys: any row whose last_seen_at
     //    wasn't bumped by upsertJourneys gets is_available=false and bumps
-    //    consecutive_missing.
+    //    consecutive_missing (kept for observability; deletion is time-keyed).
     await sql`
       UPDATE journeys
       SET is_available = false,
@@ -173,11 +243,33 @@ export async function runIngest(opts: { dryRun?: boolean } = {}): Promise<Ingest
         AND consecutive_missing > 0
     `;
 
-    // 9. Hard-DELETE only after the 7-day grace period.
+    // 8b. Same ghost-resilience for FARES — a price that vanished from the
+    //     feed must stop being quotable (lib/booking.ts requires
+    //     now_available). Scoped to the currencies that parsed this run so a
+    //     skipped/broken pricing file never expires its own currency's fares.
+    await sql`
+      UPDATE fares
+      SET now_available = false
+      WHERE last_seen_at < now() - interval '12 hours'
+        AND now_available = true
+        AND currency = ANY(${okCurrencies})
+    `;
+    await sql`
+      DELETE FROM fares
+      WHERE now_available = false
+        AND last_seen_at < now() - make_interval(days => ${DELETE_AFTER_MISSING_DAYS})
+        AND currency = ANY(${okCurrencies})
+    `;
+
+    // 9. Hard-DELETE journeys only after the grace period, keyed on elapsed
+    //    time since the feed last contained them — NOT on consecutive_missing,
+    //    which counts runs (a manual run + the nightly cron would double-count
+    //    a day, and the old WHERE is_available=true bump meant the counter
+    //    froze at 1 and the delete never fired at all).
     await sql`
       DELETE FROM journeys
       WHERE is_available = false
-        AND consecutive_missing >= ${DELETE_AFTER_MISSING_DAYS}
+        AND last_seen_at < now() - make_interval(days => ${DELETE_AFTER_MISSING_DAYS})
     `;
 
     // 10. Finalize audit row.
@@ -185,11 +277,13 @@ export async function runIngest(opts: { dryRun?: boolean } = {}): Promise<Ingest
       UPDATE ingest_runs
       SET status = 'ok', finished_at = now(),
           journey_count = ${counts.journeys},
-          fare_count = ${counts.fares}
+          fare_count = ${counts.fares},
+          failed_files = ${failedFiles.length},
+          notes = ${failedFiles.length ? `ok${failNote}` : null}
       WHERE run_id = ${runId}
     `;
 
-    return { runId, status: 'ok', durationMs: Date.now() - t0, counts };
+    return { runId, status: 'ok', durationMs: Date.now() - t0, counts, failedFiles, notes: failedFiles.length ? `ok${failNote}` : undefined };
   } catch (err) {
     const isAbort = err instanceof IngestAbort;
     const note = err instanceof Error ? err.message : String(err);
@@ -330,28 +424,31 @@ async function upsertJourneys(rows: ParsedItinerary[]): Promise<void> {
           updated_at = now()
   `));
 
-  // 2. Refresh days: clear all days for these journeys in one query per id-chunk,
-  //    then batch-reinsert — simpler than diffing in place.
-  const ids = valid.map((it) => it.journeyId);
-  for (let i = 0; i < ids.length; i += 2000) {
-    await sql`DELETE FROM journey_days WHERE journey_id = ANY(${ids.slice(i, i + 2000)})`;
+  // 2. Refresh days ATOMICALLY per journey-chunk: the DELETE and the
+  //    re-INSERTs commit in ONE transaction, so a crash mid-refresh can never
+  //    leave journeys with their days deleted but not yet re-inserted.
+  //    ~50 journeys ≈ a few hundred statements per transaction — same order of
+  //    magnitude as TX_CHUNK, bounding the Neon HTTP request body.
+  const DAYS_TX_JOURNEYS = 50;
+  for (let i = 0; i < valid.length; i += DAYS_TX_JOURNEYS) {
+    const chunk = valid.slice(i, i + DAYS_TX_JOURNEYS);
+    const ids = chunk.map((it) => it.journeyId);
+    await runInTransaction((tx) => [
+      tx`DELETE FROM journey_days WHERE journey_id = ANY(${ids})`,
+      ...chunk.flatMap((it) =>
+        it.days.map((d) => tx`
+          INSERT INTO journey_days (
+            journey_id, day_number, port_cd, arrival_time, departure_time, overnight, description
+          )
+          VALUES (
+            ${it.journeyId}, ${d.dayNumber}, ${d.portCd},
+            ${d.arrivalTime}, ${d.departureTime}, ${d.overnight}, ${d.description}
+          )
+          ON CONFLICT (journey_id, day_number) DO NOTHING
+        `),
+      ),
+    ]);
   }
-
-  // 3. All days across all journeys.
-  await commitInChunks(
-    valid.flatMap((it) =>
-      it.days.map((d) => sql`
-        INSERT INTO journey_days (
-          journey_id, day_number, port_cd, arrival_time, departure_time, overnight, description
-        )
-        VALUES (
-          ${it.journeyId}, ${d.dayNumber}, ${d.portCd},
-          ${d.arrivalTime}, ${d.departureTime}, ${d.overnight}, ${d.description}
-        )
-        ON CONFLICT (journey_id, day_number) DO NOTHING
-      `),
-    ),
-  );
 }
 
 async function upsertFares(currency: string, rows: ParsedFare[]): Promise<void> {
