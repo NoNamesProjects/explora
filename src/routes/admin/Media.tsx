@@ -113,7 +113,7 @@ export function Media() {
         right={
           <>
             <input ref={inputRef} type="file" accept={ACCEPT_ATTR} className="hidden" onChange={(e) => void onFiles(e.target.files)} />
-            <button
+            <button aria-label="Upload image"
               type="button"
               onClick={() => inputRef.current?.click()}
               disabled={uploading}

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 export function Pagination({
   page, pageSize, total, onPage,
 }: {
@@ -7,6 +9,14 @@ export function Pagination({
   onPage: (p: number) => void;
 }) {
   const pages = Math.max(1, Math.ceil(total / pageSize));
+
+  // If total shrinks under the current page (e.g. last item on the last page
+  // deleted), snap back to the last real page instead of stranding the user
+  // on an empty one.
+  useEffect(() => {
+    if (page > pages) onPage(pages);
+  }, [page, pages, onPage]);
+
   if (total === 0) return null;
   const from = (page - 1) * pageSize + 1;
   const to = Math.min(total, page * pageSize);

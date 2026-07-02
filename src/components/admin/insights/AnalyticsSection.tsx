@@ -6,6 +6,7 @@ import { Panel } from '@/components/admin/ui/Panel';
 import { LineChart, Donut, BarChart, type Slice } from '@/components/admin/charts/Charts';
 import { BOOKING_STATUS } from '@/lib/admin/status';
 import { money } from '@/lib/admin/format';
+import { ErrorState } from '@/components/admin/ui/ErrorState';
 
 const STATUS_COLOR: Record<BookingStatus, string> = {
   pending: '#B5A684', deposit_paid: '#73859F', confirmed: '#3D6963', cancelled: '#CBC4BC',
@@ -14,16 +15,22 @@ const STATUS_COLOR: Record<BookingStatus, string> = {
 export function AnalyticsSection() {
   const [a, setA] = useState<Analytics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    adminApi.analytics().then((r) => setA(r.analytics)).catch(() => {}).finally(() => setLoading(false));
-  }, []);
+    setLoading(true);
+    setFailed(false);
+    adminApi.analytics().then((r) => setA(r.analytics)).catch(() => setFailed(true)).finally(() => setLoading(false));
+  }, [attempt]);
 
   const slices: Slice[] = (a?.byStatus ?? []).map((s) => ({
     label: BOOKING_STATUS[s.status]?.label ?? s.status,
     value: s.n,
     color: STATUS_COLOR[s.status] ?? '#CBC4BC',
   }));
+
+  if (failed) return <ErrorState message="Could not load analytics." onRetry={() => setAttempt((n) => n + 1)} />;
 
   return (
     <div className="space-y-6">

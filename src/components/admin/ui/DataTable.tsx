@@ -26,6 +26,7 @@ export function DataTable<Row>({
             {columns.map((c) => (
               <th
                 key={c.key}
+                scope="col"
                 style={c.width ? { width: c.width } : undefined}
                 className={`px-3 py-2.5 text-eyebrow uppercase tracking-eyebrow text-ink-500 ${c.align === 'right' ? 'text-right' : ''}`}
               >
@@ -57,8 +58,14 @@ export function DataTable<Row>({
                   <tr
                     key={getRowId(row)}
                     onClick={onRowClick ? () => onRowClick(row) : undefined}
+                    // Clickable rows must also open from the keyboard.
+                    tabIndex={onRowClick ? 0 : undefined}
+                    role={onRowClick ? 'button' : undefined}
+                    onKeyDown={onRowClick ? (e) => {
+                      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onRowClick(row); }
+                    } : undefined}
                     className={`border-b border-cream-200 last:border-0 ${
-                      onRowClick ? 'cursor-pointer transition-colors hover:bg-cream-100' : ''
+                      onRowClick ? 'cursor-pointer transition-colors hover:bg-cream-100 focus-visible:bg-cream-100' : ''
                     }`}
                   >
                     {columns.map((c) => (

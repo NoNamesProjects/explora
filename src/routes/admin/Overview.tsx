@@ -10,6 +10,7 @@ import { RoleGate } from '@/components/admin/RequireRole';
 import { useIngestRun } from '@/components/admin/data/useIngestRun';
 import { RefreshButton } from '@/components/admin/data/RefreshButton';
 import { useToast } from '@/components/admin/ui/Toast';
+import { ErrorState } from '@/components/admin/ui/ErrorState';
 import { money, dateShort, relativeTime } from '@/lib/admin/format';
 
 export function Overview() {
@@ -19,14 +20,21 @@ export function Overview() {
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [recent, setRecent] = useState<BookingListRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
+    setLoading(true);
+    setFailed(false);
     Promise.allSettled([
       adminApi.catalog.health().then((r) => setHealth(r.health)),
       adminApi.analytics().then((r) => setAnalytics(r.analytics)),
       adminApi.bookings.list({ pageSize: 6 }).then((r) => setRecent(r.items)),
-    ]).finally(() => setLoading(false));
-  }, []);
+    ]).then((results) => {
+      // Total outage → a real error surface; partial failures keep their '—'.
+      if (results.every((r) => r.status === 'rejected')) setFailed(true);
+    }).finally(() => setLoading(false));
+  }, [attempt]);
 
   const cols: Column<BookingListRow>[] = [
     { key: 'ref', header: 'Ref', render: (r) => <span className="font-medium text-ink">{r.ref}</span> },
@@ -53,6 +61,8 @@ export function Overview() {
         </div>
         <RoleGate role="admin"><RefreshButton phase={phase} busy={busy} onStart={start} /></RoleGate>
       </div>
+
+      {failed && <ErrorState message="Could not load the overview." onRetry={() => setAttempt((n) => n + 1)} />}
 
       {alerts.length > 0 && (
         <div className="space-y-2">

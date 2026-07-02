@@ -123,7 +123,7 @@ export function MediaPicker({
             <SelectInput ariaLabel="Filter by category" value={category} onChange={setCategory} options={CATEGORY_OPTIONS} />
             <SearchInput value={q} onChange={setQ} placeholder="Search alt text, name…" />
             <div className="ml-auto">
-              <button
+              <button aria-label="Upload"
                 type="button"
                 onClick={() => inputRef.current?.click()}
                 disabled={uploading}

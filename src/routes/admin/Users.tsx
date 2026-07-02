@@ -6,6 +6,7 @@ import type { AdminRole, AdminUserRow } from '@/lib/admin/types';
 import { Panel } from '@/components/admin/ui/Panel';
 import { DataTable, type Column } from '@/components/admin/ui/DataTable';
 import { Spinner } from '@/components/admin/ui/Spinner';
+import { ErrorState } from '@/components/admin/ui/ErrorState';
 import { useToast } from '@/components/admin/ui/Toast';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { dateShort, relativeTime } from '@/lib/admin/format';
@@ -17,11 +18,13 @@ export function Users() {
   const { user: me } = useAdminAuth();
   const [rows, setRows] = useState<AdminUserRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
   const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<NewUser>({ defaultValues: { role: 'agent' } });
 
   const load = () => {
     setLoading(true);
-    adminApi.users.list().then((r) => setRows(r.items)).catch(() => {}).finally(() => setLoading(false));
+    setFailed(false);
+    adminApi.users.list().then((r) => setRows(r.items)).catch(() => setFailed(true)).finally(() => setLoading(false));
   };
   useEffect(load, []);
 
@@ -53,6 +56,7 @@ export function Users() {
     { key: 'role', header: 'Role', render: (r) => (
       <select
         value={r.role}
+        aria-label={`Role for ${r.email}`}
         onChange={(e) => update(r.id, { role: e.target.value as AdminRole })}
         className="rounded border border-cream-300 bg-white px-2 py-1 text-xs"
       >
@@ -92,11 +96,13 @@ export function Users() {
             <select {...register('role')} className="mt-1 h-9 w-full rounded border border-cream-300 bg-white px-2 text-sm focus:border-ink focus:outline-none"><option value="agent">agent</option><option value="admin">admin</option></select></label>
           <label className="block"><span className="text-eyebrow uppercase tracking-eyebrow text-ink-500">Password (min 8)</span>
             <input type="text" required minLength={8} {...register('password', { required: true, minLength: 8 })} className="mt-1 h-9 w-full rounded border border-cream-300 bg-white px-2.5 text-sm focus:border-ink focus:outline-none" /></label>
-          <button type="submit" disabled={isSubmitting} className="btn-primary h-9 py-0 disabled:opacity-60">{isSubmitting ? <Spinner className="text-cream" /> : 'Add user'}</button>
+          <button type="submit" disabled={isSubmitting} aria-label="Add user" className="btn-primary h-9 py-0 disabled:opacity-60">{isSubmitting ? <Spinner className="text-cream" /> : 'Add user'}</button>
         </form>
       </Panel>
 
-      <DataTable columns={cols} rows={rows} getRowId={(r) => r.id} loading={loading} empty="No users." />
+      {failed
+        ? <ErrorState message="Could not load users." onRetry={load} />
+        : <DataTable columns={cols} rows={rows} getRowId={(r) => r.id} loading={loading} empty="No users." />}
     </div>
   );
 }

@@ -1,19 +1,27 @@
 import { useEffect, useState } from 'react';
 import { adminApi } from '@/lib/admin/api';
 import { DataTable, type Column } from '@/components/admin/ui/DataTable';
+import { ErrorState } from '@/components/admin/ui/ErrorState';
 
 type Rec = Record<string, unknown>;
 
 function useList(loader: () => Promise<{ items: Rec[] }>) {
   const [rows, setRows] = useState<Rec[]>([]);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   useEffect(() => {
     let alive = true;
-    loader().then((r) => { if (alive) setRows(r.items); }).catch(() => {}).finally(() => { if (alive) setLoading(false); });
+    setLoading(true);
+    setFailed(false);
+    loader()
+      .then((r) => { if (alive) setRows(r.items); })
+      .catch(() => { if (alive) setFailed(true); })
+      .finally(() => { if (alive) setLoading(false); });
     return () => { alive = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return { rows, loading };
+  }, [attempt]);
+  return { rows, loading, failed, retry: () => setAttempt((n) => n + 1) };
 }
 
 const shipCols: Column<Rec>[] = [
@@ -33,11 +41,13 @@ const portCols: Column<Rec>[] = [
 ];
 
 export function ShipsTab() {
-  const { rows, loading } = useList(adminApi.catalog.ships);
+  const { rows, loading, failed, retry } = useList(adminApi.catalog.ships);
+  if (failed) return <ErrorState message="Could not load ships." onRetry={retry} />;
   return <DataTable columns={shipCols} rows={rows} getRowId={(r) => String(r.ship_cd)} loading={loading} empty="No ships." />;
 }
 
 export function PortsTab() {
-  const { rows, loading } = useList(adminApi.catalog.ports);
+  const { rows, loading, failed, retry } = useList(adminApi.catalog.ports);
+  if (failed) return <ErrorState message="Could not load ports." onRetry={retry} />;
   return <DataTable columns={portCols} rows={rows} getRowId={(r) => String(r.port_cd)} loading={loading} empty="No ports." />;
 }

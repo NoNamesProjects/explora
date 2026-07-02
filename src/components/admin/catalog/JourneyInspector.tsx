@@ -7,6 +7,8 @@ import { Spinner } from '@/components/admin/ui/Spinner';
 import { ConfirmDialog } from '@/components/admin/ui/ConfirmDialog';
 import { useToast } from '@/components/admin/ui/Toast';
 import { dateShort, money } from '@/lib/admin/format';
+import { ErrorState } from '@/components/admin/ui/ErrorState';
+import { RoleGate } from '@/components/admin/RequireRole';
 
 function priceCell(prices: Record<string, unknown>): string {
   // The UI fare key is '2A' (per-person, two adults). Fall back to the first numeric value.
@@ -33,6 +35,8 @@ export function JourneyInspector({
   const toast = useToast();
   const [fares, setFares] = useState<CatalogFareRow[]>([]);
   const [loading, setLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   // Price override state (whole-journey "from" price: suiteCategory '', EUR).
   const [override, setOverride] = useState<FareOverride | null>(null);
@@ -45,12 +49,13 @@ export function JourneyInspector({
     if (!open || !journey) return;
     const jid = journey.journeyId;
     setLoading(true);
+    setFailed(false);
     setFares([]);
     setOverride(null);
     setPriceInput('');
     setNoteInput('');
     Promise.all([
-      adminApi.catalog.fares(jid).then((r) => setFares(r.items)).catch(() => {}),
+      adminApi.catalog.fares(jid).then((r) => setFares(r.items)),
       pricingApi.list(jid)
         .then((r) => {
           const ov = r.overrides.find((o) => o.suiteCategory === '' && o.currency === 'EUR') ?? null;
@@ -58,9 +63,10 @@ export function JourneyInspector({
           if (ov?.price != null) setPriceInput(String(ov.price));
           setNoteInput(ov?.note ?? '');
         })
+        // Agents may not read overrides (admin-only) — that's not a load failure.
         .catch(() => {}),
-    ]).finally(() => setLoading(false));
-  }, [open, journey]);
+    ]).catch(() => setFailed(true)).finally(() => setLoading(false));
+  }, [open, journey, attempt]);
 
   const feedFrom = useMemo(() => feedFromPrice(fares), [fares]);
   const active = !!override?.enabled;
@@ -117,7 +123,9 @@ export function JourneyInspector({
             <div><dt className="text-eyebrow uppercase tracking-eyebrow text-ink-500">Available</dt><dd className="text-ink">{journey.isAvailable ? 'Yes' : `No (missing ${journey.consecutiveMissing}×)`}</dd></div>
           </dl>
 
-          {/* Manual "from" price override — survives the nightly flatfile ingest. */}
+          {/* Manual "from" price override — survives the nightly flatfile ingest.
+              Admin-only: the write endpoint requires the admin role. */}
+          <RoleGate role="admin">
           <section className="rounded-card border border-cream-300 bg-cream-100/40 p-4">
             <div className="mb-2 flex items-center gap-2">
               <h3 className="text-eyebrow uppercase tracking-eyebrow text-ink-500">Price override</h3>
@@ -165,6 +173,7 @@ export function JourneyInspector({
                 type="button"
                 onClick={saveOverride}
                 disabled={saving || !priceInput.trim()}
+                aria-label={override ? 'Update override' : 'Set override'}
                 className="btn-primary px-4 py-2 text-[0.7rem] disabled:opacity-50"
               >
                 {saving ? <Spinner className="text-cream" /> : override ? 'Update override' : 'Set override'}
@@ -181,11 +190,14 @@ export function JourneyInspector({
               )}
             </div>
           </section>
+          </RoleGate>
 
           <section>
             <h3 className="mb-2 text-eyebrow uppercase tracking-eyebrow text-ink-500">Fares ({fares.length})</h3>
             {loading ? (
               <div className="flex items-center gap-2 py-6 text-sm text-ink-500"><Spinner /> Loading fares…</div>
+            ) : failed ? (
+              <ErrorState message="Could not load fares." onRetry={() => setAttempt((n) => n + 1)} />
             ) : fares.length === 0 ? (
               <p className="text-sm text-ink-500">No fares recorded for this journey.</p>
             ) : (
@@ -193,9 +205,9 @@ export function JourneyInspector({
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-cream-300 bg-cream-100/60 text-left text-eyebrow uppercase tracking-eyebrow text-ink-500">
-                      <th className="px-3 py-2">Suite</th><th className="px-3 py-2">Fare</th>
-                      <th className="px-3 py-2">Cur</th><th className="px-3 py-2 text-right">Per person (2A)</th>
-                      <th className="px-3 py-2">Live</th>
+                      <th scope="col" className="px-3 py-2">Suite</th><th scope="col" className="px-3 py-2">Fare</th>
+                      <th scope="col" className="px-3 py-2">Cur</th><th scope="col" className="px-3 py-2 text-right">Per person (2A)</th>
+                      <th scope="col" className="px-3 py-2">Live</th>
                     </tr>
                   </thead>
                   <tbody>

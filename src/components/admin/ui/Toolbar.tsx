@@ -11,11 +11,12 @@ export function Toolbar({ children, right }: { children: ReactNode; right?: Reac
 }
 
 export function SearchInput({
-  value, onChange, placeholder = 'Search…',
+  value, onChange, placeholder = 'Search…', ariaLabel,
 }: {
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
+  ariaLabel?: string;
 }) {
   return (
     <input
@@ -23,6 +24,7 @@ export function SearchInput({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
+      aria-label={ariaLabel ?? (typeof placeholder === 'string' ? placeholder.replace(/…$/, '') : 'Search')}
       className="h-9 w-56 rounded border border-cream-300 bg-white px-3 text-sm text-ink placeholder:text-ink-400
                  focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
     />

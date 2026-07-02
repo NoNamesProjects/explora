@@ -5,6 +5,7 @@ import { dateShort } from '@/lib/admin/format';
 import { DataTable, type Column } from '@/components/admin/ui/DataTable';
 import { Pagination } from '@/components/admin/ui/Pagination';
 import { Toolbar, SearchInput, SelectInput } from '@/components/admin/ui/Toolbar';
+import { ErrorState } from '@/components/admin/ui/ErrorState';
 import { JourneyInspector } from './JourneyInspector';
 
 const PAGE_SIZE = 25;
@@ -17,6 +18,8 @@ export function JourneysTab() {
   const [rows, setRows] = useState<CatalogJourneyRow[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const [selected, setSelected] = useState<CatalogJourneyRow | null>(null);
 
   useEffect(() => {
@@ -27,13 +30,14 @@ export function JourneysTab() {
   useEffect(() => {
     let alive = true;
     setLoading(true);
+    setFailed(false);
     adminApi.catalog
       .journeys({ q: debouncedQ || undefined, available, page, pageSize: PAGE_SIZE })
       .then((r) => { if (alive) { setRows(r.items); setTotal(r.total); } })
-      .catch(() => {})
+      .catch(() => { if (alive) setFailed(true); })
       .finally(() => { if (alive) setLoading(false); });
     return () => { alive = false; };
-  }, [debouncedQ, available, page]);
+  }, [debouncedQ, available, page, attempt]);
 
   const columns: Column<CatalogJourneyRow>[] = useMemo(() => [
     { key: 'journeyId', header: 'Journey', render: (r) => (
@@ -61,7 +65,9 @@ export function JourneysTab() {
         />
         <span className="text-xs text-ink-500 tabular-nums">{loading ? '…' : `${total} journeys`}</span>
       </Toolbar>
-      <DataTable columns={columns} rows={rows} getRowId={(r) => r.journeyId} onRowClick={(r) => setSelected(r)} loading={loading} empty="No journeys match." />
+      {failed
+        ? <ErrorState message="Could not load journeys." onRetry={() => setAttempt((n) => n + 1)} />
+        : <DataTable columns={columns} rows={rows} getRowId={(r) => r.journeyId} onRowClick={(r) => setSelected(r)} loading={loading} empty="No journeys match." />}
       <Pagination page={page} pageSize={PAGE_SIZE} total={total} onPage={setPage} />
       <JourneyInspector journey={selected} open={selected != null} onClose={() => setSelected(null)} />
     </div>

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ApiError } from '@/lib/api';
 import {
   subscribersApi,
   type SubscriberRow,
@@ -208,8 +209,16 @@ export function Subscribers() {
         startPoll();
         toast.push({ tone: 'info', message: `Sending to ${r.recipients ?? counts.confirmed} subscribers…` });
       }
-    } catch {
-      toast.push({ tone: 'error', message: 'Could not start the broadcast.' });
+    } catch (e) {
+      if (e instanceof ApiError && e.status === 409) {
+        // Another campaign is mid-send (double-click / second operator) —
+        // pick up its progress instead of reporting a failure.
+        setConfirmOpen(false);
+        toast.push({ tone: 'info', message: 'A broadcast is already sending — showing its progress.' });
+        startPoll();
+      } else {
+        toast.push({ tone: 'error', message: 'Could not start the broadcast.' });
+      }
     } finally {
       setSending(false);
     }
@@ -313,7 +322,7 @@ export function Subscribers() {
           {/* Live preview */}
           <div>
             <div className="mb-1.5 text-eyebrow uppercase tracking-eyebrow text-ink-500">Preview</div>
-            <div className="rounded-card border border-cream-300 bg-white p-6">
+            <div className="rounded-card border border-cream-300 bg-cream-soft p-6">
               {richIsEmpty(body) ? (
                 <p className="text-sm text-ink-400">Your message preview will appear here.</p>
               ) : (

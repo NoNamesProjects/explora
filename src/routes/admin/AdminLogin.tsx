@@ -58,7 +58,7 @@ export function AdminLogin() {
             {...register('password', { required: true })}
             className="mt-1.5 mb-6 h-10 w-full rounded border border-cream-300 bg-white px-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
           />
-          <button type="submit" disabled={isSubmitting} className="btn-primary w-full disabled:opacity-60">
+          <button aria-label="Sign in" type="submit" disabled={isSubmitting} className="btn-primary w-full disabled:opacity-60">
             {isSubmitting ? <Spinner className="text-cream" /> : 'Sign in'}
           </button>
         </form>

@@ -133,7 +133,7 @@ export function BookingDrawer({
             <h3 className="mb-2 text-eyebrow uppercase tracking-eyebrow text-ink-500">Guests</h3>
             <div className="space-y-3">
               {booking.guests.map((g, i) => (
-                <div key={i} className="rounded-card border border-cream-300 bg-white p-3 text-sm">
+                <div key={i} className="rounded-card border border-cream-300 bg-cream-soft p-3 text-sm">
                   <div className="flex items-center gap-2">
                     <span className="font-medium text-ink">{g.title ? `${g.title} ` : ''}{g.firstName} {g.lastName}</span>
                     {g.lead && <span className="rounded-full bg-accent-gold/15 px-2 py-0.5 text-[0.65rem] uppercase tracking-eyebrow text-accent-tan">Lead</span>}
@@ -175,7 +175,7 @@ export function BookingDrawer({
             <div className="space-y-2">
               {booking.adminNotes.length === 0 && <p className="text-xs text-ink-500">No notes yet.</p>}
               {booking.adminNotes.map((n) => (
-                <div key={n.id} className="rounded-card border border-cream-300 bg-white p-3 text-sm">
+                <div key={n.id} className="rounded-card border border-cream-300 bg-cream-soft p-3 text-sm">
                   <p className="text-ink">{n.text}</p>
                   <p className="mt-1 text-[0.7rem] text-ink-500">{n.byName} · {dateTime(n.at)}</p>
                 </div>
@@ -189,7 +189,7 @@ export function BookingDrawer({
                 placeholder="Add an internal note…"
                 className="min-h-0 flex-1 rounded border border-cream-300 bg-white px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
               />
-              <button
+              <button aria-label="Add note"
                 type="button"
                 onClick={addNote}
                 disabled={addingNote || !noteText.trim()}
