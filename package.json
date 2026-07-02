@@ -23,6 +23,7 @@
     "migrate": "tsx scripts/migrate.ts",
     "admin:user": "tsx scripts/admin-user.ts",
     "ingest": "tsx scripts/ingest-once.ts",
+    "seed:dev": "tsx scripts/dev-seed.ts",
     "ingest:dry": "INGEST_DRY_RUN=1 tsx scripts/ingest-once.ts",
     "fetch:port-images": "tsx scripts/fetch-port-images.ts"
   },
