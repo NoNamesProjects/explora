@@ -39,6 +39,7 @@ const config: Config = {
         // Ink — confirmed navy (#0C2340) + dark blue-gray (#243953).
         ink: {
           DEFAULT: '#0C2340',
+          soft: '#243953',  // hover tint for ink-filled controls (= --ink-soft)
           900: '#0C2340',
           800: '#162E48',
           700: '#243953',

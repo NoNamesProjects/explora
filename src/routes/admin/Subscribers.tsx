@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ApiError } from '@/lib/api';
 import {
   subscribersApi,
   type SubscriberRow,
@@ -216,8 +217,16 @@ export function Subscribers() {
         startPoll();
         toast.push({ tone: 'info', message: t('admin.subscribers.sendingToast', { defaultValue: 'Sending to {{count}} subscribers…', count: r.recipients ?? counts.confirmed }) });
       }
-    } catch {
-      toast.push({ tone: 'error', message: t('admin.subscribers.startFailed', { defaultValue: 'Could not start the broadcast.' }) });
+    } catch (e) {
+      if (e instanceof ApiError && e.status === 409) {
+        // Another campaign is mid-send (double-click / second operator) —
+        // pick up its progress instead of reporting a failure.
+        setConfirmOpen(false);
+        toast.push({ tone: 'info', message: t('admin.subscribers.alreadySending', { defaultValue: 'A broadcast is already sending — showing its progress.' }) });
+        startPoll();
+      } else {
+        toast.push({ tone: 'error', message: t('admin.subscribers.startFailed', { defaultValue: 'Could not start the broadcast.' }) });
+      }
     } finally {
       setSending(false);
     }

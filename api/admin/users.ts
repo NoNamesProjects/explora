@@ -51,6 +51,11 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     res.statusCode = 405; res.setHeader('Allow', 'GET, POST'); return res.end();
   } catch (err) {
+    // ON CONFLICT (email) misses the lower(email) unique index — a case-variant
+    // duplicate raises 23505 instead; report it as the same 409.
+    if ((err as { code?: string })?.code === '23505') {
+      return sendJson(res, 409, { ok: false, error: 'email-exists' });
+    }
     console.error('[admin/users]', err instanceof Error ? err.message : err);
     return sendJson(res, 500, { ok: false, error: 'server-error' });
   }

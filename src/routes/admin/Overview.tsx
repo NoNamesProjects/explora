@@ -31,7 +31,10 @@ export function Overview() {
       adminApi.analytics().then((r) => setAnalytics(r.analytics)),
       adminApi.bookings.list({ pageSize: 6 }).then((r) => setRecent(r.items)),
     ])
-      .then((results) => { if (results.some((x) => x.status === 'rejected')) setLoadError(true); })
+      .then((results) => {
+        // Total outage → a real error surface; partial failures keep their '—'.
+        if (results.every((r) => r.status === 'rejected')) setLoadError(true);
+      })
       .finally(() => setLoading(false));
   }, []);
 

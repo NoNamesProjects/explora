@@ -345,6 +345,14 @@ UPDATE ingest_runs SET status = 'failed', finished_at = now(), notes = COALESCE(
 
 CREATE UNIQUE INDEX IF NOT EXISTS ingest_runs_one_running_idx ON ingest_runs (status) WHERE status = 'running';
 
+-- Email-broadcast single-flight: at most one 'running' campaign at a time, same
+-- partial-unique-index technique. Stale rows from crashed sends are reaped first.
+UPDATE email_campaigns SET status = 'failed', finished_at = now(),
+  notes = coalesce(notes || ' — ', '') || 'stale: reaped by migration'
+  WHERE status = 'running' AND started_at < now() - interval '30 minutes';
+CREATE UNIQUE INDEX IF NOT EXISTS email_campaigns_one_running_idx
+  ON email_campaigns ((true)) WHERE status = 'running';
+
 -- Token lookups on the double-opt-in path (confirm/unsubscribe are WHERE token=$1).
 CREATE INDEX IF NOT EXISTS newsletter_confirm_token_idx ON newsletter_subscribers (confirm_token) WHERE confirm_token IS NOT NULL;
 CREATE INDEX IF NOT EXISTS newsletter_unsub_token_idx ON newsletter_subscribers (unsubscribe_token) WHERE unsubscribe_token IS NOT NULL;

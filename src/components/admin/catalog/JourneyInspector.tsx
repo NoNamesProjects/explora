@@ -8,6 +8,7 @@ import { Spinner } from '@/components/admin/ui/Spinner';
 import { ConfirmDialog } from '@/components/admin/ui/ConfirmDialog';
 import { useToast } from '@/components/admin/ui/Toast';
 import { dateShort, money } from '@/lib/admin/format';
+import { RoleGate } from '@/components/admin/RequireRole';
 
 function priceCell(prices: Record<string, unknown>): string {
   // The UI fare key is '2A' (per-person, two adults). Fall back to the first numeric value.
@@ -63,6 +64,7 @@ export function JourneyInspector({
           if (ov?.price != null) setPriceInput(String(ov.price));
           setNoteInput(ov?.note ?? '');
         })
+        // Agents may not read overrides (admin-only) — that's not a load failure.
         .catch(() => {}),
     ]).finally(() => setLoading(false));
   }, [open, journey, reloadKey]);
@@ -122,7 +124,9 @@ export function JourneyInspector({
             <div><dt className="text-eyebrow uppercase tracking-eyebrow text-ink-500">{t('admin.catalog.inspector.fields.available', { defaultValue: 'Available' })}</dt><dd className="text-ink">{journey.isAvailable ? t('admin.catalog.inspector.yes', { defaultValue: 'Yes' }) : t('admin.catalog.inspector.noMissing', { defaultValue: 'No (missing {{count}}×)', count: journey.consecutiveMissing })}</dd></div>
           </dl>
 
-          {/* Manual "from" price override — survives the nightly flatfile ingest. */}
+          {/* Manual "from" price override — survives the nightly flatfile ingest.
+              Admin-only: the write endpoint requires the admin role. */}
+          <RoleGate role="admin">
           <section className="rounded-card border border-cream-300 bg-cream-100/40 p-4">
             <div className="mb-2 flex items-center gap-2">
               <h3 className="text-eyebrow uppercase tracking-eyebrow text-ink-500">{t('admin.catalog.inspector.priceOverride', { defaultValue: 'Price override' })}</h3>
@@ -170,6 +174,7 @@ export function JourneyInspector({
                 type="button"
                 onClick={saveOverride}
                 disabled={saving || !priceInput.trim()}
+                aria-label={override ? 'Update override' : 'Set override'}
                 className="btn-primary px-4 py-2 text-[0.7rem] disabled:opacity-50"
               >
                 {saving ? <Spinner className="text-cream" /> : override ? t('admin.catalog.inspector.updateOverride', { defaultValue: 'Update override' }) : t('admin.catalog.inspector.setOverride', { defaultValue: 'Set override' })}
@@ -186,6 +191,7 @@ export function JourneyInspector({
               )}
             </div>
           </section>
+          </RoleGate>
 
           <section>
             <h3 className="mb-2 text-eyebrow uppercase tracking-eyebrow text-ink-500">{t('admin.catalog.inspector.faresCount', { defaultValue: 'Fares ({{count}})', count: fares.length })}</h3>
@@ -209,9 +215,9 @@ export function JourneyInspector({
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-cream-300 bg-cream-100/60 text-left text-eyebrow uppercase tracking-eyebrow text-ink-500">
-                      <th className="px-3 py-2">{t('admin.catalog.inspector.table.suite', { defaultValue: 'Suite' })}</th><th className="px-3 py-2">{t('admin.catalog.inspector.table.fare', { defaultValue: 'Fare' })}</th>
-                      <th className="px-3 py-2">{t('admin.catalog.inspector.table.cur', { defaultValue: 'Cur' })}</th><th className="px-3 py-2 text-right">{t('admin.catalog.inspector.table.perPerson', { defaultValue: 'Per person (2A)' })}</th>
-                      <th className="px-3 py-2">{t('admin.catalog.inspector.table.live', { defaultValue: 'Live' })}</th>
+                      <th scope="col" className="px-3 py-2">{t('admin.catalog.inspector.table.suite', { defaultValue: 'Suite' })}</th><th scope="col" className="px-3 py-2">{t('admin.catalog.inspector.table.fare', { defaultValue: 'Fare' })}</th>
+                      <th scope="col" className="px-3 py-2">{t('admin.catalog.inspector.table.cur', { defaultValue: 'Cur' })}</th><th scope="col" className="px-3 py-2 text-right">{t('admin.catalog.inspector.table.perPerson', { defaultValue: 'Per person (2A)' })}</th>
+                      <th scope="col" className="px-3 py-2">{t('admin.catalog.inspector.table.live', { defaultValue: 'Live' })}</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -125,7 +125,7 @@ export function MediaPicker({
             <SelectInput ariaLabel={t('admin.media.filterByCategory', { defaultValue: 'Filter by category' })} value={category} onChange={setCategory} options={categoryOptions} />
             <SearchInput value={q} onChange={setQ} placeholder={t('admin.media.searchPlaceholder', { defaultValue: 'Search alt text, name…' })} />
             <div className="ml-auto">
-              <button
+              <button aria-label="Upload"
                 type="button"
                 onClick={() => inputRef.current?.click()}
                 disabled={uploading}

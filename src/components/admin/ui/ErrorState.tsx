@@ -4,23 +4,26 @@ import { useTranslation } from 'react-i18next';
 /**
  * Shown when a loader fails — so a failed request reads as an *error with a way
  * back*, not as a misleading "empty" state. Mirrors EmptyState's shape but with
- * an alert tone and a retry action. Title/body/retry fall back to localized
- * defaults when a caller doesn't pass its own.
+ * an alert tone and a retry action. Callers may pass explicit `title`/`body`, or
+ * a single `message` shorthand; all fall back to localized defaults.
  */
 export function ErrorState({
   title,
   body,
+  message,
   onRetry,
   retryLabel,
 }: {
   title?: string;
   body?: ReactNode;
+  /** Shorthand for `body` — used by callers that only need a one-line message. */
+  message?: string;
   onRetry?: () => void;
   retryLabel?: string;
 }) {
   const { t } = useTranslation();
   const heading = title ?? t('admin.common.errorTitle', { defaultValue: 'Could not load this' });
-  const desc = body ?? t('admin.common.errorBody', { defaultValue: 'Something went wrong reaching the server. Please try again.' });
+  const desc = body ?? message ?? t('admin.common.errorBody', { defaultValue: 'Something went wrong reaching the server. Please try again.' });
   const retry = retryLabel ?? t('admin.common.tryAgain', { defaultValue: 'Try again' });
   return (
     <div

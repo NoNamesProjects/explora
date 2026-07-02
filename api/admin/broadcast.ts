@@ -133,11 +133,27 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     `) as Recipient[];
     const recipientCount = recipients.length;
 
+    // Reap zombie campaigns (crashed process) so a stale 'running' row can't
+    // block new broadcasts forever.
+    await sql`
+      UPDATE email_campaigns SET status = 'failed', finished_at = now(),
+        notes = coalesce(notes || ' — ', '') || 'stale: no completion after 30 minutes'
+      WHERE status = 'running' AND started_at < now() - interval '30 minutes'
+    `;
+
+    // Single-flight guard: the partial unique index email_campaigns_one_running_idx
+    // allows at most one 'running' campaign, so a double-click / retry can't send
+    // the whole list twice. A conflicting insert claims nothing → 409.
     const inserted = (await sql`
       INSERT INTO email_campaigns (subject, body, body_html, recipients, status, sent_by)
-      VALUES (${subject}, ${jsonbArg(cleanBody)}::jsonb, ${bodyHtml}, ${recipientCount}, 'running', ${user.id})
+      SELECT ${subject}, ${jsonbArg(cleanBody)}::jsonb, ${bodyHtml}, ${recipientCount}, 'running', ${user.id}
+      WHERE NOT EXISTS (SELECT 1 FROM email_campaigns WHERE status = 'running')
+      ON CONFLICT DO NOTHING
       RETURNING id
     `) as Array<{ id: number }>;
+    if (!inserted.length) {
+      return sendJson(res, 409, { ok: false, error: 'campaign-running' });
+    }
     const campaignId = Number(inserted[0].id);
 
     logAdminAction(user, req, { action: 'broadcast.send', entity: 'campaign', entityId: campaignId, after: { recipients: recipientCount } });

@@ -20,6 +20,11 @@ export function useIngestRun(onOutcome?: (o: Outcome) => void) {
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedAt = useRef(0);
 
+  // Callers pass inline callbacks; a ref keeps tick/beginPolling identity
+  // stable so the init effect runs once, not on every render.
+  const outcomeRef = useRef(onOutcome);
+  useEffect(() => { outcomeRef.current = onOutcome; });
+
   const stop = useCallback(() => {
     if (timer.current) { clearInterval(timer.current); timer.current = null; }
   }, []);
@@ -41,14 +46,14 @@ export function useIngestRun(onOutcome?: (o: Outcome) => void) {
       setPhase('idle');
       refreshHistory();
       if (run?.status === 'ok') {
-        onOutcome?.({ tone: 'success', message: t('admin.dataIngest.toast.refreshed', { defaultValue: 'Refreshed · {{journeys}} journeys, {{fares}} fares.', journeys: run.journeyCount, fares: run.fareCount }) });
+        outcomeRef.current?.({ tone: 'success', message: t('admin.dataIngest.toast.refreshed', { defaultValue: 'Refreshed · {{journeys}} journeys, {{fares}} fares.', journeys: run.journeyCount, fares: run.fareCount }) });
       } else if (run?.status === 'aborted') {
-        onOutcome?.({ tone: 'info', message: t('admin.dataIngest.toast.aborted', { defaultValue: 'Aborted (safety guard): {{notes}}', notes: run.notes ?? t('admin.dataIngest.toast.noWrites', { defaultValue: 'no writes applied.' }) }) });
+        outcomeRef.current?.({ tone: 'info', message: t('admin.dataIngest.toast.aborted', { defaultValue: 'Aborted (safety guard): {{notes}}', notes: run.notes ?? t('admin.dataIngest.toast.noWrites', { defaultValue: 'no writes applied.' }) }) });
       } else if (run?.status === 'failed') {
-        onOutcome?.({ tone: 'error', message: t('admin.dataIngest.toast.failed', { defaultValue: 'Refresh failed: {{notes}}', notes: run.notes ?? t('admin.dataIngest.toast.seeLogs', { defaultValue: 'see logs.' }) }) });
+        outcomeRef.current?.({ tone: 'error', message: t('admin.dataIngest.toast.failed', { defaultValue: 'Refresh failed: {{notes}}', notes: run.notes ?? t('admin.dataIngest.toast.seeLogs', { defaultValue: 'see logs.' }) }) });
       }
     } catch { /* transient; keep polling */ }
-  }, [onOutcome, refreshHistory, stop, t]);
+  }, [refreshHistory, stop, t]);
 
   const beginPolling = useCallback(() => {
     stop();
@@ -86,9 +91,9 @@ export function useIngestRun(onOutcome?: (o: Outcome) => void) {
       if (e instanceof ApiError && e.status === 409) { setPhase('running'); beginPolling(); inFlight.current = true; return; }
       if (e instanceof ApiError && e.status === 503) { setPhase('env-missing'); return; }
       setPhase('idle');
-      onOutcome?.({ tone: 'error', message: e instanceof ApiError ? t('admin.dataIngest.toast.couldNotStart', { defaultValue: 'Could not start: {{message}}', message: e.message }) : t('admin.dataIngest.toast.couldNotStartGeneric', { defaultValue: 'Could not start the refresh.' }) });
+      outcomeRef.current?.({ tone: 'error', message: e instanceof ApiError ? t('admin.dataIngest.toast.couldNotStart', { defaultValue: 'Could not start: {{message}}', message: e.message }) : t('admin.dataIngest.toast.couldNotStartGeneric', { defaultValue: 'Could not start the refresh.' }) });
     }
-  }, [beginPolling, tick, onOutcome, t]);
+  }, [beginPolling, tick, t]);
 
   const busy = phase === 'starting' || phase === 'running';
   return { run, phase, busy, history, loadingHistory, start };

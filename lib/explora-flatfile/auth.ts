@@ -34,8 +34,8 @@ export function authenticate(): Promise<AuthResult> {
   // Always clear after settle so the next caller starts fresh (the token
   // we just minted is single-use for ONE list-files call). The .catch() is
   // load-bearing: this side-chain is never awaited, so without it a rejected
-  // doAuth() became an UNHANDLED REJECTION that killed the whole process
-  // (callers observe the rejection through `inFlight` itself).
+  // doAuth() became an UNHANDLED REJECTION that killed the whole process on the
+  // long-lived cPanel runtime (callers still observe it through `inFlight`).
   inFlight.catch(() => {}).finally(() => {
     inFlight = null;
   });

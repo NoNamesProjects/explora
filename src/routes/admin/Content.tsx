@@ -246,6 +246,8 @@ export function Content() {
   // ── One editable control for a (field, locale) ──────────────────────────────
   function control(field: EditableField, locale: string) {
     const v = buf[bkey(field.key, locale)];
+    // Accessible name for each control — the visible label is a sibling <span>.
+    const name = locale ? `${field.label} (${locale.toUpperCase()})` : field.label;
     switch (field.type) {
       case 'rich':
         return <RichTextEditor value={v as RichDoc | string | undefined} onChange={(doc) => setBuf(field.key, locale, doc)} />;
@@ -256,6 +258,7 @@ export function Content() {
             onChange={(e) => setBuf(field.key, locale, e.target.value)}
             rows={4}
             placeholder={t('admin.content.listPlaceholder', { defaultValue: 'One item per line…' })}
+            aria-label={name}
             className={areaCls}
           />
         );
@@ -265,6 +268,7 @@ export function Content() {
             type="number"
             value={v == null || v === '' ? '' : String(v)}
             onChange={(e) => setBuf(field.key, locale, e.target.value)}
+            aria-label={name}
             className={inputCls}
           />
         );
@@ -278,6 +282,7 @@ export function Content() {
                 value={img.src}
                 onChange={(e) => setBuf(field.key, locale, { ...img, src: e.target.value })}
                 placeholder={t('admin.content.srcPlaceholder', { defaultValue: '/photos/… or https://…' })}
+                aria-label={`${name} — image URL`}
                 className={inputCls}
               />
               <button
@@ -293,6 +298,7 @@ export function Content() {
               value={img.alt ?? ''}
               onChange={(e) => setBuf(field.key, locale, { ...img, alt: e.target.value || undefined })}
               placeholder={t('admin.content.altPlaceholder', { defaultValue: 'Alt text (optional)' })}
+              aria-label={`${name} — alt text`}
               className={inputCls}
             />
             {img.src && (
@@ -312,6 +318,7 @@ export function Content() {
             onChange={(e) => setBuf(field.key, locale, e.target.value)}
             rows={2}
             placeholder={t('admin.content.plainPlaceholder', { defaultValue: 'Using the code default…' })}
+            aria-label={name}
             className={areaCls}
           />
         );
@@ -338,7 +345,7 @@ export function Content() {
             {field.help && <p className="mt-0.5 text-xs text-ink-500">{field.help}</p>}
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            <button
+            <button aria-label="Save"
               type="button"
               onClick={() => saveField(field)}
               disabled={saving || !fieldDirty(field)}
@@ -407,7 +414,7 @@ export function Content() {
             <span className="text-xs text-ink-500">
               {pendingCount === 0 ? t('admin.content.noPendingDrafts', { defaultValue: 'No pending drafts' }) : t('admin.content.pendingDraftCount', { defaultValue: '{{count}} pending drafts', count: pendingCount })}
             </span>
-            <button
+            <button aria-label="Publish all"
               type="button"
               onClick={publishAll}
               disabled={publishingAll || pendingCount === 0}

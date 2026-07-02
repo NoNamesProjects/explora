@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export function Pagination({
@@ -10,6 +11,14 @@ export function Pagination({
 }) {
   const { t } = useTranslation();
   const pages = Math.max(1, Math.ceil(total / pageSize));
+
+  // If total shrinks under the current page (e.g. last item on the last page
+  // deleted), snap back to the last real page instead of stranding the user
+  // on an empty one.
+  useEffect(() => {
+    if (page > pages) onPage(pages);
+  }, [page, pages, onPage]);
+
   if (total === 0) return null;
   const from = (page - 1) * pageSize + 1;
   const to = Math.min(total, page * pageSize);

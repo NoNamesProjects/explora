@@ -54,32 +54,37 @@ export class IngestAbort extends Error {
 const DROP_GUARD_RATIO = 0.7;       // abort if today_count < 70% of yesterday_count
 const DELETE_AFTER_MISSING_DAYS = 7;
 
-export async function runIngest(opts: { dryRun?: boolean } = {}): Promise<IngestResult> {
-  const runId = randomUUID();
+export async function runIngest(opts: { dryRun?: boolean; runId?: string } = {}): Promise<IngestResult> {
+  // The admin endpoint pre-claims the ingest_runs row atomically and passes its
+  // id in; standalone callers (cron, scripts) claim here. The partial unique
+  // index ingest_runs_one_running_idx allows at most one 'running' row, so a
+  // concurrent run makes this insert claim nothing — abort instead of
+  // double-writing the catalog.
+  const runId = opts.runId ?? randomUUID();
   const t0 = Date.now();
   const sql = db();
 
   // 0. Cross-process single-flight. A partial unique index on
   //    ingest_runs(status) WHERE status='running' makes this INSERT an atomic
   //    claim on both drivers — a second concurrent run (cron + manual admin +
-  //    CLI, any process) gets a unique violation and aborts before touching
-  //    Okta or the catalog. Stale claims (crashed runs) are swept first.
+  //    CLI, any process) claims nothing and aborts before touching Okta or the
+  //    catalog. Stale claims (crashed runs) are swept first so a zombie can't
+  //    block work forever. When opts.runId is set the admin endpoint already
+  //    claimed this row, so the conflict is expected and must NOT abort.
   await sql`
     UPDATE ingest_runs
     SET status = 'failed', finished_at = now(),
         notes = COALESCE(notes, 'stale — swept at next run start')
     WHERE status = 'running' AND started_at < now() - interval '30 minutes'
   `;
-  try {
-    await sql`
-      INSERT INTO ingest_runs (run_id, status)
-      VALUES (${runId}, 'running')
-    `;
-  } catch (e) {
-    if ((e as { code?: string })?.code === '23505') {
-      throw new IngestAbort('another ingest is already running');
-    }
-    throw e;
+  const claimed = (await sql`
+    INSERT INTO ingest_runs (run_id, status)
+    VALUES (${runId}, 'running')
+    ON CONFLICT DO NOTHING
+    RETURNING run_id
+  `) as Array<{ run_id: string }>;
+  if (!opts.runId && claimed.length === 0) {
+    throw new IngestAbort('another ingest run is already in progress — no writes applied.');
   }
 
   try {

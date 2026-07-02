@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from 'react';
 
 type Tone = 'success' | 'error' | 'info';
 interface Toast { id: number; tone: Tone; message: string }
@@ -7,9 +7,9 @@ interface ToastApi { push: (t: { tone: Tone; message: string }) => void }
 const Ctx = createContext<ToastApi | null>(null);
 
 const TONE: Record<Tone, string> = {
-  success: 'border-accent-patina/40 bg-white text-ink',
-  error: 'border-red-300 bg-white text-ink',
-  info: 'border-accent-mist/40 bg-white text-ink',
+  success: 'border-accent-patina/40 bg-cream-soft text-ink',
+  error: 'border-red-300 bg-cream-soft text-ink',
+  info: 'border-accent-mist/40 bg-cream-soft text-ink',
 };
 const DOT: Record<Tone, string> = {
   success: 'bg-accent-patina',
@@ -27,8 +27,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setTimeout(() => setToasts((prev) => prev.filter((x) => x.id !== id)), 4500);
   }, []);
 
+  // Stable identity: consumers keep `toast` in effect deps without refetching
+  // whenever a toast appears or auto-dismisses.
+  const api = useMemo(() => ({ push }), [push]);
+
   return (
-    <Ctx.Provider value={{ push }}>
+    <Ctx.Provider value={api}>
       {children}
       <div className="pointer-events-none fixed bottom-5 right-5 z-[60] flex w-[min(24rem,92vw)] flex-col gap-2">
         {toasts.map((t) => (

@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { adminApi } from '@/lib/admin/api';
 import type { CatalogHealth } from '@/lib/admin/types';
 import { StatCard } from '@/components/admin/ui/StatCard';
-import { StatusBadge } from '@/components/admin/ui/StatusBadge';
 import { ErrorState } from '@/components/admin/ui/ErrorState';
+import { StatusBadge } from '@/components/admin/ui/StatusBadge';
 import { relativeTime } from '@/lib/admin/format';
 
 export function HealthPanel() {

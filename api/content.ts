@@ -23,12 +23,17 @@ export interface ContentBundle {
   media: Record<string, unknown>;
 }
 
+// Defense-in-depth: writes are allowlisted in api/admin/content.ts, but a
+// poisoned row must still never become a prototype-pollution vector here.
+const POISON = /(^|\.)(__proto__|constructor|prototype)($|\.)/;
+
 export function foldBundle(rows: Row[]): ContentBundle {
   const i18n: ContentBundle['i18n'] = { en: {}, el: {} };
   const data: ContentBundle['data'] = {};
   const media: ContentBundle['media'] = {};
   let version = 0;
   for (const r of rows) {
+    if (POISON.test(r.key) || POISON.test(r.locale)) continue;
     const ms = r.pub_ms != null ? Math.floor(Number(r.pub_ms)) : 0;
     if (ms > version) version = ms;
     if (r.kind === 'i18n') {

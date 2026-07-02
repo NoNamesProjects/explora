@@ -132,7 +132,7 @@ export function Users() {
             <select {...register('role')} className="mt-1 h-9 w-full rounded border border-cream-300 bg-white px-2 text-sm focus:border-ink focus:outline-none"><option value="agent">{t('admin.users.roleAgent', { defaultValue: 'agent' })}</option><option value="admin">{t('admin.users.roleAdmin', { defaultValue: 'admin' })}</option></select></label>
           <label className="block"><span className="text-eyebrow uppercase tracking-eyebrow text-ink-500">{t('admin.users.passwordLabel', { defaultValue: 'Password (min 8)' })}</span>
             <input type="text" required minLength={8} {...register('password', { required: true, minLength: 8 })} className="mt-1 h-9 w-full rounded border border-cream-300 bg-white px-2.5 text-sm focus:border-ink focus:outline-none" /></label>
-          <button type="submit" disabled={isSubmitting} className="btn-primary h-9 py-0 disabled:opacity-60">{isSubmitting ? <Spinner className="text-cream" /> : t('admin.users.addUser', { defaultValue: 'Add user' })}</button>
+          <button type="submit" disabled={isSubmitting} aria-label={t('admin.users.addUser', { defaultValue: 'Add user' })} className="btn-primary h-9 py-0 disabled:opacity-60">{isSubmitting ? <Spinner className="text-cream" /> : t('admin.users.addUser', { defaultValue: 'Add user' })}</button>
         </form>
       </Panel>
 

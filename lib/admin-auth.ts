@@ -169,7 +169,7 @@ export function setSessionCookie(
 
 export function clearSessionCookie(res: ServerResponse, req?: IncomingMessage): void {
   const parts = [`${COOKIE_NAME}=`, 'HttpOnly', 'Path=/', 'SameSite=Lax', 'Max-Age=0'];
-  if (cookieSecure(req)) parts.push('Secure');
+  if (cookieSecure(req)) parts.push('Secure'); // flag parity with setSessionCookie
   res.setHeader('Set-Cookie', parts.join('; '));
 }
 
@@ -236,6 +236,15 @@ export async function recordLoginAttempt(ip: string | null, email: string, ok: b
   try {
     const sql = db();
     await sql`INSERT INTO admin_login_attempts (ip, email, ok) VALUES (${ip}, ${email}, ${ok})`;
+    if (ok) {
+      // A successful login proves the credential holder is legitimate — clear
+      // their recent failures so stale typos don't accumulate toward a lockout.
+      await sql`
+        DELETE FROM admin_login_attempts
+        WHERE ok = false AND email = ${email}
+          AND created_at > now() - interval '15 minutes'
+      `;
+    }
   } catch {
     /* best effort */
   }

@@ -28,6 +28,7 @@ export function DataTable<Row>({
             {columns.map((c) => (
               <th
                 key={c.key}
+                scope="col"
                 style={c.width ? { width: c.width } : undefined}
                 className={`px-3 py-2.5 text-eyebrow uppercase tracking-eyebrow text-ink-500 ${c.align === 'right' ? 'text-right' : ''}`}
               >
@@ -59,6 +60,7 @@ export function DataTable<Row>({
                   <tr
                     key={getRowId(row)}
                     onClick={onRowClick ? () => onRowClick(row) : undefined}
+                    // Clickable rows must also open from the keyboard.
                     onKeyDown={
                       onRowClick
                         ? (e) => {
