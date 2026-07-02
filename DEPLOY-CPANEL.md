@@ -57,6 +57,20 @@ curl -s "$FRONTEND_URL/api/journeys" | python3 -c "import sys,json;print(json.lo
 
 Run this from your machine against the Neon URL; the deployed app then just reads it.
 
+### 2b. Create the first admin login (required — there is no public signup)
+
+The `/admin` console has no self-registration and no seeded account. Provision the first
+admin against the SAME `DATABASE_URL`:
+
+```bash
+npm run admin:user -- --email you@example.com --name "Your Name" --role admin
+# (prompts for the password on stdin; or pass --password '...')
+npm run admin:user -- --list        # verify
+```
+
+Additional staff can then be added either the same way (`--role agent` for the
+lower-privileged role) or from the admin console's Users page.
+
 ## 3. Build for production (locally)
 
 ```bash

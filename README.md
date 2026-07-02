@@ -1,19 +1,23 @@
 # Explora — Partner Site
 
-Vite + React + TypeScript clone-shape of the Explora Journeys partner-facing site, ingesting the official Explora flatfile API (Okta auth → S3 signed URLs → daily XLS) into Neon Postgres, with dual Vercel + cPanel deploy.
-
-Project plan: `~/.claude/plans/read-all-the-project-kind-tarjan.md`.
+Vite + React + TypeScript clone-shape of the Explora Journeys partner-facing site, ingesting the official Explora flatfile API (Okta auth → S3 signed URLs → daily XLS) into Postgres (Neon or any host — dual-driver), with dual Vercel + cPanel deploy.
 
 ## Quick start
 
 ```bash
-cd /Users/kostasanastasopoulos/Desktop/nonameproject/Explora
 npm install
 cp .env.example .env.local
-# fill EXPLORA_USERNAME / EXPLORA_PASSWORD (preprod Okta account) when ready
-npm run dev          # Vite on http://localhost:5173
-npm run server:dev   # cPanel-style Express on http://localhost:3000 (after build)
+# set DATABASE_URL; fill EXPLORA_USERNAME / EXPLORA_PASSWORD (prod Okta account) when ready
+npm run migrate      # apply lib/db/schema.sql (idempotent)
+npm run ingest       # load the live catalog (needs Explora creds)
+npm run dev          # Vite on http://localhost:5173 (SPA + /api/*)
+npm run server:dev   # cPanel-style Express on http://localhost:3000 (build + boot)
+npm run smoke        # backend smoke suite against the built Express server
+npm run admin:user -- --email you@example.com --role admin   # first admin login
 ```
+
+Deployment runbook: `DEPLOY-CPANEL.md` (cPanel/Passenger) — Vercel deploys from the repo as-is.
+Session/context history: `SESSION-HANDOFF.md`, `WORK-DONE.md`.
 
 ## Stack
 
@@ -54,12 +58,12 @@ This project ships with **structural skeletons + placeholder copy**. Brand-licen
 - Logos, brand campaign imagery, and licensed fonts (GT Sectra / GT America if licensed) are NOT in this repo. Partner adds licensed `.woff2` files to `public/fonts/` and updates the Tailwind font stacks.
 - Image asset IDs reference Cloudinary paths the partner uploads. Until then, Picsum placeholders render.
 
-## Milestones
+## Status
 
-See plan §7. Status:
-
-- **M1 Foundation** — scaffolded. Run `npm install` then `npm run dev`.
-- **M2 Static templates** — pending.
-- **M3 Flatfile data layer** — pending (needs Explora preprod credentials).
-- **M4 Voyage detail + Find-a-Journey** — pending.
-- **M5 Polish + deploy** — pending.
+The site is feature-complete end-to-end: live flatfile catalog (journeys / fares /
+itineraries / ports / ships), Find-a-Journey + journey detail + booking funnel with a
+PayPal deposit step, newsletter double-opt-in, contact form, an admin console
+(bookings, catalog, price overrides, CMS content + media, subscribers, broadcasts,
+ingest controls, diagnostics), and a nightly ingest cron. Remaining go-live items are
+operational (hosted DB, production secrets, one PayPal sandbox end-to-end check) —
+see `DEPLOY-CPANEL.md`.
