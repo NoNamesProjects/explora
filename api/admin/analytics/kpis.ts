@@ -13,6 +13,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   const now = new Date();
   const to = q.get('to') ? new Date(q.get('to')!) : new Date(now.getTime() + 86_400_000);
   const from = q.get('from') ? new Date(q.get('from')!) : new Date(now.getTime() - 90 * 86_400_000);
+  if (Number.isNaN(to.getTime()) || Number.isNaN(from.getTime())) {
+    return sendJson(res, 400, { ok: false, error: 'invalid-date' });
+  }
   const win = [from.toISOString(), to.toISOString()];
 
   try {

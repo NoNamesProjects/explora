@@ -52,15 +52,25 @@ export class IngestAbort extends Error {
 const DROP_GUARD_RATIO = 0.7;       // abort if today_count < 70% of yesterday_count
 const DELETE_AFTER_MISSING_DAYS = 7;
 
-export async function runIngest(opts: { dryRun?: boolean } = {}): Promise<IngestResult> {
-  const runId = randomUUID();
+export async function runIngest(opts: { dryRun?: boolean; runId?: string } = {}): Promise<IngestResult> {
+  // The admin endpoint pre-claims the ingest_runs row atomically and passes its
+  // id in; standalone callers (cron, scripts) claim here. The partial unique
+  // index ingest_runs_one_running_idx allows at most one 'running' row, so a
+  // concurrent run makes this insert claim nothing — abort instead of
+  // double-writing the catalog.
+  const runId = opts.runId ?? randomUUID();
   const t0 = Date.now();
   const sql = db();
 
-  await sql`
+  const claimed = (await sql`
     INSERT INTO ingest_runs (run_id, status)
     VALUES (${runId}, 'running')
-  `;
+    ON CONFLICT DO NOTHING
+    RETURNING run_id
+  `) as Array<{ run_id: string }>;
+  if (!opts.runId && claimed.length === 0) {
+    throw new IngestAbort('another ingest run is already in progress — no writes applied.');
+  }
 
   try {
     // 1. Auth + list (consumes the token)

@@ -20,7 +20,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   if (req.method !== 'PATCH') { res.statusCode = 405; res.setHeader('Allow', 'PATCH'); return res.end(); }
 
   const id = idFromUrl(req);
-  if (!Number.isFinite(id)) return sendJson(res, 400, { ok: false, error: 'bad-id' });
+  if (!Number.isInteger(id) || id <= 0) return sendJson(res, 400, { ok: false, error: 'bad-id' });
   const parsed = patchSchema.safeParse(await readJson(req));
   if (!parsed.success) return sendJson(res, 400, { ok: false, error: 'invalid' });
   const { role, disabled, password } = parsed.data;

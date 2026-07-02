@@ -23,9 +23,11 @@ import { db } from '../../../../lib/db/client';
 import { readJson, sendJson } from '../../../../lib/http';
 import { requireAuth, logAdminAction } from '../../../../lib/admin-auth';
 
+const CURRENCY_RE = /^[A-Z]{3}$/;
+
 const putSchema = z.object({
   suiteCategory: z.string().max(40).optional(),
-  currency: z.string().min(3).max(3).optional(),
+  currency: z.string().regex(CURRENCY_RE).optional(),
   price: z.number().finite().min(0),
   note: z.string().max(500).optional(),
   enabled: z.boolean().optional(),
@@ -127,8 +129,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     if (req.method === 'DELETE') {
       const params = new URL(req.url ?? '', 'http://x').searchParams;
-      const suiteCategory = params.get('suiteCategory') ?? '';
+      const suiteCategory = (params.get('suiteCategory') ?? '').slice(0, 40);
       const currency = params.get('currency') || 'EUR';
+      if (!CURRENCY_RE.test(currency)) return sendJson(res, 400, { ok: false, error: 'invalid' });
 
       const before = (await sql`
         SELECT override_price, enabled

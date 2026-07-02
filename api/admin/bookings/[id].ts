@@ -22,7 +22,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   if (!user) return;
 
   const id = idFromUrl(req);
-  if (!Number.isFinite(id)) return sendJson(res, 400, { ok: false, error: 'bad-id' });
+  if (!Number.isInteger(id) || id <= 0) return sendJson(res, 400, { ok: false, error: 'bad-id' });
   const sql = db();
 
   try {

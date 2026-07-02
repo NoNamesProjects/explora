@@ -329,3 +329,19 @@ CREATE INDEX IF NOT EXISTS email_campaigns_started_idx ON email_campaigns (start
 -- Newsletter double-opt-in needs an unsubscribe token (confirm_token already exists).
 ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS unsubscribe_token text;
 ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS locale text;
+
+-- ── Single-flight guards ────────────────────────────────────────────────────
+-- At most ONE 'running' row per table, enforced by a partial unique index so
+-- the "is one already running?" check is atomic (no SELECT-then-INSERT race).
+-- Stale rows from crashed processes are reaped first so the index can build
+-- and a zombie run can never block new work forever.
+UPDATE ingest_runs SET status = 'failed', finished_at = now(),
+  notes = coalesce(notes || ' — ', '') || 'stale: reaped by migration'
+  WHERE status = 'running' AND started_at < now() - interval '30 minutes';
+CREATE UNIQUE INDEX IF NOT EXISTS ingest_runs_one_running_idx
+  ON ingest_runs ((true)) WHERE status = 'running';
+UPDATE email_campaigns SET status = 'failed', finished_at = now(),
+  notes = coalesce(notes || ' — ', '') || 'stale: reaped by migration'
+  WHERE status = 'running' AND started_at < now() - interval '30 minutes';
+CREATE UNIQUE INDEX IF NOT EXISTS email_campaigns_one_running_idx
+  ON email_campaigns ((true)) WHERE status = 'running';

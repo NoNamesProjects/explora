@@ -7,7 +7,11 @@ export interface CsvColumn {
 
 function cell(value: unknown): string {
   if (value == null) return '';
-  const s = String(value);
+  let s = String(value);
+  // Neutralise spreadsheet formula triggers (=, +, -, @, tab, CR at cell start):
+  // exported values come from public forms, so `=HYPERLINK(...)` etc. must not
+  // execute when the operator opens the file in Excel/Sheets.
+  if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
   return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 

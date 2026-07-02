@@ -10,6 +10,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
   const token = parseCookies(req)['exp_admin'];
   if (token) await destroySession(token);
-  clearSessionCookie(res);
+  clearSessionCookie(req, res);
   return sendJson(res, 200, { ok: true });
 }
