@@ -51,17 +51,30 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     const party = q.adults != null
       ? { adults: q.adults, children: q.children ?? 0, infants: q.infants ?? 0 }
       : { adults: q.guestCount, children: 0, infants: 0 };
-    const { indicativeTotal, depositAmount, currency } = await computeQuote(q.journeyId, q.suiteCategory, q.fareCode, party);
-    const ref = genRef();
+    const { bookable, indicativeTotal, depositAmount, currency } = await computeQuote(q.journeyId, q.suiteCategory, q.fareCode, party);
+    // Withdrawn/expired sailing or vanished fare — refuse instead of creating
+    // a deposit-less request for something that can't be fulfilled.
+    if (!bookable) return sendJson(res, 409, { ok: false, error: 'not-bookable' });
     const { ip, ua } = reqMeta(req);
     const sql = db();
-    await sql`
-      INSERT INTO booking_requests
-        (ref, journey_id, suite_category, fare_code, currency, guest_count, guests, indicative_total, deposit_amount, status, message, ip, user_agent)
-      VALUES
-        (${ref}, ${q.journeyId}, ${q.suiteCategory}, ${q.fareCode}, ${currency}, ${q.guestCount},
-         ${jsonbArg(q.guests)}::jsonb, ${indicativeTotal}, ${depositAmount}, 'pending', ${q.message ?? null}, ${ip}, ${ua})
-    `;
+    let ref = genRef();
+    for (let attempt = 1; ; attempt++) {
+      try {
+        await sql`
+          INSERT INTO booking_requests
+            (ref, journey_id, suite_category, fare_code, currency, guest_count, guests, indicative_total, deposit_amount, status, message, ip, user_agent)
+          VALUES
+            (${ref}, ${q.journeyId}, ${q.suiteCategory}, ${q.fareCode}, ${currency}, ${q.guestCount},
+             ${jsonbArg(q.guests)}::jsonb, ${indicativeTotal}, ${depositAmount}, 'pending', ${q.message ?? null}, ${ip}, ${ua})
+        `;
+        break;
+      } catch (e) {
+        // Unique-ref collision → mint a new ref and retry (both drivers expose .code).
+        const code = (e as { code?: string })?.code;
+        if (code === '23505' && attempt < 3) { ref = genRef(); continue; }
+        throw e;
+      }
+    }
     console.log(`[booking] created ${ref} journey=${q.journeyId} suite=${q.suiteCategory} guests=${q.guestCount} deposit=${depositAmount ?? '—'}`);
 
     const configured = paypalConfigured();

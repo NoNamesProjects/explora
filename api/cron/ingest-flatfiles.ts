@@ -19,7 +19,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
   const url = new URL(req.url ?? '/', 'http://x');
   const force = url.searchParams.get('force') === '1';
-  const isVercelCron = !!req.headers['x-vercel-cron'];
+  // Only trust the x-vercel-cron header when we're actually ON Vercel (the
+  // platform strips/controls it there). On the cPanel/Express deploy it's an
+  // attacker-suppliable string, so the bearer secret is always required.
+  const isVercelCron = !!process.env.VERCEL && !!req.headers['x-vercel-cron'];
   const auth = (req.headers.authorization ?? '').trim();
   const expected = process.env.CRON_SECRET
     ? `Bearer ${process.env.CRON_SECRET}`

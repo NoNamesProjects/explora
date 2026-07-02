@@ -176,7 +176,6 @@ CREATE TABLE IF NOT EXISTS booking_requests (
   updated_at        timestamptz NOT NULL DEFAULT now()
 );
 
-CREATE INDEX IF NOT EXISTS booking_requests_ref_idx ON booking_requests (ref);
 CREATE INDEX IF NOT EXISTS booking_requests_journey_idx ON booking_requests (journey_id);
 
 -- ── Admin / operations dashboard ───────────────────────────────────────────
@@ -330,18 +329,32 @@ CREATE INDEX IF NOT EXISTS email_campaigns_started_idx ON email_campaigns (start
 ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS unsubscribe_token text;
 ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS locale text;
 
--- ── Single-flight guards ────────────────────────────────────────────────────
--- At most ONE 'running' row per table, enforced by a partial unique index so
--- the "is one already running?" check is atomic (no SELECT-then-INSERT race).
--- Stale rows from crashed processes are reaped first so the index can build
--- and a zombie run can never block new work forever.
-UPDATE ingest_runs SET status = 'failed', finished_at = now(),
-  notes = coalesce(notes || ' — ', '') || 'stale: reaped by migration'
-  WHERE status = 'running' AND started_at < now() - interval '30 minutes';
-CREATE UNIQUE INDEX IF NOT EXISTS ingest_runs_one_running_idx
-  ON ingest_runs ((true)) WHERE status = 'running';
-UPDATE email_campaigns SET status = 'failed', finished_at = now(),
-  notes = coalesce(notes || ' — ', '') || 'stale: reaped by migration'
-  WHERE status = 'running' AND started_at < now() - interval '30 minutes';
-CREATE UNIQUE INDEX IF NOT EXISTS email_campaigns_one_running_idx
-  ON email_campaigns ((true)) WHERE status = 'running';
+-- ── 2026-07-02 backend-hardening pass ──────────────────────────────────────
+
+-- PayPal capture claim: set atomically (WHERE status='pending' … RETURNING) so
+-- two concurrent capture calls can never both reach PayPal for the same ref.
+ALTER TABLE booking_requests ADD COLUMN IF NOT EXISTS capture_started_at timestamptz;
+
+-- Cross-process ingest lock. runIngest INSERTs its 'running' audit row before
+-- doing any work; this partial unique index makes that INSERT an atomic claim
+-- on both drivers (advisory locks don't exist over the Neon HTTP driver).
+-- Sweep any stale claim first so the index can always be created.
+UPDATE ingest_runs SET status = 'failed', finished_at = now(), notes = COALESCE(notes, 'stale — swept by migration') WHERE status = 'running' AND started_at < now() - interval '30 minutes';
+
+UPDATE ingest_runs SET status = 'failed', finished_at = now(), notes = COALESCE(notes, 'duplicate running row — swept by migration') WHERE status = 'running' AND run_id NOT IN (SELECT run_id FROM ingest_runs WHERE status = 'running' ORDER BY started_at DESC LIMIT 1);
+
+CREATE UNIQUE INDEX IF NOT EXISTS ingest_runs_one_running_idx ON ingest_runs (status) WHERE status = 'running';
+
+-- Token lookups on the double-opt-in path (confirm/unsubscribe are WHERE token=$1).
+CREATE INDEX IF NOT EXISTS newsletter_confirm_token_idx ON newsletter_subscribers (confirm_token) WHERE confirm_token IS NOT NULL;
+CREATE INDEX IF NOT EXISTS newsletter_unsub_token_idx ON newsletter_subscribers (unsubscribe_token) WHERE unsubscribe_token IS NOT NULL;
+
+-- ref already has a UNIQUE constraint (implicit index) — the extra index was redundant.
+DROP INDEX IF EXISTS booking_requests_ref_idx;
+
+-- Email broadcasts get the same single-flight treatment (the admin endpoint's
+-- INSERT ... WHERE NOT EXISTS + ON CONFLICT DO NOTHING claims atomically, so a
+-- double-click / second operator can never send the whole list twice).
+UPDATE email_campaigns SET status = 'failed', finished_at = now(), notes = COALESCE(notes, 'stale — swept by migration') WHERE status = 'running' AND started_at < now() - interval '30 minutes';
+CREATE UNIQUE INDEX IF NOT EXISTS email_campaigns_one_running_idx ON email_campaigns (status) WHERE status = 'running';
+

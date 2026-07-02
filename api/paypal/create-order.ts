@@ -23,12 +23,21 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   try {
     const row = await getBookingByRef(parsed.data.ref);
     if (!row) return sendJson(res, 404, { ok: false, error: 'not-found' });
+    // Only a pending booking may (re)start payment — paid/confirmed/cancelled
+    // refs must never mint an order.
+    if (row.status !== 'pending') return sendJson(res, 409, { ok: false, error: 'not-pending' });
     const deposit = row.deposit_amount != null ? Number(row.deposit_amount) : null;
     if (!deposit || deposit <= 0) return sendJson(res, 400, { ok: false, error: 'no-deposit' });
+    // Idempotent: an order was already minted for this ref — return it instead
+    // of overwriting paypal_order_id and orphaning the first order.
+    if (row.paypal_order_id) return sendJson(res, 200, { ok: true, orderId: row.paypal_order_id });
     const orderId = await createOrder(deposit, row.currency || 'EUR', row.ref);
     const sql = db();
-    await sql`UPDATE booking_requests SET paypal_order_id = ${orderId}, updated_at = now() WHERE ref = ${row.ref}`;
-    return sendJson(res, 200, { ok: true, orderId });
+    await sql`UPDATE booking_requests SET paypal_order_id = ${orderId}, updated_at = now() WHERE ref = ${row.ref} AND paypal_order_id IS NULL`;
+    // If a concurrent call won the write, honor the stored id (both orders are
+    // PayPal-deduped by PayPal-Request-Id anyway).
+    const fresh = await getBookingByRef(row.ref);
+    return sendJson(res, 200, { ok: true, orderId: fresh?.paypal_order_id ?? orderId });
   } catch (err) {
     console.error('[paypal/create-order] failed:', err instanceof Error ? err.message : err);
     return sendJson(res, 500, { ok: false, error: 'server-error' });

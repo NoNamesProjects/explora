@@ -27,11 +27,15 @@ const schema = z.object({
 // ── Shared helpers (also imported by api/admin/broadcast.ts) ─────────────────
 
 /**
- * The public origin used to build confirm/unsubscribe links. Prefer the
- * forwarded proto/host the request arrived on (correct on Vercel & cPanel),
- * fall back to PUBLIC_BASE_URL, then a dev default.
+ * The public origin used to build confirm/unsubscribe links. PUBLIC_BASE_URL
+ * wins when set (production: never build emailed links from client-supplied
+ * x-forwarded-host — host-poisoning); otherwise infer from the forwarded
+ * proto/host the request arrived on (correct on Vercel & cPanel), then a dev
+ * default.
  */
 export function baseUrl(req: IncomingMessage): string {
+  const configured = (process.env.PUBLIC_BASE_URL || '').trim();
+  if (configured) return configured.replace(/\/+$/, '');
   const proto =
     (req.headers['x-forwarded-proto'] as string | undefined)?.split(',')[0]?.trim() ||
     ((req.socket as { encrypted?: boolean } | undefined)?.encrypted ? 'https' : 'http');
@@ -39,7 +43,7 @@ export function baseUrl(req: IncomingMessage): string {
     (req.headers['x-forwarded-host'] as string | undefined)?.split(',')[0]?.trim() ||
     (req.headers.host as string | undefined);
   if (host) return `${proto}://${host}`;
-  return (process.env.PUBLIC_BASE_URL || 'http://localhost:5173').replace(/\/+$/, '');
+  return 'http://localhost:5173';
 }
 
 /**
@@ -51,6 +55,8 @@ export async function sendEmail(opts: {
   subject: string;
   html: string;
   replyTo?: string;
+  /** Extra message headers (e.g. List-Unsubscribe for broadcasts). */
+  headers?: Record<string, string>;
 }): Promise<boolean> {
   const key = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM || 'Explora Journeys <onboarding@resend.dev>';
@@ -68,6 +74,7 @@ export async function sendEmail(opts: {
         reply_to: opts.replyTo || undefined,
         subject: opts.subject,
         html: opts.html,
+        headers: opts.headers && Object.keys(opts.headers).length ? opts.headers : undefined,
       }),
     });
     if (!res.ok) {

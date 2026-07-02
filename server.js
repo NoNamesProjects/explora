@@ -148,4 +148,11 @@ app.use((err, _req, res, _next) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`[server] listening on :${PORT}`);
+  // Loud misconfiguration warnings — these fail silently at request time.
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('[server] ⚠️ RESEND_API_KEY is not set — newsletter confirmations, booking notifications and broadcasts will be SKIPPED (subscribers stay pending forever).');
+  }
+  if (!process.env.PUBLIC_BASE_URL) {
+    console.warn('[server] ⚠️ PUBLIC_BASE_URL is not set — emailed links fall back to request headers and admin cookies may miss the Secure flag.');
+  }
 });

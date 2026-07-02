@@ -21,6 +21,7 @@
     "probe:auth": "tsx scripts/probe.ts -- --auth-only",
     "parse:check": "tsx scripts/parse-check.ts",
     "migrate": "tsx scripts/migrate.ts",
+    "seed:smoke": "tsx scripts/seed-smoke.ts",
     "admin:user": "tsx scripts/admin-user.ts",
     "ingest": "tsx scripts/ingest-once.ts",
     "seed:dev": "tsx scripts/dev-seed.ts",

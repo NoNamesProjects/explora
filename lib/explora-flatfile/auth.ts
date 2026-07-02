@@ -30,18 +30,16 @@ let inFlight: Promise<AuthResult> | null = null;
 
 export function authenticate(): Promise<AuthResult> {
   if (inFlight) return inFlight;
-  const p = doAuth();
-  inFlight = p;
-  // Always clear after settle so the next caller starts fresh (the token we
-  // just minted is single-use for ONE list-files call). Both settle paths are
-  // handled HERE: a bare `p.finally(...)` would fork a new promise branch
-  // that rejects with no handler when auth fails — an unhandledRejection
-  // that kills the whole Node process (observed on the cPanel runtime).
-  p.then(
-    () => { inFlight = null; },
-    () => { inFlight = null; },
-  );
-  return p;
+  inFlight = doAuth();
+  // Always clear after settle so the next caller starts fresh (the token
+  // we just minted is single-use for ONE list-files call). The .catch() is
+  // load-bearing: this side-chain is never awaited, so without it a rejected
+  // doAuth() became an UNHANDLED REJECTION that killed the whole process
+  // (callers observe the rejection through `inFlight` itself).
+  inFlight.catch(() => {}).finally(() => {
+    inFlight = null;
+  });
+  return inFlight;
 }
 
 async function doAuth(): Promise<AuthResult> {

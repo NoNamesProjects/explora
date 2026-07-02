@@ -13,6 +13,7 @@
  * Server-side only — never import from src/.
  */
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import { z } from 'zod';
 import { db, jsonbArg } from '../../lib/db/client';
 import { sendJson, readJson } from '../../lib/http';
 import { requireAuth, logAdminAction } from '../../lib/admin-auth';
@@ -55,7 +56,12 @@ async function runCampaign(
     const unsubLink = r.unsubscribe_token
       ? `${base}/api/newsletter/unsubscribe?token=${r.unsubscribe_token}`
       : null;
-    const ok = await sendEmail({ to: r.email, subject, html: wrapEmail(bodyHtml, unsubLink) });
+    // RFC 8058 one-click headers: mail clients POST to the link, which is
+    // exactly what the unsubscribe handler's mutating branch accepts.
+    const headers = unsubLink
+      ? { 'List-Unsubscribe': `<${unsubLink}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' }
+      : undefined;
+    const ok = await sendEmail({ to: r.email, subject, html: wrapEmail(bodyHtml, unsubLink), headers });
     if (ok) sent++; else failed++;
   }
   // Partial success stays 'ok' (failed_count records the misses); all-failed → 'failed'.
@@ -90,16 +96,21 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 
   // ── POST: send a test or a broadcast ───────────────────────────────────────
-  const body = (await readJson(req)) as { subject?: unknown; body?: unknown; test?: unknown } | null;
-  const subject = typeof body?.subject === 'string' ? body.subject.trim() : '';
-  if (!subject) return sendJson(res, 400, { ok: false, error: 'subject-required' });
+  const postSchema = z.object({
+    subject: z.string().trim().min(1).max(200),
+    body: z.unknown(),
+    test: z.boolean().optional(),
+  });
+  const parsed = postSchema.safeParse(await readJson(req));
+  if (!parsed.success) return sendJson(res, 400, { ok: false, error: 'subject-required' });
+  const { subject } = parsed.data;
 
-  const cleanBody = sanitizeFieldValue('rich', body?.body);
+  const cleanBody = sanitizeFieldValue('rich', parsed.data.body);
   const bodyHtml = richDocToHtml(cleanBody);
   if (!bodyHtml) return sendJson(res, 400, { ok: false, error: 'empty-body' });
 
   const base = baseUrl(req);
-  const isTest = body?.test === true;
+  const isTest = parsed.data.test === true;
 
   try {
     // Test: send only to the acting admin, synchronously.

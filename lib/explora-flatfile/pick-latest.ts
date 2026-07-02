@@ -77,6 +77,17 @@ export function pickLatest(files: ReadonlyArray<FlatFile>): LatestFiles {
     }
   }
 
+  // A chosen file with no lastModified fell back to EPOCH — the pick was
+  // arbitrary (first match wins). Surface it so a feed regression is visible.
+  for (const ref of pricingByCurrency.values()) {
+    if (ref.date.getTime() === EPOCH.getTime()) {
+      console.warn(`[pick-latest] ${ref.file.fileName}: no lastModified from the API — recency unknown, picked first match`);
+    }
+  }
+  if (generic && generic.date.getTime() === EPOCH.getTime()) {
+    console.warn(`[pick-latest] ${generic.file.fileName}: no lastModified from the API — recency unknown, picked first match`);
+  }
+
   return {
     pricing: [...pricingByCurrency.values()],
     generic,

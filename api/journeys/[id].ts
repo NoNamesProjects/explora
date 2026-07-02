@@ -101,14 +101,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     // ── Manual price overrides (survive the nightly flatfile ingest) ─────────
     // A whole-journey override (suite_category = '') pins the "from" price; a
-    // per-suite override is reflected on the matching EUR fare via override_price.
-    // fare_overrides is never touched by the ingest, so these persist.
-    const eurFeed = fareRows
-      .filter((f) => f.currency === 'EUR')
-      .map((f) => Number((f.prices as Record<string, unknown> | null | undefined)?.['2A']))
-      .filter((n) => Number.isFinite(n) && n > 0);
-    const lowestFeedEUR = eurFeed.length ? Math.min(...eurFeed) : null;
-
+    // per-suite override is merged INTO the matching EUR fare's prices['2A'] so
+    // everything downstream (suite cards, cabinPricing, the server quote in
+    // lib/booking.ts) prices from the same number. fare_overrides is never
+    // touched by the ingest, so these persist.
     const overrideRows = (await sql`
       SELECT suite_category, override_price
       FROM fare_overrides
@@ -120,10 +116,25 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     for (const o of overrideRows) {
       if (o.override_price == null) continue;
       const price = Number(o.override_price);
-      if (!Number.isFinite(price)) continue;
+      if (!Number.isFinite(price) || price <= 0) continue;
       if (o.suite_category === '') wholeJourneyOverride = price;
       else suiteOverride.set(o.suite_category, price);
     }
+
+    const mergedFares = fareRows.map((f) => {
+      const sc = f.suite_category as string | null;
+      const ov = sc && f.currency === 'EUR' ? suiteOverride.get(sc) : undefined;
+      if (ov == null) return f;
+      const prices = { ...((f.prices as Record<string, unknown> | null) ?? {}), '2A': ov };
+      return { ...f, prices, override_price: ov };
+    });
+
+    // Lowest "from" price computed AFTER the merge so suite overrides count.
+    const eurFeed = mergedFares
+      .filter((f) => f.currency === 'EUR')
+      .map((f) => Number((f.prices as Record<string, unknown> | null | undefined)?.['2A']))
+      .filter((n) => Number.isFinite(n) && n > 0);
+    const lowestFeedEUR = eurFeed.length ? Math.min(...eurFeed) : null;
     const lowestPriceEUR = wholeJourneyOverride ?? lowestFeedEUR;
     const priceOverridden = wholeJourneyOverride != null || suiteOverride.size > 0;
 
@@ -161,11 +172,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         overnight: d.overnight,
         description: d.description,
       })),
-      fares: fareRows.map((f) => {
-        const sc = f.suite_category as string | null;
-        const ov = sc && f.currency === 'EUR' ? suiteOverride.get(sc) : undefined;
-        return ov != null ? { ...f, override_price: ov } : f;
-      }),
+      fares: mergedFares,
     }));
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);

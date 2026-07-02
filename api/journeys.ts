@@ -15,11 +15,11 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { z } from 'zod';
 import { db } from '../lib/db/client';
-
 // Minimum days between today and a sailing's departure for it to be listed.
 // Same as the MSC site: we skip today's (and tomorrow's) departures — there is
 // no time to process a booking — and show from CURRENT_DATE + 2 onward.
-const MIN_LEAD_DAYS = 2;
+// Shared with the authoritative booking quote so listable === bookable.
+import { MIN_LEAD_DAYS } from '../lib/booking';
 
 const querySchema = z.object({
   region: z.string().min(1).max(40).optional(),

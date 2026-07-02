@@ -128,6 +128,10 @@ export function parseCookies(req: IncomingMessage): Record<string, string> {
 }
 
 function isHttps(req: IncomingMessage): boolean {
+  // PUBLIC_BASE_URL is operator-controlled truth: an https site always gets
+  // Secure cookies, even behind a proxy that doesn't set x-forwarded-proto
+  // (which is client-suppliable and was the only signal before).
+  if ((process.env.PUBLIC_BASE_URL || '').trim().toLowerCase().startsWith('https://')) return true;
   const proto = (req.headers['x-forwarded-proto'] as string | undefined)?.split(',')[0]?.trim();
   return proto === 'https' || (req.socket as { encrypted?: boolean } | undefined)?.encrypted === true;
 }
