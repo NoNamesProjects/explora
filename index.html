@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!--
+      Pinch-zoom INTENTIONALLY ENABLED (live site disables it via
+      user-scalable=0; that's a WCAG concern we don't replicate here).
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0E2A3A" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <title>Explora Journeys — Partner Site</title>
+    <meta name="description" content="Discover ultra-luxury ocean journeys with Explora Journeys." />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!--
+      Free-tier font stack. Partner adds licensed GT Sectra / GT America
+      .woff2 files to /public/fonts/ and updates tailwind.config.ts when ready.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Cormorant Garamond = a calm, classical display serif (quiet-luxury,
+         One&Only feel) — upright by default, with a gentle italic kept only for
+         accent words. Inter for the body/UI grotesque. Partner replaces both
+         with licensed brand fonts (.woff2 in /public/fonts/) when ready. -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap"
+    />
+  </head>
+  <body class="bg-cream text-ink antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

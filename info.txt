@@ -1,0 +1,180 @@
+IT SERVICES
+Flat files sharing - API Specification
+Flat files sharing - API Specification
+Flat files sharing m2m solution consists of two steps:
+• Authentication
+• Get Files
+Authentication
+Parameter Value
+In Preprod: https://explorajourneys-b2b.oktapreview.com/api/v1/authn
+URL
+In Production: https://idpb2b.explorajourneys.com/api/v1/authn
+Method POST
+Header Content-Type: application/json
+{
+"username": "user@test.com",
+Body
+"password": "password#123"
+}
+Username corresponds to the email through which Explora Journeys provides you access to the application.
+Password is set directly by you upon receiving a welcome email from OKTA after the access to the application is granted.
+NOTE 1
+Preprod and Production are two different instances and therefore require two different accounts. Please make sure to activate both accounts upon
+receiving the dedicated Okta email (Username may be the same in both environments).
+Also, please note we only give Preprod access to Partners integrating our full booking flow API. Otherwise, for flat files only, production access is enough.
+NOTE 2
+If Postman is used make sure to have the following hidden headers flagged:
+Content-Lenght: <calculated when request is sent>
+Host: <calculated when request is sent>
+Authentication – Sample Response
+{
+"expiresAt": "2022-04-25T05:55:48.000Z",
+"status": "SUCCESS",
+"sessionToken": "201114KQVY8xq_K1Y1F8WbbV9LhZ86ZN18KgdNWV7-rhmoxMTmd0KXS",
+"_embedded": {
+"user": {
+"id": "00u33y72dvAg39224417",
+"passwordChanged": "2022-02-01T14:23:34.000Z",
+"profile": {
+"login": "user@test.com",
+"firstName": "Test",
+"lastName": "User",
+"locale": "en_US",
+"timeZone": "America/Los_Angeles"
+}
+}
+},
+"_links": {
+"cancel": {
+"hints": {
+"allow": [
+"POST"
+]
+"href": "https://idpb2b.explorajourneys.com/api/v1/authn/cancel",
+}
+}
+}
+}
+Get Files
+This API provides the list of available files in a directory tree structure. The s3SignedUrl can be
+used to download the file. The link expires in 60 seconds, after that the APIs need to invoked
+again to get the updated URLs.
+Parameter Value
+In Preprod: https://preprod.techpartner.explorajourneys.com/
+URL
+In Production: https://techpartner.explorajourneys.com/
+Method GET
+End Point /ota/file/operations/system/
+Parameters None
+Header Authorization: <Session Token>
+The session token is retrieved using the authentication call (highlighted on slide 3).
+Note that this token is valid only for a single call to the get files API. If the source system needs to call the get files API again, the session token needs to
+be re-generated.
+GET files – Response Schema
+{
+"data": [
+{
+"data": {
+"folderId": 0,
+"folderName": "string",
+"fileName": "string",
+"fileNameWithKeyPrefix": "string",
+"s3SignedUrl": "string",
+"lastModified": "2022-02-15T16:12:43.000Z",
+"size": "string"
+},
+"children": [ ]
+}
+],
+"status": boolean,
+"message": "string",
+"totalRecords": 0,
+"totalPages": 0,
+"dataList": [
+{}
+]
+}
+GET Files – Sample Response
+{
+"data": [
+{
+"data": {
+"folderId": 1,
+"folderName": "Pricing files",
+"fileName": null,
+"fileNameWithKeyPrefix": null,
+"s3SignedUrl": null,
+"lastModified": null,
+"size": null
+},
+"children": [
+{
+"data": {
+"folderId": 2,
+"folderName": "EUR",
+"fileName": null,
+"fileNameWithKeyPrefix": null,
+"s3SignedUrl": null,
+"lastModified": null,
+"size": null
+},
+…
+GET Files – Sample Response
+…
+"children": [
+{
+"data": {
+"folderId": null,
+"folderName": null,
+"fileName": "pricingReport - EUR - 08-02-2022.xls",
+"fileNameWithKeyPrefix": "Explora OTA content/Pricing files/EUR/pricingReport - EUR - 08-02-2022.xls",
+"s3SignedUrl": "https://ota-fs-tst.s3.eu-central-1.amazonaws.com/Explora...",
+"lastModified": "2022-02-19T08:10:05.000+00:00",
+"size": "4 Bytes"
+},
+"children": []
+}
+]
+}
+]
+},
+…
+GET Files – Sample Response
+…
+"data": {
+"folderId": 1,
+"folderName": "Explora OTA generic content",
+"fileName": null,
+"fileNameWithKeyPrefix": null,
+"s3SignedUrl": null,
+"lastModified": null,
+"size": null
+},
+"children": [
+{
+"data": {
+"folderId": null,
+"folderName": null,
+"fileName": "genericReport - 08-02-2022.xls",
+"fileNameWithKeyPrefix": "Explora OTA content/Explora OTA generic content/genericReport - 08-02-2022.xls",
+"s3SignedUrl": "https://ota-fs-tst.s3.eu-central-1.amazonaws.com/Explora...",
+"lastModified": "2022-02-20T06:42:46.000+00:00",
+"size": "4 Bytes"
+},
+…
+GET Files – Sample Response
+…
+"children": []
+}
+]
+}
+],
+"status": true,
+"message": null,
+"totalRecords": 0,
+"totalPages": 0,
+"dataList": null
+}
+THANK YOU
+THANK YOU
+11

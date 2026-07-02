@@ -1,0 +1,12 @@
+{
+  "takenAt": "2026-06-21T10:45:41.205Z",
+  "counts": {
+    "ships": 6,
+    "ports": 409,
+    "suite_categories": 19,
+    "journeys_available": 742,
+    "journey_days": 9423,
+    "fares": 40644,
+    "excursions": 0
+  }
+}

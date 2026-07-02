@@ -1,0 +1,1780 @@
+{
+  "brand": {
+    "name": "Explora Journeys",
+    "tagline": "Ultra-luxury ocean journeys"
+  },
+  "nav": {
+    "findAJourney": "Find a Journey",
+    "home": "Homepage",
+    "destinations": "Destinations",
+    "journeysCollections": "Journeys Collections",
+    "ships": "Ships",
+    "experience": "The Explora Experience",
+    "whyExplora": "Why Explora Journeys",
+    "offers": "Offers & Fares",
+    "search": "Search",
+    "contact": "Contact us",
+    "account": "Account",
+    "checkin": "Check-in",
+    "brochure": "Download Brochure",
+    "advisors": "Travel Advisors"
+  },
+  "mega": {
+    "destinations": {
+      "destinationsHeading": "Destinations",
+      "allDestinations": "All Destinations",
+      "regions": {
+        "mediterranean": "Mediterranean & Western Europe",
+        "caribbean": "Caribbean & Central America",
+        "alaska": "Alaska",
+        "asia": "Asia",
+        "northernEurope": "Northern Europe, Iceland & Greenland",
+        "transatlantic": "Grand Journeys",
+        "arabian": "Red Sea & Arabian Peninsula",
+        "southAmerica": "South America & Amazon",
+        "pacificCoast": "Central & North America Pacific Coast",
+        "canadaNewEngland": "US & Canada East Coast & New England",
+        "worldJourney": "World Journey"
+      },
+      "ashoreHeading": "Ashore",
+      "destinationExperiences": "Destination Experiences",
+      "prePostAdditions": "Pre & Post Journey Additions"
+    },
+    "collections": {
+      "heading": "Journeys Collections",
+      "summer2026": "Summer 2026",
+      "winter2026": "Winter 2026-27",
+      "summer2027": "Summer 2027",
+      "winter2027": "Winter 2027-28",
+      "summer2028": "Summer 2028",
+      "christmas": "Festive Season",
+      "f1Monaco": "Formula 1 Grand Prix de Monaco",
+      "worldJourney2029": "Endless Worlds — 2029 World Journey",
+      "extendedJourneys": "Grand & Extended Journeys"
+    },
+    "ships": {
+      "heading": "Ships",
+      "exploraI": "EXPLORA I",
+      "exploraII": "EXPLORA II",
+      "exploraIII": "EXPLORA III",
+      "exploraIV": "EXPLORA IV",
+      "exploraV": "EXPLORA V",
+      "exploraVI": "EXPLORA VI",
+      "comingSoon": "Coming soon",
+      "new": "New",
+      "viewAll": "View all ships",
+      "design": "Design",
+      "sustainability": "Sustainability",
+      "captains": "Our Captains"
+    },
+    "experience": {
+      "lifeOnboard": "Life on Explora",
+      "dining": "Dining",
+      "lounging": "Lounging",
+      "wellness": "Ocean Wellness",
+      "entertainment": "Entertainment",
+      "shopping": "Shopping",
+      "inclusions": "Inclusions",
+      "multigen": "Multi-generational Journeys"
+    },
+    "why": {
+      "heading": "Why Explora Journeys",
+      "suites": "Our Suites",
+      "ourStory": "Our Story",
+      "sustainability": "Sustainability",
+      "awards": "Awards",
+      "exploraClub": "Explora Club",
+      "ambassadors": "Brand Ambassadors",
+      "imageGallery": "Image Gallery",
+      "oceanStateOfMind": "Ocean State of Mind"
+    },
+    "offers": {
+      "exclusiveHeading": "Exclusive Offers",
+      "specialFaresHeading": "Special Fares",
+      "lastMinute": "Last-Minute Journeys",
+      "earlyBird": "Early Booking Benefit",
+      "solo": "Solo Travellers",
+      "additionalGuests": "Additional Guests & Younger Travellers",
+      "grandJourneys": "Grand Journeys",
+      "giftOfSharing": "The Gift of Sharing",
+      "invitation": "An Invitation to Explora",
+      "spontaneousSummer": "A Spontaneous Summer Invitation"
+    }
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong.",
+    "retry": "Try again",
+    "close": "Close",
+    "open": "Open",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "viewMore": "View More",
+    "viewAll": "View All",
+    "learnMore": "Learn More",
+    "explore": "Explore",
+    "exploreMore": "Explore more",
+    "discover": "Discover",
+    "readMore": "Read more",
+    "readLess": "Read less",
+    "from": "From",
+    "perAdult": "per adult",
+    "perGuest": "per guest",
+    "perPerson": "per person",
+    "perNight": "per night",
+    "nights": "nights",
+    "ports": "ports",
+    "departing": "Departing"
+  },
+  "cta": {
+    "reserve": "Reserve",
+    "requestQuote": "Request a Quote",
+    "shareJourney": "Share",
+    "downloadDetails": "Download Details",
+    "downloadBrochure": "Download Brochure",
+    "downloadShipGuide": "Download Ship Guide",
+    "downloadDeckPlans": "Download Deck Plans (PDF)",
+    "exploreShip": "Explore the ship",
+    "searchSimilar": "Search Similar Journeys"
+  },
+  "promo": {
+    "currentOfferPlaceholder": "Limited-time savings — speak to a journey specialist.",
+    "invitationLede": "A limited-time invitation",
+    "invitationTail": "Speak to a journey specialist"
+  },
+  "hero": {
+    "eyebrow": "Ultra-luxury ocean journeys",
+    "primaryCta": "Explore the journeys",
+    "secondaryCta": "Watch the film",
+    "scrollHint": "Explore more",
+    "search": {
+      "whereLabel": "Where to?",
+      "whereAnywhere": "Anywhere",
+      "whenLabel": "When?",
+      "whenAnytime": "Anytime",
+      "submit": "View the journeys"
+    },
+    "subtitle": "Reserve by the date shown and enjoy exclusive savings on selected sailings.",
+    "tagline": "Maybe the best hotel isn't a hotel",
+    "rotatingPhrases": [
+      {
+        "italic1": "Quietly",
+        "mid": "redefining",
+        "italic2": "luxury at sea"
+      },
+      {
+        "italic1": "Where",
+        "mid": "time slows",
+        "italic2": "to the ocean's current"
+      },
+      {
+        "italic1": "Perhaps",
+        "mid": "a journey",
+        "italic2": "is the destination"
+      },
+      {
+        "italic1": "Imagine",
+        "mid": "the ocean",
+        "italic2": "as a state of mind"
+      },
+      {
+        "italic1": "A way to",
+        "mid": "travel that feels",
+        "italic2": "like coming home"
+      }
+    ],
+    "statement": {
+      "lead": "Considered itineraries,",
+      "highlight": "thoughtful",
+      "tail": "from first light to last."
+    }
+  },
+  "pillars": {
+    "eyebrow": "What sets us apart",
+    "titleLead": "Why guests choose",
+    "highlight": "Explora Journeys",
+    "items": [
+      {
+        "title": "Ultra-elegant Home at Sea",
+        "body": "Spacious suites with private terraces."
+      },
+      {
+        "title": "Transformative Ocean Journeys",
+        "body": "Considered itineraries beyond the obvious."
+      },
+      {
+        "title": "Award-winning Experience",
+        "body": "Independently recognised hospitality."
+      },
+      {
+        "title": "Warm, Intuitive Hospitality",
+        "body": "Personal service at a 1.25:1 guest-to-host ratio."
+      },
+      {
+        "title": "Unmatched Inclusive Experiences",
+        "body": "Generous all-inclusive offering as standard."
+      },
+      {
+        "title": "Every Detail, Thoughtfully Considered",
+        "body": "From bed linen to bath product, intentional design."
+      }
+    ]
+  },
+  "home": {
+    "latestOffers": {
+      "eyebrow": "Current offers",
+      "titleLead": "Invitations &",
+      "titleHighlight": "exclusive fares",
+      "title": "Explore our Latest Offers",
+      "discoverCta": "Discover the offer",
+      "items": [
+        {
+          "key": "invitation",
+          "title": "A Limited-Time Invitation",
+          "body": "Reserve by [date] and enjoy savings of up to 30% with a reduced 10% deposit."
+        },
+        {
+          "key": "spontaneous",
+          "title": "A Spontaneous Summer Invitation",
+          "body": "For a limited time, receive up to €2,000 exceptional savings per suite."
+        },
+        {
+          "key": "extended",
+          "title": "Grand & Extended Journeys",
+          "body": "Longer sailings, additional rewards — pre and post stays included on selected voyages."
+        }
+      ]
+    },
+    "awardBanner": {
+      "title": "An Award-winning Experience"
+    },
+    "why": {
+      "stats": [
+        {
+          "value": "6",
+          "label": "Ships in the fleet"
+        },
+        {
+          "value": "461",
+          "label": "Ocean-front suites"
+        },
+        {
+          "value": "1.25:1",
+          "label": "Guest-to-host ratio"
+        },
+        {
+          "value": "All-inclusive",
+          "label": "Fares as standard"
+        }
+      ]
+    },
+    "destinations": {
+      "eyebrow": "Where to next",
+      "title": "the journey can take you",
+      "titleLead": "Where",
+      "viewAll": "View all destinations",
+      "ourTitle": "Our Destinations",
+      "ourIntro": "The perfect blend of celebrated destinations and regions less travelled.",
+      "cardCta": "Discover"
+    },
+    "collections": {
+      "eyebrow": "Journeys Collections",
+      "titleLead": "Curated by",
+      "title": "season & occasion",
+      "viewAll": "View all collections",
+      "items": [
+        {
+          "key": "summer2026",
+          "kicker": "Season",
+          "title": "Summer 2026",
+          "body": "Mediterranean afternoons, long Aegean light."
+        },
+        {
+          "key": "winter2026",
+          "kicker": "Season",
+          "title": "Winter 2026-27",
+          "body": "Caribbean blues, Pacific arcs."
+        },
+        {
+          "key": "f1Monaco",
+          "kicker": "Occasion",
+          "title": "Grand Prix de Monaco",
+          "body": "The race weekend, from the water."
+        },
+        {
+          "key": "worldJourney2029",
+          "kicker": "Once in a lifetime",
+          "title": "Endless Worlds 2029",
+          "body": "128 days, 29 countries, 63 destinations."
+        }
+      ]
+    },
+    "fleet": {
+      "eyebrow": "Our Fleet",
+      "titleLead": "{{word}} ships,",
+      "title": "one philosophy",
+      "viewShip": "Explore the ship",
+      "status": {
+        "inService": "In service · {{year}}",
+        "launching": "Launching {{year}}",
+        "comingSoon": "Coming soon"
+      }
+    },
+    "packages": {
+      "eyebrow": "Journeys",
+      "titleLead": "Featured",
+      "title": "voyages",
+      "intro": "A glimpse of what's sailing. Browse every itinerary, date, and suite on the journeys page.",
+      "viewAll": "View all journeys"
+    },
+    "video": {
+      "eyebrow": "A film",
+      "title": "A different way to travel the ocean",
+      "playAria": "Play the film"
+    },
+    "lifeOnboard": {
+      "eyebrow": "Life on board",
+      "titleLead": "Hours that",
+      "title": "lengthen, never tighten",
+      "exploreCta": "Explore {{subject}}",
+      "items": [
+        {
+          "key": "suites",
+          "title": "Suites",
+          "body": "Floor-to-ceiling windows, private terrace, ocean front."
+        },
+        {
+          "key": "dining",
+          "title": "Dining",
+          "body": "Nine distinct culinary experiences."
+        },
+        {
+          "key": "wellness",
+          "title": "Ocean Wellness",
+          "body": "Spa, fitness, beauty, well-being."
+        }
+      ]
+    },
+    "inclusions": {
+      "eyebrow": "All Journeys Include",
+      "titleLead": "Generosity",
+      "title": "as standard",
+      "photoAlt": "In-suite dining aboard Explora",
+      "items": [
+        "Spacious ocean-front suite with private terrace",
+        "All onboard dining across multiple restaurants",
+        "Premium beverages, fine wines & speciality coffees",
+        "24-hour in-suite dining",
+        "Wi-Fi throughout the ship",
+        "Onboard entertainment & cultural enrichment",
+        "Gratuities & service charges",
+        "Use of fitness facilities & wellness spaces",
+        "Welcome amenity in-suite on arrival"
+      ],
+      "note": "Plus additional benefits for Ocean Penthouses & Ocean Residences."
+    },
+    "newsletterBand": {
+      "title": "Stay informed",
+      "body": "Sign up for our newsletter for the latest offers and destinations."
+    },
+    "highlights": {
+      "eyebrow": "Highlights",
+      "titleLead": "Now on the",
+      "title": "horizon",
+      "items": [
+        {
+          "key": "monaco",
+          "kicker": "Race Weekend",
+          "title": "Formula 1 in Monaco",
+          "body": "Watch from the harbour, return to your suite."
+        },
+        {
+          "key": "sailgp",
+          "kicker": "Sport",
+          "title": "Swiss SailGP Team",
+          "body": "Our partnership with championship sailing."
+        },
+        {
+          "key": "world",
+          "kicker": "Maiden voyage",
+          "title": "World Journey 2029",
+          "body": "128 days from Dubai to Barcelona."
+        },
+        {
+          "key": "ambassador",
+          "kicker": "Onboard",
+          "title": "Brand Ambassadors",
+          "body": "Athletes, artists, makers."
+        }
+      ]
+    },
+    "oceanState": {
+      "eyebrow": "Ocean State of Mind",
+      "lead": "Luxury travel",
+      "highlight": "doesn't need",
+      "tail": "to follow the usual rules.",
+      "cta": "Read the philosophy"
+    },
+    "invitation": {
+      "eyebrow": "An Invitation",
+      "titleLead": "Quiet days,",
+      "title": "long horizons",
+      "body": "Speak with a journey specialist about the next sailing.",
+      "cta": "Speak to a specialist"
+    }
+  },
+  "shipsIndex": {
+    "eyebrow": "Our Fleet",
+    "titleLead": "The Explora",
+    "title": "fleet",
+    "intro": "{{word}} ultra-luxury ships, one philosophy — intimate in scale, expansive in spirit. Explore every vessel in the fleet."
+  },
+  "ship": {
+    "breadcrumbHome": "Homepage",
+    "breadcrumbShips": "Ships",
+    "tagline": {
+      "lead": "Designed to feel like your",
+      "highlight": "own private yacht",
+      "tail": ""
+    },
+    "venueCarousel": {
+      "eyebrow": "On board",
+      "titleLead": "Spaces to",
+      "highlight": "discover"
+    },
+    "statsHeading": "Ship Highlights",
+    "stats": [
+      {
+        "value": "461",
+        "label": "Ocean-Front Suites"
+      },
+      {
+        "value": "5",
+        "label": "Heated Pools"
+      },
+      {
+        "value": "6",
+        "label": "Restaurants"
+      },
+      {
+        "value": "12",
+        "label": "Bars & Lounges"
+      },
+      {
+        "value": "1.25:1",
+        "label": "Guest to Host Ratio"
+      }
+    ],
+    "suitesHeading": {
+      "eyebrow": "Stay",
+      "lead": "Your",
+      "highlight": "home",
+      "tail": "at sea"
+    },
+    "suitesIntro": "Considered design, generous space — a quiet sanctuary at sea.",
+    "tiers": [
+      {
+        "key": "owners",
+        "name": "Owner's Residences",
+        "tagline": "The pinnacle — duplex residences with a Residence Host."
+      },
+      {
+        "key": "cocoon",
+        "name": "Cocoon Residences",
+        "tagline": "A private wellness retreat, all-day spa access included."
+      },
+      {
+        "key": "serenity",
+        "name": "Serenity Residences",
+        "tagline": "Aft-facing terrace, sweeping wake views."
+      },
+      {
+        "key": "retreat",
+        "name": "Retreat Residences",
+        "tagline": "Library nook, dining banquette, an apartment at sea."
+      },
+      {
+        "key": "cove",
+        "name": "Cove Residences with Whirlpool",
+        "tagline": "Private terrace with a heated whirlpool tub."
+      },
+      {
+        "key": "grandPenthouse",
+        "name": "Grand Penthouses",
+        "tagline": "Walk-in wardrobe, freestanding bath, ocean view."
+      },
+      {
+        "key": "premierPenthouse",
+        "name": "Premier Penthouses",
+        "tagline": "Generous terrace, lounge area, dining table."
+      },
+      {
+        "key": "deluxePenthouse",
+        "name": "Deluxe Penthouses",
+        "tagline": "A bedroom-and-living-room layout with private terrace."
+      },
+      {
+        "key": "penthouse",
+        "name": "Penthouses",
+        "tagline": "The entry to penthouse living on board."
+      },
+      {
+        "key": "oceanGrandTerrace",
+        "name": "Ocean Grand Terrace Suites",
+        "tagline": "Generous terrace with daybed and dining table — your private balcony at sea."
+      },
+      {
+        "key": "oceanTerrace",
+        "name": "Ocean Terrace Suites",
+        "tagline": "Floor-to-ceiling sliding doors, private terrace."
+      }
+    ],
+    "tierLearnMore": "Explore the suite",
+    "deckPlansHeading": {
+      "eyebrow": "Plans",
+      "lead": "Deck",
+      "highlight": "plans"
+    },
+    "deckPlansHint": "Pinch to zoom on mobile.",
+    "facilityLegend": "Facility legend",
+    "facilities": [
+      "Private Whirlpool",
+      "Single Sofa Bed",
+      "Double Sofa Bed",
+      "Guest Laundry",
+      "Accessible Suites",
+      "Bath",
+      "Lift",
+      "Connecting Suites",
+      "Twin Bed"
+    ],
+    "lifeOnboardHeading": "Life on board",
+    "lifeOnboardCards": {
+      "dining": "Restaurants, bars and in-suite dining, all included.",
+      "lounging": "Sun-warmed pools, shaded decks and quiet corners.",
+      "wellness": "Spa, thermal areas, fitness and ocean-air calm.",
+      "entertainment": "Live music, talks and evenings under the stars.",
+      "shopping": "Curated boutiques and signature maison names."
+    },
+    "godmother": {
+      "eyebrow": "Our Godmother",
+      "cta": "Learn more",
+      "tba": "Godmother to be announced.",
+      "exploraI": {
+        "name": "Dr. Sylvia Earle",
+        "body": "Oceanographer, founder of Mission Blue, and the godmother of EXPLORA I. A pioneering marine biologist and former NOAA Chief Scientist, Dr. Earle has spent more than six decades exploring and protecting the ocean."
+      },
+      "exploraII": {
+        "name": "Rosalba Giugni",
+        "body": "Marine environmentalist and founder of the Marevivo Foundation, godmother of EXPLORA II. For decades she has worked to protect the Mediterranean and to raise awareness of ocean conservation."
+      },
+      "exploraIII": {
+        "name": "Cristina Ozores",
+        "body": "Marine educator and conservationist, godmother of EXPLORA III. Her work focuses on the marine life of the Mediterranean and on helping people understand and care for the sea."
+      }
+    },
+    "artCuration": {
+      "eyebrow": "Art onboard",
+      "lead": "A curated",
+      "highlight": "gallery at sea",
+      "body": "Original works and limited-edition pieces, exhibited across the ship's public spaces. Each journey, the curation evolves.",
+      "cta": "Discover the collection"
+    },
+    "liveTracker": {
+      "lead": "Where in the world is",
+      "cta": "Track this ship"
+    },
+    "relatedShipsHeading": {
+      "eyebrow": "Keep exploring",
+      "title": "The rest of the fleet"
+    },
+    "subNav": {
+      "onBoard": "On board",
+      "suites": "Suites",
+      "deckPlans": "Deck plans",
+      "lifeOnBoard": "Life on board",
+      "godmother": "Godmother",
+      "guide": "Ship guide",
+      "journeys": "Journeys"
+    },
+    "journeys": {
+      "eyebrow": "Journeys",
+      "heading": "Sail with {{name}}",
+      "count": "{{count}} journeys",
+      "viewAll": "View all journeys",
+      "empty": "No journeys are currently scheduled for this ship.",
+      "anyMonth": "Any month"
+    },
+    "deckPlansIntro": "Select a deck to view its plan. {{hint}}",
+    "deckSwitcher": {
+      "selectorLabel": "Deck selector",
+      "showDeck": "Show deck {{deck}} plan",
+      "deckLabel": "Deck",
+      "previousDeck": "Previous deck",
+      "nextDeck": "Next deck",
+      "planAlt": "Deck {{deck}} plan"
+    },
+    "specsComingSoon": "Specifications subject to confirmation closer to launch.",
+    "modal": {
+      "close": "Close",
+      "description": "Key facts and onboard spaces for {{name}}.",
+      "launching": "Launching {{year}}"
+    }
+  },
+  "destination": {
+    "breadcrumbHome": "Homepage",
+    "breadcrumbDestinations": "Destinations",
+    "anchors": {
+      "explore": "Explore the Region",
+      "journeys": "Our Journeys",
+      "experiences": "Destination Experiences"
+    },
+    "intro": {
+      "lead": "An archipelago of",
+      "highlight": "ports and pauses,",
+      "tail": "thoughtfully sequenced."
+    },
+    "lifeTabs": {
+      "title": "Life in the Region",
+      "culture": "Culture",
+      "culinary": "Culinary",
+      "history": "History",
+      "nature": "Nature"
+    },
+    "lifeTabsBody": {
+      "culture": "Old quarters, evening passeggiate, voices over a single coffee.",
+      "culinary": "Markets in the morning, long lunches, wine from the hill above.",
+      "history": "Layers — Byzantine, Venetian, modern — read at walking pace.",
+      "nature": "Sea caves, olive terraces, a path that ends at the water."
+    },
+    "reserve": {
+      "eyebrow": "Book your journey",
+      "title": "An Invitation to Explora",
+      "body": "Limited-time savings on selected sailings in this region.",
+      "cta": "Discover the offer"
+    },
+    "ebrochure": {
+      "eyebrow": "E-brochure",
+      "title": "The Destinations Guide",
+      "cta": "Download brochure"
+    },
+    "journeysHeading": "Sailings in this region",
+    "experiencesHeading": "Destination Experiences",
+    "otherDestinations": {
+      "eyebrow": "Keep exploring",
+      "title": "Other destinations"
+    },
+    "ashore": {
+      "culture": "Culture",
+      "culinary": "Culinary",
+      "history": "History",
+      "nature": "Nature"
+    },
+    "hero": {
+      "sailingCount_one": "{{countStr}} sailing",
+      "sailingCount_other": "{{countStr}} sailings",
+      "shipCount_one": "{{count}} ship",
+      "shipCount_other": "{{count}} ships",
+      "portCount_one": "{{count}} port",
+      "portCount_other": "{{count}} ports",
+      "nightsSingle": "{{nights}} nights",
+      "nightsRange": "{{min}}–{{max}} nights",
+      "priceFrom": "from €{{price}}"
+    },
+    "atAGlance": "At a glance",
+    "facts": {
+      "ships": "Ships sailing here",
+      "ports": "Ports of call",
+      "length": "Journey length",
+      "season": "Sailing season",
+      "nightsSingle": "{{nights}} nights",
+      "nightsRange": "{{min}}–{{max}} nights",
+      "yearRound": "Year-round",
+      "sailings": "Sailings",
+      "shipsCount": "Ships",
+      "nights": "Nights",
+      "from": "From"
+    },
+    "index": {
+      "eyebrow": "Where to next",
+      "title": "All Destinations",
+      "intro": "Eleven regions, from the Mediterranean to the Pacific — every Explora journey, gathered in one place.",
+      "cardCta": "Explore region",
+      "closingCta": "Not sure where to begin? Find a journey",
+      "worldJourneyStat": "Curated global voyage",
+      "groups": {
+        "mediterraneanEurope": "Mediterranean & Europe",
+        "americas": "The Americas",
+        "asiaArabia": "Asia & Arabia",
+        "grandVoyages": "Grand Voyages"
+      },
+      "stat": {
+        "journeys_one": "{{count}} journey",
+        "journeys_other": "{{count}} journeys",
+        "nightsRange": "{{min}}–{{max}} nights",
+        "from": "from €{{price}}"
+      }
+    },
+    "subnav": {
+      "overview": "Overview",
+      "sailings": "Sailings",
+      "ashore": "Ashore",
+      "ports": "Ports",
+      "ariaLabel": "Region sections"
+    },
+    "ports": {
+      "title": "Departure ports",
+      "subtitle": "Choose where your journey begins — select a port to see every sailing that departs from it.",
+      "cardAriaLabel": "See sailings departing from {{port}}",
+      "viewSailings": "View sailings"
+    },
+    "sailings": {
+      "eyebrow": "Sailings",
+      "titleLead": "Journeys in",
+      "errorState": "Sailings for this region will appear here once the daily ingest has populated the database.",
+      "emptyState": "No sailings published for this region yet. Check back as the schedule extends.",
+      "seeAll": "See all {{countStr}} sailings"
+    },
+    "cta": {
+      "eyebrow": "Plan your voyage",
+      "title": "Find your {{region}} journey",
+      "subtitle": "Browse every sailing in the region, or let a journey specialist shape the voyage around you.",
+      "viewJourneys": "View the journeys",
+      "speakToSpecialist": "Speak to a specialist"
+    }
+  },
+  "suite": {
+    "breadcrumbHome": "Homepage",
+    "breadcrumbSuites": "Our Suites",
+    "heading": {
+      "lead": "Serene, spacious",
+      "highlight": "sanctuaries",
+      "tail": "at sea"
+    },
+    "intro": "Floor-to-ceiling windows. Private terrace. European elegance, real comfort. Every suite ocean-front.",
+    "tiersHeading": "Choose your tier",
+    "tiers": [
+      {
+        "key": "owners",
+        "title": "Owner's Residence",
+        "body": "The pinnacle of life at sea — duplex spaces with a dedicated Residence Host."
+      },
+      {
+        "key": "residences",
+        "title": "Ocean Residences",
+        "body": "Generous floorplans with separate living rooms and panoramic terraces."
+      },
+      {
+        "key": "penthouses",
+        "title": "Ocean Penthouses",
+        "body": "Five penthouse tiers — every one with a private terrace."
+      },
+      {
+        "key": "suites",
+        "title": "Ocean Suites",
+        "body": "The starting point of life on Explora — and already extraordinary."
+      }
+    ],
+    "allSuitesFeature": {
+      "title": "All Suites Include",
+      "items": [
+        "Floor-to-ceiling windows with private terrace",
+        "Heated bathroom floor & rain shower",
+        "Egyptian-cotton linens & down pillow menu",
+        "In-suite bar curated daily",
+        "Mandala Blue toiletries",
+        "Dyson Supersonic hair-care",
+        "Nespresso & speciality teas",
+        "Smart-room controls (lighting, climate, blinds)"
+      ]
+    }
+  },
+  "newsletter": {
+    "title": "Stay informed",
+    "subtitle": "Quiet updates on new sailings, suite collections, and seasonal invitations.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "your@email.com",
+    "submit": "Subscribe",
+    "submitting": "Subscribing…",
+    "success": "Thank you — please check your inbox to confirm.",
+    "consent": "I agree to receive communications and accept the Privacy Policy.",
+    "errors": {
+      "emailInvalid": "Please enter a valid email address.",
+      "consentRequired": "Consent is required to subscribe.",
+      "server": "Subscription is temporarily unavailable. Please try again later."
+    }
+  },
+  "contact": {
+    "title": "Contact us",
+    "call": "Call us",
+    "callHours": "We reply within one business day",
+    "email": "Email us",
+    "callback": "Request a callback",
+    "quote": "Request a quote",
+    "brochure": "Request a brochure",
+    "sendMessage": "Send us a message",
+    "page": {
+      "eyebrow": "Contact",
+      "titleLead": "Speak with a",
+      "titleHighlight": "journey specialist",
+      "intro": "Tell us what you have in mind — a region, a date, a special occasion — and our team will come back to you personally.",
+      "nameLabel": "Full name",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone (optional)",
+      "messageLabel": "How can we help?",
+      "messagePlaceholder": "Share dates, destinations, number of guests, or any questions.",
+      "required": "This field is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "submit": "Send message",
+      "sending": "Sending…",
+      "consent": "By sending this message you agree to be contacted about your enquiry. We never share your details.",
+      "successTitle": "Thank you — your message is on its way.",
+      "successBody": "A journey specialist will be in touch shortly. For anything urgent, email us directly.",
+      "errorBody": "Something went wrong sending your message. Please try again, or email us directly.",
+      "asideHeading": "Other ways to reach us",
+      "emailUs": "Email",
+      "hoursLabel": "Response time",
+      "hoursValue": "We reply to every enquiry within one business day.",
+      "specialistLabel": "Tailored planning",
+      "specialistValue": "Prefer to talk it through? Ask for a callback in your message and we'll arrange a time."
+    }
+  },
+  "footer": {
+    "professionalSpaces": {
+      "title": "Professional Spaces",
+      "travelAdvisors": "Travel Advisors",
+      "press": "Press & Media",
+      "careers": "Careers"
+    },
+    "planYourJourneys": {
+      "title": "Plan your journeys",
+      "manage": "Manage your Reservation",
+      "brochure": "Download Brochures",
+      "club": "Join Explora Club",
+      "faqs": "FAQs"
+    },
+    "about": {
+      "title": "About",
+      "story": "About Explora Journeys",
+      "app": "Download our App",
+      "awards": "Our Awards",
+      "partnerships": "Partnerships",
+      "oceanStateOfMind": "Ocean State of Mind",
+      "ambassadors": "Brand Ambassadors",
+      "health": "Health & Safety",
+      "foundation": "MSC Foundation",
+      "mscGroup": "MSC Group",
+      "lostFound": "Lost & Found"
+    },
+    "legal": {
+      "title": "Legal",
+      "cookies": "Cookies",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions",
+      "codeOfConduct": "Codes of Conduct",
+      "copyright": "© Explora Journeys"
+    },
+    "social": {
+      "title": "Follow",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "x": "X",
+      "youtube": "YouTube",
+      "linkedin": "LinkedIn"
+    },
+    "switcher": {
+      "title": "Select your region & language",
+      "regions": "Europe / Americas / Asia / Oceania / International",
+      "languages": {
+        "en": "English",
+        "el": "Ελληνικά"
+      }
+    }
+  },
+  "aria": {
+    "openMenu": "Open navigation",
+    "closeMenu": "Close navigation",
+    "openMegaMenu": "Open {{section}} menu",
+    "closeDialog": "Close dialog",
+    "previousSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "skipToContent": "Skip to content",
+    "language": "Change language"
+  },
+  "errors": {
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "The page you were looking for is no longer available."
+  },
+  "faq": {
+    "eyebrow": "Good to know",
+    "titleLead": "Questions, answered",
+    "titleHighlight": "before you sail",
+    "intro": "A few of the things guests ask most. Can't find your answer? Our team is a message away.",
+    "items": [
+      {
+        "q": "What's included in the fare?",
+        "a": "Explora journeys are generously inclusive: your ocean-front suite, dining across the ship's restaurants, premium drinks and speciality coffees, Wi-Fi, in-suite dining and onboard gratuities are included as standard."
+      },
+      {
+        "q": "How do I reserve a journey?",
+        "a": "Find a sailing that suits you, choose your suite, and send a request. A specialist confirms availability and the final price with you before anything is finalised."
+      },
+      {
+        "q": "Is a deposit required?",
+        "a": "A deposit can secure your suite while the booking is confirmed; the balance is due closer to departure. Your specialist will explain the exact terms for your sailing."
+      },
+      {
+        "q": "Can I travel solo?",
+        "a": "Yes. Selected sailings offer solo fares and reduced single supplements — ask us and we'll find the best option for a journey on your own."
+      },
+      {
+        "q": "What are the suites like?",
+        "a": "Every suite is ocean-front with floor-to-ceiling windows and a private terrace, from Ocean Terrace Suites to the Owner's Residences. Each tier adds more space and more amenities."
+      },
+      {
+        "q": "How do I get help planning?",
+        "a": "Send us a message with your dates, destinations and number of guests. We'll come back to you personally — no call centres, no chatbots."
+      }
+    ],
+    "stillHelp": "Still have a question?",
+    "contactCta": "Talk to a specialist"
+  },
+  "legal": {
+    "eyebrow": "Legal",
+    "placeholder": "Placeholder text — to be replaced with the partner's approved legal copy before launch.",
+    "privacy": {
+      "title": "Privacy Policy",
+      "body": [
+        "This page will set out how we collect, use and protect your personal data when you use this website or make an enquiry.",
+        "We only use the details you provide to respond to your enquiry and to help arrange your journey. We never sell your data.",
+        "Until the approved policy is published here, please contact us with any questions about how your information is handled."
+      ]
+    },
+    "terms": {
+      "title": "Terms & Conditions",
+      "body": [
+        "This page will set out the terms that apply to bookings and enquiries made through this website.",
+        "Reservations are subject to availability and to the cruise line's own booking conditions, which your specialist will share before any booking is finalised.",
+        "Until the full terms are published here, please contact us with any questions."
+      ]
+    },
+    "code": {
+      "title": "Code of Conduct",
+      "body": [
+        "This page will set out the standards of conduct expected on board and the commitments we make to our guests.",
+        "Until the approved text is published here, please contact us with any questions."
+      ]
+    }
+  },
+  "about": {
+    "eyebrow": "About us",
+    "title": "Your specialist for ultra-luxury journeys at sea",
+    "lede": "We help discerning travellers discover Explora Journeys — an all-suite, ultra-luxury way to see the world by ocean.",
+    "body": [
+      "As an authorised partner, we bring you the full Explora fleet, every itinerary and every suite — with the personal care of a specialist team that knows these ships inside out.",
+      "From a first idea to the moment you step aboard, you have one point of contact: a real person who plans around what matters to you, answers honestly, and stays with you through the journey.",
+      "We believe luxury travel should feel effortless. Our job is to make the planning quiet, the choices clear, and the journey unforgettable."
+    ],
+    "valuesEyebrow": "What we stand for",
+    "valuesTitleLead": "Considered in",
+    "valuesTitleHighlight": "every detail",
+    "values": [
+      {
+        "title": "Considered itineraries",
+        "body": "Celebrated destinations and quieter corners, thoughtfully sequenced."
+      },
+      {
+        "title": "All-suite comfort",
+        "body": "Every guest in an ocean-front suite with a private terrace."
+      },
+      {
+        "title": "Inclusive by design",
+        "body": "Dining, drinks, Wi-Fi and gratuities included as standard."
+      },
+      {
+        "title": "Personal service",
+        "body": "A specialist who knows your journey by name, not by number."
+      },
+      {
+        "title": "Mindful of the ocean",
+        "body": "Modern, efficient ships built with the sea in mind."
+      },
+      {
+        "title": "Local, fluent support",
+        "body": "Greek-speaking help before, during and after your journey."
+      }
+    ],
+    "ctaTitle": "Ready to find your journey?",
+    "ctaBrowse": "Browse journeys",
+    "ctaContact": "Talk to us"
+  },
+  "cookies": {
+    "title": "Cookies",
+    "body": "We use cookies to make this site work and to understand how it's used. Choose whether to accept analytics cookies.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "experience": {
+    "breadcrumbHome": "Homepage",
+    "suites": {
+      "eyebrow": "Suites",
+      "heroTitleLead": "Your",
+      "heroTitleHighlight": "ocean-front home",
+      "intro": "Every suite is a private retreat with a sea-view terrace — the ocean is never more than a glance away.",
+      "f1": {
+        "heading": "Owner's & Residence suites",
+        "body": "The most generous spaces aboard, with separate living and sleeping areas, walk-in wardrobes and panoramic terraces for long, unhurried mornings at sea."
+      },
+      "f2": {
+        "heading": "The Cove Residence",
+        "body": "A corner sanctuary wrapped in glass, with an outdoor whirlpool on a wide private terrace — sunrise on one side, open horizon on the other."
+      },
+      "f3": {
+        "heading": "Penthouses & Ocean Terrace suites",
+        "body": "Floor-to-ceiling windows, a walk-out terrace and tactile, considered interiors designed to feel like a home that happens to be moving across the water."
+      },
+      "galleryHeading": "Inside the suites",
+      "ctaLead": "Find the suite for",
+      "ctaHighlight": "your journey",
+      "ctaBody": "Browse every itinerary and choose the suite that suits the way you travel.",
+      "ctaPrimary": "Find a journey",
+      "ctaSecondary": "Speak to a specialist"
+    },
+    "dining": {
+      "eyebrow": "Dining",
+      "heroTitleLead": "Nine ways",
+      "heroTitleHighlight": "to dine",
+      "intro": "From quiet in-suite breakfasts to long evenings of tasting menus, dining aboard is unhurried, generous and always included.",
+      "f1": {
+        "heading": "Restaurants for every mood",
+        "body": "Distinct culinary experiences across the ship — Mediterranean, Asian, steak and seafood, and a relaxed marketplace — each with its own room, rhythm and point of view."
+      },
+      "f2": {
+        "heading": "Sakura",
+        "body": "Pan-Asian cooking built around the day's best ingredients, served in a calm, light-filled room where the pace is set by you, not the kitchen."
+      },
+      "f3": {
+        "heading": "In-suite dining, around the clock",
+        "body": "Anything from a midnight bowl of pasta to a full multi-course dinner on your terrace, brought to you whenever the day calls for it."
+      },
+      "galleryHeading": "Tables aboard",
+      "ctaLead": "Find your",
+      "ctaHighlight": "table at sea",
+      "ctaBody": "Every journey includes the full table. Find the sailing that suits your appetite.",
+      "ctaPrimary": "Find a journey",
+      "ctaSecondary": "Speak to a specialist"
+    },
+    "wellness": {
+      "eyebrow": "Ocean Wellness",
+      "heroTitleLead": "Well-being,",
+      "heroTitleHighlight": "at sea level",
+      "intro": "A full deck given over to stillness — thermal waters, treatments and movement, with the ocean as the constant view.",
+      "f1": {
+        "heading": "The Ocean Wellness Spa",
+        "body": "Thermal suites, a relaxation pool and a menu of treatments drawn from traditions around the world, all paced to the slow tempo of life at sea."
+      },
+      "f2": {
+        "heading": "Move with the horizon",
+        "body": "A light-filled fitness studio and open-air spaces for training, stretching and breathing — the sea always on the other side of the glass."
+      },
+      "f3": {
+        "heading": "Sound Wellness",
+        "body": "Guided sessions that use sound and resonance to settle the mind — a quiet counterpoint to the rhythm of the waves."
+      },
+      "galleryHeading": "Spaces for stillness",
+      "ctaLead": "Make space for",
+      "ctaHighlight": "yourself",
+      "ctaBody": "Wellness is part of every journey. Find the sailing that gives you the most time for it.",
+      "ctaPrimary": "Find a journey",
+      "ctaSecondary": "Speak to a specialist"
+    }
+  },
+  "journey": {
+    "nav": {
+      "overview": "Overview",
+      "itinerary": "Itinerary",
+      "inclusions": "Inclusions",
+      "ship": "Ship",
+      "suites": "Suites",
+      "onboard": "Onboard Experiences",
+      "faq": "FAQ"
+    },
+    "faq": {
+      "eyebrow": "Good to know",
+      "heading": "Booking, documentation & currency",
+      "groups": [
+        {
+          "title": "Booking",
+          "items": [
+            {
+              "q": "When can I register for an account and see my booking?",
+              "a": [
+                "You can create an account with us even before you make a booking. Once you have booked, you'll be able to access your booking through your account."
+              ]
+            },
+            {
+              "q": "How do I make a booking?",
+              "a": [
+                "You can book directly through our website, or get in touch with us and one of our team will be happy to assist you. You may also book through your preferred travel advisor."
+              ]
+            },
+            {
+              "q": "How do I reserve suites for a group?",
+              "a": [
+                "To reserve more than five suites for a group, please contact us and let us know whether the booking is for a promotional group, a corporate or incentive event, or a family and friends gathering."
+              ]
+            },
+            {
+              "q": "Can I deal with the same person throughout the booking process?",
+              "a": [
+                "Yes. Any of our team can assist you with your booking, but if you'd like to work with the same person throughout, simply ask for their name so you can reach them again."
+              ]
+            },
+            {
+              "q": "May I transfer my booking to my travel agent?",
+              "a": [
+                "Reservations may be transferred to the travel advisor of your choice prior to final payment. We recommend speaking with your travel advisor before requesting a transfer, and we'll need their contact details to complete it. Please note this is offered on a one-time basis, and reservations made within the final-payment window or already paid in full cannot be transferred."
+              ]
+            },
+            {
+              "q": "The journey is sold out. Can I join a wait list?",
+              "a": [
+                "Yes. We clear wait lists as suites become available."
+              ]
+            },
+            {
+              "q": "Do I need to register my details (passport, photos) before embarkation?",
+              "a": [
+                "You'll be asked to provide these details during the booking process and again during check-in."
+              ]
+            },
+            {
+              "q": "Is there a special rate for children?",
+              "a": [
+                "Infants aged 6 to 23 months sail with our compliments, while children aged 2 to 17 enjoy savings of up to 50%. For comfort and safety, infants must be at least 6 months old at the time of sailing."
+              ]
+            },
+            {
+              "q": "I made a mistake on my online booking. What should I do?",
+              "a": [
+                "Please get in touch with us and our team will help you correct it."
+              ]
+            },
+            {
+              "q": "What happens if I cancel my journey?",
+              "a": [
+                "Cancellation terms are set out in our Terms & Conditions. Please review them, or contact us and we'll be glad to explain how they apply to your booking."
+              ]
+            },
+            {
+              "q": "I can no longer travel. Could someone take my place?",
+              "a": [
+                "This is possible, provided your replacement meets all the conditions for the transfer and written notice is given no later than 14 days before the journey start date."
+              ]
+            },
+            {
+              "q": "How can I get a suite upgrade?",
+              "a": [
+                "Contact us for a quotation on an upgrade, subject to availability. On eligible journeys you can also bid for an upgraded suite through our Suite Upgrade programme: you may bid on more than one suite to increase your chances, with the assurance that only one will ever be charged. If your bid is successful you'll receive confirmation and the steps to finalise payment; if not, there is no additional charge and you keep your originally booked suite."
+              ]
+            },
+            {
+              "q": "Do you offer hotels, transfers and destination experiences?",
+              "a": [
+                "Yes. We offer a range of pre- and post-journey options, including hotels, transfers and destination experiences. Contact us to arrange them."
+              ]
+            },
+            {
+              "q": "Can I arrange flights too?",
+              "a": [
+                "Yes. We offer both commercial and private air options, including bundled packages with transfers and hotel stays. Get in touch and we'll help you arrange them."
+              ]
+            },
+            {
+              "q": "What payment methods are accepted?",
+              "a": [
+                "We accept Visa, Mastercard, American Express, Discover, Diners Club and UnionPay. Digital payment options such as PayPal, Apple Pay, Samsung Pay and Google Pay are also supported."
+              ]
+            },
+            {
+              "q": "Can I hold a booking without paying immediately?",
+              "a": [
+                "Yes. You can place an optional booking which is held for 7 days. If no payment is made within this period, the booking is automatically cancelled."
+              ]
+            },
+            {
+              "q": "How much is the deposit and when is it due?",
+              "a": [
+                "A 25% deposit of the journey fare is required to confirm your booking. The payment deadline depends on how far in advance you book:",
+                "121 or more days before departure: deposit due within 7 days.",
+                "120 to 31 days before departure: deposit due within 3 days.",
+                "30 days or fewer before departure: deposit due within 1 day."
+              ]
+            },
+            {
+              "q": "When will my card be charged?",
+              "a": [
+                "If you choose to pay by card, your card is charged immediately upon payment."
+              ]
+            },
+            {
+              "q": "What is included in the fare?",
+              "a": [
+                "The journey fare includes suite accommodation, all meals onboard, alcoholic and soft drinks, cocktails, mineral water, gratuities, port charges, WiFi, entertainment, and complimentary transfers from the port to the town centre where applicable. Depending on the suite category or promotional fare booked, additional benefits may apply.",
+                "The fare does not include medical expenses, independent contractors' services or products, or destination experiences. Some food and beverage experiences are available for an additional fee. Additional inclusions apply for Penthouse and Residence suites."
+              ]
+            },
+            {
+              "q": "What is the pricing on Extended or Grand Journeys?",
+              "a": [
+                "Extended and Grand Journeys let you discover more by combining multiple journeys or through longer sailings. Combining sailings into an Extended Journey can save up to 5% compared with booking them individually, while our longer, immersive Grand Journeys can save up to 10%. Contact us for details."
+              ]
+            },
+            {
+              "q": "Are the rates shown per person or per suite?",
+              "a": [
+                "During the online booking process, the journey fare is shown per person. Contact us if you'd like further information on suite fares."
+              ]
+            },
+            {
+              "q": "Are there savings if I book in advance?",
+              "a": [
+                "If you book at least one year in advance, you may benefit from our Early Booking Benefit, offering a 5% discount depending on when itineraries are released."
+              ]
+            },
+            {
+              "q": "Can I get a lower price if I book direct?",
+              "a": [
+                "Our journey fares offer the same exceptional value whether you book through a travel advisor, online, or directly with us."
+              ]
+            },
+            {
+              "q": "If the fare drops after I book, will I get the lower price?",
+              "a": [
+                "We do not follow a discounting strategy. However, if your fare is reduced for any reason after booking, please contact us and we'll review the situation and discuss the options available to you."
+              ]
+            },
+            {
+              "q": "Are your journeys suitable for solo travellers?",
+              "a": [
+                "Yes. Our journeys are well suited to solo travellers, and on selected journeys we offer a 0% solo supplement. Otherwise a single supplement usually applies for sole occupancy of a suite, with the amount varying by journey and suite category. Contact us for specific availability."
+              ]
+            },
+            {
+              "q": "Can I bring my whole family?",
+              "a": [
+                "We'd be delighted to welcome your family onboard. We offer a selection of interconnecting suites to accommodate families comfortably. Most suites and residences have a maximum occupancy of four guests, though this can vary by category, so it's important to confirm availability and suitability at the time of booking. Contact us and we'll help you find the best options."
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Documentation",
+          "items": [
+            {
+              "q": "When do I receive my tickets and documentation?",
+              "a": [
+                "After you finalise your booking and pay the deposit, you'll receive a booking confirmation by email. If any changes or additional payments are made, an updated confirmation is sent. Your e-ticket is issued once check-in is completed, and check-in opens 90 days before departure."
+              ]
+            },
+            {
+              "q": "Where can I find the day-to-day itinerary?",
+              "a": [
+                "You'll find a detailed overview of your journey within your booking confirmation."
+              ]
+            },
+            {
+              "q": "What documents do I need on embarkation day?",
+              "a": [
+                "On embarkation day you'll need your reservation confirmation or e-ticket, your passport, a credit card, and a visa if applicable."
+              ]
+            },
+            {
+              "q": "My passport hasn't arrived yet. Can I still check in?",
+              "a": [
+                "Valid documentation is mandatory prior to embarkation. Guests without a valid passport will be denied boarding."
+              ]
+            },
+            {
+              "q": "Is any special documentation required for pregnant guests?",
+              "a": [
+                "We cannot accommodate guests who will be more than 23 weeks and 6 days pregnant at any point during the journey. Guests who are less than 23 weeks and 6 days pregnant throughout the journey must provide a letter from their obstetrician confirming the expected due date, that the pregnancy is low-risk, and that they are fit to travel without immediate access to specialised obstetric or neonatal care.",
+                "If you have already booked and do not meet this requirement, please contact us. We reserve the right to refuse boarding to any guest who appears to be in an advanced state of pregnancy or who does not provide the required medical certificate."
+              ]
+            },
+            {
+              "q": "What is your policy on passports and visas?",
+              "a": [
+                "Passport, visa and health requirements vary by destination and are subject to change. It is the responsibility of each guest, or their travel advisor, to ensure all necessary and valid travel documents are obtained for the journey, including compliance with immigration and health regulations at each port of call. Where an itinerary requires it, please ensure you carry multi-entry visas. Guests without proper documentation will be denied boarding and no refund will be issued.",
+                "Please note that passports must be valid for at least six months beyond the completion date of the journey."
+              ]
+            },
+            {
+              "q": "Do I need travel insurance?",
+              "a": [
+                "We strongly recommend that all guests obtain comprehensive travel insurance from the time of booking through to the completion of the journey, including cover for cancellation, medical assistance and expenses, and loss of or damage to luggage."
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Currency",
+          "items": [
+            {
+              "q": "What is the onboard currency?",
+              "a": [
+                "The onboard currency varies according to the itinerary.",
+                "The following itineraries operate in Euro: Mediterranean & Western Europe; Northern Europe; Iceland & Greenland; Red Sea & Arabian Peninsula; and Grand Journeys between the Mediterranean and the Red Sea & Arabian Peninsula.",
+                "The following itineraries operate in US Dollars: Caribbean & Central America; Alaska; South America & Amazon; Central & North America Pacific Coast; US & Canada East Coast & New England; and Transatlantic Grand Journeys."
+              ]
+            },
+            {
+              "q": "Can I use a different card onboard?",
+              "a": [
+                "Yes. Our hosts will be happy to assist you at Guest Services."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "itinerary": {
+      "eyebrow": "Itinerary",
+      "titleLead": "Day by",
+      "titleHighlight": "day",
+      "nights": "{{count}} nights",
+      "ports": "{{count}} ports",
+      "pending": "The detailed day-by-day itinerary for this sailing is being finalised.",
+      "day": "Day {{n}}",
+      "dayRange": "Day {{from}}–{{to}}",
+      "embarkation": "Embarkation",
+      "departure": "Departure",
+      "arrival": "Arrival",
+      "disembarkation": "Disembarkation",
+      "atSea": "At Sea",
+      "inPort": "In port",
+      "overnight": "Overnight",
+      "overnightNote": "Overnight in port",
+      "moreAbout": "More about {{port}}",
+      "dateLabel": "Date",
+      "country": "Country"
+    },
+    "suites": {
+      "eyebrow": "Suites",
+      "titleLead": "Choose your",
+      "titleHighlight": "suite"
+    },
+    "card": {
+      "destinationAlt": "Destination",
+      "sailingFallback": "Sailing",
+      "seeAll": "see all {{count}} destinations"
+    },
+    "destinationsModal": {
+      "title": "Destinations",
+      "stops": "{{count}} destinations",
+      "day": "Day {{day}}"
+    },
+    "carousel": {
+      "eyebrow": "Itinerary",
+      "heading": "Day by day",
+      "nightsCount": "{{count}} nights",
+      "portsCount": "{{count}} ports",
+      "prevDay": "Previous day",
+      "nextDay": "Next day",
+      "atSea": "At Sea",
+      "dayLabel": "Day",
+      "arrival": "Arr",
+      "departure": "Dep",
+      "overnight": "Overnight in port"
+    },
+    "subnav": {
+      "from": "from",
+      "reserve": "Reserve this journey",
+      "sectionsAria": "Journey sections"
+    }
+  },
+  "onboard": {
+    "eyebrow": "On Board",
+    "heading": "Onboard Experiences",
+    "desc": {
+      "sakura": "Pan-Asian cooking around the day's best catch, in a calm, light-filled room.",
+      "filRouge": "An all-day European table where breakfast slips easily into a long dinner.",
+      "marbleGrill": "Steak and seafood over an open flame, with the horizon as the backdrop.",
+      "anthology": "A rotating guest-chef table that changes with each season at sea.",
+      "medYachtClub": "Relaxed Mediterranean plates by the pool, glass in hand, feet up.",
+      "emporium": "A bright marketplace for grazing — small plates, fresh bakes, all day.",
+      "cremaCafe": "Coffee, pastries and quiet corners for the slow part of the morning.",
+      "inSuiteDining": "Anything from a midnight bowl of pasta to dinner on your own terrace.",
+      "dining": "Distinct rooms and rhythms — every table aboard is included.",
+      "maltWhiskyBar": "A hushed bar of rare malts and unhurried evenings.",
+      "exploraLounge": "A sociable room for an afternoon drink and easy conversation.",
+      "journeysLounge": "The ship's living room — sofas, sea views and a slow pace.",
+      "theJourney": "A panoramic perch to watch the wake and the changing light.",
+      "skyLounge": "Sweeping views from the top of the ship, day into night.",
+      "nautilusLounge": "An intimate lounge tucked away for a quieter moment.",
+      "lobby": "The calm heart of the ship, where every day begins and ends.",
+      "atollPool": "An open-air pool with room to swim, lounge and watch the sea go by.",
+      "oceanWellnessSpa": "Thermal waters and treatments paced to the slow tempo of the sea.",
+      "thermalSuite": "Heated stone, steam and quiet — the long way to unwind.",
+      "relaxationPool": "A warm pool to float in, with nothing on the schedule.",
+      "treatmentRooms": "Treatments drawn from traditions around the world.",
+      "spaLounge": "A still space to rest between thermal rooms and the horizon.",
+      "fitnessCentre": "A light-filled studio for moving with the horizon in view.",
+      "soundWellness": "Guided sound sessions to settle the mind against the waves.",
+      "cartier": "The maison's fine jewellery and watches, at sea.",
+      "chopard": "Haute jewellery and timepieces in an intimate boutique."
+    }
+  },
+  "booking": {
+    "progress": {
+      "guests": "Guests",
+      "suite": "Suite",
+      "details": "Details",
+      "review": "Review",
+      "ariaLabel": "Booking steps"
+    },
+    "nav": {
+      "back": "Back",
+      "next": "Next"
+    },
+    "layout": {
+      "backToJourney": "Back to journey"
+    },
+    "counter": {
+      "decrease": "Decrease {{label}}",
+      "increase": "Increase {{label}}"
+    },
+    "passengers": {
+      "eyebrow": "Step 1",
+      "title": "Who is travelling",
+      "intro": "Choose how many guests will share the suite. You can refine the details and pick your suite next.",
+      "groupAriaLabel": "Number of guests",
+      "adults": "Adults",
+      "children": "Children",
+      "infants": "Infants",
+      "fewer": "Fewer {{label}}",
+      "more": "More {{label}}",
+      "guestCountLabel_one": "guest",
+      "guestCountLabel_other": "guests",
+      "perSuite": "up to {{max}} per suite"
+    },
+    "guest": {
+      "eyebrow": "Step 3",
+      "title": "Guest details",
+      "intro": "Tell us who will be travelling. The lead guest receives the booking confirmation and must be 18 or older.",
+      "roleLead": "Lead guest",
+      "roleAdult": "Adult {{n}}",
+      "roleChild": "Child {{n}}",
+      "roleInfant": "Infant {{n}}",
+      "bookingContact": "Booking contact",
+      "fieldTitle": "Title",
+      "titleOption": {
+        "Mr": "Mr",
+        "Mrs": "Mrs",
+        "Ms": "Ms",
+        "Dr": "Dr"
+      },
+      "fieldFirstName": "First name *",
+      "fieldLastName": "Last name *",
+      "fieldEmail": "Email *",
+      "fieldCode": "Code",
+      "fieldPhone": "Phone",
+      "fieldNationality": "Nationality",
+      "fieldDateOfBirth": "Date of birth",
+      "consent": "I agree these details are accurate and to the booking terms.",
+      "saving": "Saving…",
+      "errorConsent": "Please confirm to continue.",
+      "errorFirstName": "First name is required.",
+      "errorLastName": "Last name is required.",
+      "errorEmail": "A valid email is required.",
+      "errorDobRequired": "Date of birth is required.",
+      "errorLeadAge": "The lead guest must be at least 18 years old.",
+      "errorAdultAge": "Adults must be 18 or older.",
+      "errorChildAge": "Children must be aged 2–17.",
+      "errorInfantAge": "Infants must be under 2."
+    },
+    "review": {
+      "eyebrow": "Step 4",
+      "title": "Review & reserve",
+      "suite": "Suite",
+      "fare": "Fare",
+      "guests": "Guests",
+      "perPersonFare": "Per-person fare",
+      "adultSolo": "Adult · solo",
+      "adultsCount": "Adults · {{count}}",
+      "childrenCount": "Children · {{count}}",
+      "infantsCount": "Infants · {{count}}",
+      "free": "Free",
+      "soloFare": "Solo fare",
+      "indicativeTotal": "Indicative total",
+      "messageLabel": "Anything we should know?",
+      "optional": "(optional)",
+      "messagePlaceholder": "Special occasions, dietary needs, accessibility, preferred dates…",
+      "consent": "I understand this is a reservation request — availability and the final price are confirmed by the Explora team. I agree to the booking terms.",
+      "consentWithDeposit": "I understand this is a reservation request — availability and the final price are confirmed by the Explora team, and a refundable deposit secures my place. I agree to the booking terms.",
+      "errorSubmit": "Sorry — we couldn’t submit your request just now. Please try again.",
+      "helper": "No live availability is taken from this request; our team confirms within 24 hours. Use the <cta>Request to book</cta> button on the right to continue.",
+      "submitting": "Submitting…",
+      "requestToBook": "Request to book"
+    },
+    "confirmation": {
+      "notFoundTitle": "We couldn't find that request",
+      "notFoundBody": "The booking reference may be incorrect or the request is no longer available.",
+      "browseMore": "Browse more journeys",
+      "eyebrow": "Booking request",
+      "thankYou": "Thank you",
+      "reference": "Reference",
+      "depositReceived": "Deposit received — {{amount}} paid",
+      "requestSent": "Request sent",
+      "yourSelection": "Your selection",
+      "suite": "Suite",
+      "fare": "Fare",
+      "guests": "Guests",
+      "indicativeTotal": "Indicative total",
+      "deposit": "Deposit",
+      "reassurance": "Our cruise team will confirm availability and the final price, then arrange the balance. You'll hear from us shortly.",
+      "returnHome": "Return home"
+    },
+    "suiteCard": {
+      "prevPhoto": "Previous photo",
+      "nextPhoto": "Next photo",
+      "viewPhoto": "View photo {{number}}",
+      "eyebrow": "Suite",
+      "from": "From",
+      "perGuest": "per guest",
+      "suiteSelectedAria": "{{name}} selected",
+      "viewOptionsAria": "View options for {{name}}",
+      "selected": "Selected",
+      "viewOptions": "View Options"
+    },
+    "suiteModal": {
+      "tabOverview": "Overview",
+      "tabFullDetails": "Full Details",
+      "tabInclusions": "Inclusions",
+      "guestCount_one": "{{count}} guest",
+      "guestCount_other": "{{count}} guests",
+      "viewDetails": "View Details",
+      "dialogDescription": "Photos, features and inclusions for the {{name}}, with the total for your party and a button to select it.",
+      "prevPhoto": "Previous photo",
+      "nextPhoto": "Next photo",
+      "viewPhoto": "View photo {{number}}",
+      "close": "Close",
+      "eyebrow": "Suite",
+      "suiteFeatures": "Suite Features",
+      "inclusions": "Inclusions",
+      "total": "Total {{price}}",
+      "selected": "Selected",
+      "select": "Select",
+      "overview": "{{name}} is an ocean-front retreat with floor-to-ceiling windows, a private terrace and a calm, residential interior — designed to feel like a home at sea.",
+      "overviewLarger": "{{name}} is an ocean-front retreat with floor-to-ceiling windows, a private terrace and a calm, residential interior — designed to feel like a home at sea. As one of the larger residences, it separates the living and sleeping areas, so there is room to relax, dine and rest without ever feeling on top of one another.",
+      "featureItems": [
+        "Floor-to-ceiling windows framing the ocean",
+        "Private furnished terrace",
+        "Separate lounge area with a coffee and dining table",
+        "Walk-in wardrobe and dressing area",
+        "In-suite welcome champagne on arrival",
+        "Private refrigerated minibar, replenished daily",
+        "Espresso machine, kettle and a selection of teas",
+        "Complimentary refillable water bottle for each guest",
+        "Binoculars to enjoy the passing coastline",
+        "In-room safe sized for laptops and tablets",
+        "Twice-daily housekeeping and evening turndown"
+      ],
+      "inclusionItems": [
+        "Sea view",
+        "Floor-to-ceiling windows",
+        "Lounge area",
+        "Private refrigerated minibar",
+        "Private sun terrace",
+        "Heated bathroom floors"
+      ]
+    },
+    "fare": {
+      "back": "Back",
+      "next": "Next",
+      "step": "Step 2",
+      "title": "Choose your suite",
+      "faresBeingFinalised": "Fares for this sailing are being finalised.",
+      "noFitMessage": "The suites on this sailing sleep fewer than {{count}} guests. <reduceLink>Reduce the number of guests</reduceLink> to continue."
+    },
+    "package": {
+      "adults_one": "{{count}} adult",
+      "adults_other": "{{count}} adults",
+      "children_one": "{{count}} child",
+      "children_other": "{{count}} children",
+      "infants_one": "{{count}} infant",
+      "infants_other": "{{count}} infants",
+      "shipLaunched": "{{name}} · Launched {{year}}",
+      "nights_one": "{{count}} night",
+      "nights_other": "{{count}} nights",
+      "yourJourney": "Your journey",
+      "to": "to",
+      "yourSailing": "Your sailing",
+      "guests": "Guests",
+      "indicativeTotal": "Indicative total",
+      "back": "Back",
+      "next": "Next",
+      "allSuitesInclude": "All Suites Include",
+      "amenitySeaView": "Sea View",
+      "amenityWindows": "Floor-to-ceiling Windows",
+      "amenityLounge": "Lounge Area",
+      "amenityMinibar": "Private refrigerated minibar",
+      "amenityTerrace": "Private sun terrace",
+      "amenityHeatedFloor": "Heated bathroom floors",
+      "yourDestinations": "Your destinations",
+      "yourShip": "Your ship",
+      "yourSuite": "Your suite",
+      "atSea": "At Sea",
+      "day": "Day {{numeral}}",
+      "overnight": "· Overnight",
+      "arrive": "Arr",
+      "depart": "Dep"
+    }
+  },
+  "journeyDetail": {
+    "notFoundTitle": "Sailing not found",
+    "notFoundBody": "This journey may no longer be available.",
+    "backToSearch": "Back to search",
+    "errorTitle": "Couldn't load this sailing",
+    "breadcrumbFallback": "Journey",
+    "sailingFallback": "Sailing",
+    "toConnector": "to",
+    "heroMeta": "{{ship}} · {{nights}} nights · {{date}}",
+    "overview": "Overview",
+    "nightsAtSea": "{{nights}} nights at sea",
+    "overviewBody": "A {{nights}}-night sailing aboard {{ship}}, departing {{port}} on {{date}}.",
+    "fields": {
+      "departs": "Departs",
+      "arrives": "Arrives",
+      "departurePort": "Departure port",
+      "returnPort": "Return port",
+      "nights": "Nights",
+      "from": "From",
+      "to": "To",
+      "inService": "In service",
+      "guests": "Guests",
+      "decks": "Decks"
+    },
+    "lowestFrom": "Lowest from",
+    "perGuestNote": "Per guest, double occupancy. Fares vary by suite.",
+    "reserveCta": "Reserve this journey",
+    "seeAllFares": "See all fares",
+    "suiteEyebrow": "Suite",
+    "exploreSuite": "Explore suite",
+    "exploreThe": "Explore the {{name}}",
+    "shipBlurb": "Designed to feel like your own private yacht — intimate suites, generous ocean views, and an unhurried rhythm at sea.",
+    "reserveEyebrow": "Reserve",
+    "contactTitle": "Speak to a journey specialist",
+    "contactBody": "Personalised quotes, suite recommendations, and seasonal offers — by phone or email.",
+    "requestQuote": "Request a quote",
+    "suiteDialogDescription": "Photos, features and inclusions for the {{name}}."
+  },
+  "filters": {
+    "sort": {
+      "priceAsc": "Price · low to high",
+      "priceDesc": "Price · high to low",
+      "date": "Departure date",
+      "nightsAsc": "Length · short to long",
+      "nightsDesc": "Length · long to short"
+    },
+    "anyShip": "Any ship",
+    "anyPort": "Any port",
+    "anyMonth": "Any month",
+    "allDestinations": "All destinations",
+    "destination": "Destination",
+    "departureMonth": "Departure month",
+    "departurePort": "Departure port",
+    "ship": "Ship",
+    "sortBy": "Sort by",
+    "lengthNights": "Length (nights)",
+    "priceFrom": "Price from (€)",
+    "reset": "Reset",
+    "month": {
+      "unavailable": "No sailings for this selection"
+    }
+  },
+  "find": {
+    "title": "Find a <em>journey</em>",
+    "subtitle": "Filter by destination, ship, departure, port, length or price — every sailing across the fleet, refreshed daily.",
+    "error": {
+      "loading": "Sailings are loading for the first time — check back shortly.",
+      "generic": "Could not load sailings. Try refreshing the page."
+    },
+    "results": {
+      "eyebrow": "Sailings",
+      "showing": "Showing",
+      "sailing": "sailing",
+      "sailings": "sailings",
+      "range": "Showing {{from}}–{{to}} of {{total}}"
+    },
+    "empty": "No sailings match these filters. Try widening the date range, price or another destination.",
+    "pagination": {
+      "label": "Pagination"
+    }
+  },
+  "suiteIndex": {
+    "lightbox": {
+      "viewer": "Suite photo viewer",
+      "close": "Close viewer",
+      "previous": "Previous photo",
+      "next": "Next photo",
+      "photoAlt": "Suite photograph {{current}} of {{total}}"
+    },
+    "spec": {
+      "sleeps": "Sleeps {{count}}",
+      "oceanFront": "Ocean-front",
+      "sizeLabel": "Living space"
+    },
+    "features": {
+      "eyebrow": "In every suite",
+      "headingLead": "The {{name}},",
+      "headingEmphasis": "in detail",
+      "photoAlt": "Inside a {{name}} suite"
+    },
+    "gallery": {
+      "heading": "Inside the {{name}}",
+      "openPhoto": "Open photo {{current}} of {{total}}",
+      "count": "{{count}} photographs",
+      "featuredAlt": "The {{name}} suite, featured photograph",
+      "tileAlt": "The {{name}} suite, photograph {{current}}"
+    },
+    "breadcrumbHome": "Home",
+    "breadcrumbSuites": "Our Suites",
+    "heroEyebrow": "Our Suites",
+    "heroImageAlt": "{{label}} suite aboard",
+    "overview": {
+      "heroLabel": "Our Suites"
+    },
+    "collection": {
+      "eyebrow": "The collection",
+      "titleLead": "Eleven ways to",
+      "highlight": "live at sea"
+    },
+    "subNav": {
+      "ariaLabel": "Suite sections",
+      "overview": "Overview",
+      "gallery": "Gallery",
+      "features": "Suite features",
+      "otherSuites": "Other suites"
+    },
+    "otherSuites": {
+      "eyebrow": "Explore more",
+      "titleLead": "Other",
+      "highlight": "suites"
+    },
+    "include": {
+      "eyebrow": "In every suite",
+      "headingLead": "All suites",
+      "headingEmphasis": "include"
+    },
+    "cta": {
+      "eyebrow": "Your home at sea awaits",
+      "heading": "Find a journey",
+      "body": "Browse every sailing across the fleet, or let a journey specialist match a suite to your voyage.",
+      "viewJourneys": "View the journeys",
+      "speakSpecialist": "Speak to a specialist"
+    }
+  }
+}

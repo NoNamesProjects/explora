@@ -1,0 +1,42 @@
+# Node / build
+node_modules/
+dist/
+.vite/
+.cache/
+
+# Compiled server handlers emitted by `npm run build:server` (source of truth is api/**/*.ts)
+api/**/*.js
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Runtime logs (nightly ingest, launchd)
+logs/
+
+# Client-uploaded media (admin CMS). User content, not source. On cPanel this
+# dir persists on disk; EXCLUDE it from the deploy rsync so a redeploy can't
+# wipe client images (see DEPLOY-CPANEL.md).
+uploads/
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+
+# Vercel
+.vercel/
+
+# Local data (flatfile cache, scratch)
+.local/
+*.xls
+*.xlsx
+!docs/sample-*.xls
+lib/explora-flatfile/probe-output.json
+
+# Test output
+coverage/
+.nyc_output/

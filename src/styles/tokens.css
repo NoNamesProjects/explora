@@ -1,0 +1,58 @@
+/* Brand-accurate palette — hex codes confirmed from the live
+   explorajourneys.com stylesheet on 2026-05-24. Partner may refine
+   when the official brand guidelines arrive. */
+
+:root {
+  /* Surfaces */
+  --bg-cream:         #F4F2EF;  /* live: --color-cream */
+  --bg-cream-soft:    #FAF8F4;
+  --bg-cream-strong:  #EDE9E4;  /* live: --color-cream-200 */
+  --bg-divider:       #CBC4BC;  /* live: warm beige divider */
+  --bg-inverse:       #0C2340;
+
+  /* Ink */
+  --ink:           #0C2340;  /* live: --color-navy */
+  --ink-soft:      #243953;  /* live: --color-blue-gray */
+  --ink-muted:     #4F6573;
+  --ink-quiet:     #73859F;  /* live: --color-mist-blue */
+  --ink-on-dark:   #F4F2EF;
+
+  /* Accents */
+  --accent-ocean:     #243953;
+  --accent-mist:      #73859F;  /* live: --color-mist-blue */
+  --accent-patina:    #3D6963;
+  --accent-gold:      #96845E;  /* live: --color-muted-gold */
+  --accent-gold-soft: #B5A684;
+  --accent-tan:       #866D4B;  /* live: --color-tan */
+
+  /* States */
+  --focus-ring: #73859F;
+  --error: #B43F3F;
+
+  /* Type system */
+  --font-serif: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 240ms;
+  --dur-base: 480ms;
+  --dur-slow: 900ms;
+
+  /* Layout */
+  --container-page: 1280px;
+  --container-prose: 720px;
+  --container-editorial: 880px;
+  --container-wide: 1440px;
+  --header-height: 80px;
+  --section-y: clamp(4rem, 9vw, 9rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+  }
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Local nightly Explora flatfile ingest — runs scripts/nightly-ingest.sh at
+  00:00 Athens (machine local time). Reference copy; the active copy lives at
+  ~/Library/LaunchAgents/com.explora.nightly-ingest.plist (paths are
+  machine-specific to this Mac).
+
+  Manage:
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.explora.nightly-ingest.plist
+    launchctl kickstart -k gui/$(id -u)/com.explora.nightly-ingest    # run now
+    launchctl bootout   gui/$(id -u)/com.explora.nightly-ingest       # remove
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.explora.nightly-ingest</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/kostasanastasopoulos/Desktop/nonameproject/Explora/scripts/nightly-ingest.sh</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>0</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/Users/kostasanastasopoulos/Desktop/nonameproject/Explora/logs/launchd.nightly-ingest.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/kostasanastasopoulos/Desktop/nonameproject/Explora/logs/launchd.nightly-ingest.log</string>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>

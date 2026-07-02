@@ -1,0 +1,158 @@
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--ink);
+    background-color: var(--bg-cream);
+    font-size: 17px;
+    line-height: 1.65;
+    font-weight: 400;
+  }
+
+  /* The ONE intentional italic: a gentle Cormorant-italic highlight word inside
+     an otherwise-upright display heading. Wrap the noun phrase in <em>. */
+  h1 em, h2 em, .display em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    /* Garamond is a classical serif — it wants relaxed (~0) tracking, not the
+       tight negative tracking Bodoni used. */
+    letter-spacing: 0;
+    /* Inherit the section's text colour: navy on light surfaces (body is ink),
+       cream on dark `text-cream` sections — avoids navy headings on dark photos. */
+    color: inherit;
+  }
+
+  /* English headers are set UNIFORMLY BOLD — no upright/italic two-tone. The
+     accent <em> drops its italic and matches the bold heading weight, so e.g.
+     "Featured voyages" reads as one solid bold line instead of "Featured" +
+     italic "voyages". Greek keeps the lighter italic-accent treatment above
+     (it reads well as-is); this is scoped via the synced <html lang>. */
+  html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] h3,
+  html[lang="en"] h4, html[lang="en"] h5, html[lang="en"] h6 {
+    font-weight: 700;
+  }
+  html[lang="en"] h1 em, html[lang="en"] h2 em, html[lang="en"] h3 em,
+  html[lang="en"] h4 em, html[lang="en"] h5 em, html[lang="en"] h6 em,
+  html[lang="en"] .display em {
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  ::selection {
+    background: var(--accent-ocean);
+    color: var(--bg-cream-soft);
+  }
+}
+
+@layer components {
+  /* Eyebrow label — UPPERCASE small-caps tracked */
+  .eyebrow {
+    @apply text-eyebrow uppercase tracking-eyebrow text-ink-600;
+    font-weight: 500;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-7 py-3.5 text-xs font-medium uppercase tracking-ui transition-all duration-300 ease-out-soft;
+    border-radius: 1px;
+    letter-spacing: 0.14em;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-cream;
+  }
+  .btn-primary:hover {
+    background-color: var(--ink-soft);
+  }
+  .btn-secondary {
+    @apply btn border border-ink text-ink bg-transparent;
+  }
+  .btn-secondary:hover {
+    @apply bg-ink text-cream;
+  }
+  .btn-ghost-light {
+    @apply btn border border-cream text-cream bg-transparent;
+  }
+  .btn-ghost-light:hover {
+    @apply bg-cream text-ink;
+  }
+
+  /* Underline-grows-from-left link */
+  .link-underline {
+    @apply relative inline-flex items-center gap-2 uppercase tracking-ui text-xs font-medium;
+    letter-spacing: 0.14em;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transform-origin: left;
+    transform: scaleX(0.22);
+    transition: transform var(--dur-base) var(--ease-soft);
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Pill */
+  .pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-ink/25 px-5 py-2 text-xs transition-colors duration-300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .pill:hover {
+    @apply border-ink bg-ink text-cream;
+  }
+
+  /* Subtle film grain overlay */
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: theme('backgroundImage.grain');
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+}
+
+/* Admin console motion (right-drawer + overlay fade). */
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
