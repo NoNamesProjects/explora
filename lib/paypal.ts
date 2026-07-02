@@ -35,7 +35,9 @@ export async function createOrder(amount: number, currency: string, ref: string)
   const token = await accessToken();
   const res = await fetch(`${base()}/v2/checkout/orders`, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    // Idempotency: PayPal dedupes on this id, so a retried create for the same
+    // ref returns the same order instead of minting a duplicate.
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', 'PayPal-Request-Id': `explora-create-${ref}` },
     body: JSON.stringify({
       intent: 'CAPTURE',
       purchase_units: [{
@@ -50,18 +52,41 @@ export async function createOrder(amount: number, currency: string, ref: string)
   return data.id;
 }
 
-/** Capture an approved order; returns the capture id + status. */
-export async function captureOrder(orderId: string): Promise<{ captureId: string; status: string }> {
+export interface CaptureResult {
+  captureId: string;
+  status: string;
+  amountValue: string | null;
+  currencyCode: string | null;
+}
+
+/**
+ * Capture an approved order. Returns the capture STRICTLY from PayPal's
+ * response (`purchase_units[0].payments.captures[0]`) — id, status, amount,
+ * currency. Never fabricates a capture: if PayPal doesn't return one, this
+ * throws so the caller cannot mark a booking paid on a non-capture.
+ */
+export async function captureOrder(orderId: string, ref: string): Promise<CaptureResult> {
   const token = await accessToken();
   const res = await fetch(`${base()}/v2/checkout/orders/${encodeURIComponent(orderId)}/capture`, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    // Idempotency: a retried capture for the same ref is deduped by PayPal.
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', 'PayPal-Request-Id': `explora-capture-${ref}` },
   });
   const data = (await res.json()) as {
     status?: string;
-    purchase_units?: Array<{ payments?: { captures?: Array<{ id?: string; status?: string }> } }>;
+    purchase_units?: Array<{
+      payments?: { captures?: Array<{ id?: string; status?: string; amount?: { value?: string; currency_code?: string } }> };
+    }>;
   };
   if (!res.ok) throw new Error(`paypal capture ${res.status}: ${JSON.stringify(data).slice(0, 200)}`);
   const cap = data.purchase_units?.[0]?.payments?.captures?.[0];
-  return { captureId: cap?.id ?? orderId, status: cap?.status ?? data.status ?? 'COMPLETED' };
+  if (!cap?.id || !cap.status) {
+    throw new Error(`paypal capture ${orderId}: no capture in response (order status ${data.status ?? 'unknown'})`);
+  }
+  return {
+    captureId: cap.id,
+    status: cap.status,
+    amountValue: cap.amount?.value ?? null,
+    currencyCode: cap.amount?.currency_code ?? null,
+  };
 }
