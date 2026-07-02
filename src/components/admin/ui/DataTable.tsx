@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export interface Column<Row> {
   key: string;
@@ -18,6 +19,7 @@ export function DataTable<Row>({
   loading?: boolean;
   empty?: ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="overflow-x-auto rounded-card border border-cream-300">
       <table className="w-full border-collapse text-sm">
@@ -49,7 +51,7 @@ export function DataTable<Row>({
               ? (
                 <tr>
                   <td colSpan={columns.length} className="px-3 py-10 text-center text-sm text-ink-500">
-                    {empty ?? 'Nothing here yet.'}
+                    {empty ?? t('admin.common.noData', { defaultValue: 'Nothing here yet.' })}
                   </td>
                 </tr>
               )
@@ -57,8 +59,22 @@ export function DataTable<Row>({
                   <tr
                     key={getRowId(row)}
                     onClick={onRowClick ? () => onRowClick(row) : undefined}
+                    onKeyDown={
+                      onRowClick
+                        ? (e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              onRowClick(row);
+                            }
+                          }
+                        : undefined
+                    }
+                    tabIndex={onRowClick ? 0 : undefined}
+                    role={onRowClick ? 'button' : undefined}
                     className={`border-b border-cream-200 last:border-0 ${
-                      onRowClick ? 'cursor-pointer transition-colors hover:bg-cream-100' : ''
+                      onRowClick
+                        ? 'cursor-pointer transition-colors hover:bg-cream-100 focus:outline-none focus-visible:bg-cream-100 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-ink'
+                        : ''
                     }`}
                   >
                     {columns.map((c) => (

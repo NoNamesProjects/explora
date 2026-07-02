@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { IngestPhase } from './useIngestRun';
 import { Spinner } from '@/components/admin/ui/Spinner';
 
@@ -8,8 +9,11 @@ const REFRESH_ICON = (
 );
 
 export function RefreshButton({ phase, busy, onStart }: { phase: IngestPhase; busy: boolean; onStart: () => void }) {
+  const { t } = useTranslation();
   const label =
-    phase === 'starting' ? 'Starting…' : phase === 'running' ? 'Refreshing…' : 'Refresh prices now';
+    phase === 'starting' ? t('admin.dataIngest.button.starting', { defaultValue: 'Starting…' })
+      : phase === 'running' ? t('admin.dataIngest.button.refreshing', { defaultValue: 'Refreshing…' })
+      : t('admin.dataIngest.button.refresh', { defaultValue: 'Refresh prices now' });
   return (
     <button type="button" onClick={onStart} disabled={busy} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60">
       {busy ? <Spinner className="text-cream" /> : REFRESH_ICON}

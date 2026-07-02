@@ -1,9 +1,10 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /** A right-anchored sheet built on Radix Dialog (controlled). */
 export function Drawer({
-  open, onOpenChange, title, subtitle, children, footer,
+  open, onOpenChange, title, subtitle, children, footer, description,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -11,7 +12,9 @@ export function Drawer({
   subtitle?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
+  description?: string;
 }) {
+  const { t } = useTranslation();
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
@@ -23,12 +26,13 @@ export function Drawer({
           <header className="flex items-start justify-between gap-4 border-b border-cream-300 px-6 py-4">
             <div className="min-w-0">
               <Dialog.Title className="truncate text-base font-medium text-ink">{title}</Dialog.Title>
+              <Dialog.Description className="sr-only">{description ?? t('admin.common.detailPanel', { defaultValue: 'Detail panel' })}</Dialog.Description>
               {subtitle && <div className="mt-0.5 text-xs text-ink-500">{subtitle}</div>}
             </div>
             <Dialog.Close
               className="rounded p-1.5 text-ink-500 transition-colors hover:bg-cream-200 hover:text-ink
                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
-              aria-label="Close"
+              aria-label={t('admin.common.close', { defaultValue: 'Close' })}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
                 <path d="M18 6 6 18M6 6l12 12" />

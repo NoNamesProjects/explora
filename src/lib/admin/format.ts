@@ -1,17 +1,21 @@
-// Small, locale-fixed formatters for the (English-only) admin console.
+// Locale-aware formatters for the admin console. Dates/money follow the active
+// i18next language; relative-time words come from the admin.common.* catalog.
+// These are called during render, and react-i18next repaints on languageChanged,
+// so each render re-formats in the current language.
+import i18n from '@/i18n';
 
-const EUR = new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+const numLocale = () => (i18n.language?.startsWith('el') ? 'el-GR' : 'en-IE');
+const dateLocale = () => (i18n.language?.startsWith('el') ? 'el-GR' : 'en-GB');
 
 export function money(value: number | null | undefined, currency = 'EUR'): string {
   if (value == null) return '—';
-  if (currency === 'EUR') return EUR.format(value);
-  return new Intl.NumberFormat('en-IE', { style: 'currency', currency, maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat(numLocale(), { style: 'currency', currency, maximumFractionDigits: 0 }).format(value);
 }
 
 export function dateShort(iso: string | null | undefined): string {
   if (!iso) return '—';
   const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? '—' : d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  return Number.isNaN(d.getTime()) ? '—' : d.toLocaleDateString(dateLocale(), { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
 export function dateTime(iso: string | null | undefined): string {
@@ -19,21 +23,21 @@ export function dateTime(iso: string | null | undefined): string {
   const d = new Date(iso);
   return Number.isNaN(d.getTime())
     ? '—'
-    : d.toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    : d.toLocaleString(dateLocale(), { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
 export function relativeTime(iso: string | null | undefined): string {
-  if (!iso) return 'never';
+  if (!iso) return i18n.t('admin.common.never', { defaultValue: 'never' });
   const then = new Date(iso).getTime();
   if (Number.isNaN(then)) return '—';
   const s = Math.round((Date.now() - then) / 1000);
-  if (s < 60) return 'just now';
+  if (s < 60) return i18n.t('admin.common.justNow', { defaultValue: 'just now' });
   const m = Math.round(s / 60);
-  if (m < 60) return `${m}m ago`;
+  if (m < 60) return i18n.t('admin.common.minutesAgo', { count: m, defaultValue: '{{count}}m ago' });
   const h = Math.round(m / 60);
-  if (h < 24) return `${h}h ago`;
+  if (h < 24) return i18n.t('admin.common.hoursAgo', { count: h, defaultValue: '{{count}}h ago' });
   const d = Math.round(h / 24);
-  if (d < 30) return `${d}d ago`;
+  if (d < 30) return i18n.t('admin.common.daysAgo', { count: d, defaultValue: '{{count}}d ago' });
   return dateShort(iso);
 }
 

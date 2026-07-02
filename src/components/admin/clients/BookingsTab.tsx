@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { adminApi } from '@/lib/admin/api';
 import type { BookingListRow } from '@/lib/admin/types';
 import { money, dateShort } from '@/lib/admin/format';
@@ -13,6 +14,7 @@ import { useToast } from '@/components/admin/ui/Toast';
 const PAGE_SIZE = 25;
 
 export function BookingsTab() {
+  const { t } = useTranslation();
   const toast = useToast();
   const [status, setStatus] = useState('');
   const [q, setQ] = useState('');
@@ -35,24 +37,24 @@ export function BookingsTab() {
     adminApi.bookings
       .list({ status: status || undefined, q: debouncedQ || undefined, page, pageSize: PAGE_SIZE })
       .then((r) => { if (alive) { setRows(r.items); setTotal(r.total); } })
-      .catch(() => { if (alive) toast.push({ tone: 'error', message: 'Could not load bookings.' }); })
+      .catch(() => { if (alive) toast.push({ tone: 'error', message: t('admin.clients.bookings.loadError', { defaultValue: 'Could not load bookings.' }) }); })
       .finally(() => { if (alive) setLoading(false); });
     return () => { alive = false; };
-  }, [status, debouncedQ, page, reloadKey, toast]);
+  }, [status, debouncedQ, page, reloadKey, toast, t]);
 
   const columns: Column<BookingListRow>[] = useMemo(() => [
-    { key: 'ref', header: 'Ref', render: (r) => <span className="font-medium text-ink">{r.ref}</span> },
-    { key: 'lead', header: 'Lead', render: (r) => (
+    { key: 'ref', header: t('admin.clients.bookings.columns.ref', { defaultValue: 'Ref' }), render: (r) => <span className="font-medium text-ink">{r.ref}</span> },
+    { key: 'lead', header: t('admin.clients.bookings.columns.lead', { defaultValue: 'Lead' }), render: (r) => (
       <div><div className="text-ink">{r.leadName ?? '—'}</div><div className="text-xs text-ink-500">{r.leadEmail ?? ''}</div></div>
     ) },
-    { key: 'journeyId', header: 'Journey', render: (r) => <span className="text-xs text-ink-600">{r.journeyId ?? '—'}</span> },
-    { key: 'guestCount', header: 'Guests', align: 'right', render: (r) => r.guestCount },
-    { key: 'indicativeTotal', header: 'Total', align: 'right', render: (r) => money(r.indicativeTotal, r.currency) },
-    { key: 'status', header: 'Status', render: (r) => <StatusBadge kind="booking" value={r.status} /> },
-    { key: 'createdAt', header: 'Created', align: 'right', render: (r) => <span className="text-xs text-ink-600">{dateShort(r.createdAt)}</span> },
-  ], []);
+    { key: 'journeyId', header: t('admin.clients.bookings.columns.journey', { defaultValue: 'Journey' }), render: (r) => <span className="text-xs text-ink-600">{r.journeyId ?? '—'}</span> },
+    { key: 'guestCount', header: t('admin.clients.bookings.columns.guests', { defaultValue: 'Guests' }), align: 'right', render: (r) => r.guestCount },
+    { key: 'indicativeTotal', header: t('admin.clients.bookings.columns.total', { defaultValue: 'Total' }), align: 'right', render: (r) => money(r.indicativeTotal, r.currency) },
+    { key: 'status', header: t('admin.clients.bookings.columns.status', { defaultValue: 'Status' }), render: (r) => <StatusBadge kind="booking" value={r.status} /> },
+    { key: 'createdAt', header: t('admin.clients.bookings.columns.created', { defaultValue: 'Created' }), align: 'right', render: (r) => <span className="text-xs text-ink-600">{dateShort(r.createdAt)}</span> },
+  ], [t]);
 
-  const statusOptions = [{ value: '', label: 'All statuses' }, ...BOOKING_STATUS_ORDER.map((s) => ({ value: s, label: BOOKING_STATUS[s].label }))];
+  const statusOptions = [{ value: '', label: t('admin.clients.bookings.allStatuses', { defaultValue: 'All statuses' }) }, ...BOOKING_STATUS_ORDER.map((s) => ({ value: s, label: t(`admin.status.booking.${s}`, { defaultValue: BOOKING_STATUS[s].label }) }))];
 
   return (
     <div>
@@ -62,13 +64,13 @@ export function BookingsTab() {
             href={adminApi.bookings.exportUrl({ status: status || undefined, q: debouncedQ || undefined })}
             className="rounded border border-cream-300 px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-cream-200"
           >
-            Export CSV
+            {t('admin.clients.bookings.exportCsv', { defaultValue: 'Export CSV' })}
           </a>
         }
       >
-        <SelectInput ariaLabel="Filter by status" value={status} onChange={(v) => { setStatus(v); setPage(1); }} options={statusOptions} />
-        <SearchInput value={q} onChange={setQ} placeholder="Search ref, name, email…" />
-        <span className="text-xs text-ink-500 tabular-nums">{loading ? '…' : `${total} result${total === 1 ? '' : 's'}`}</span>
+        <SelectInput ariaLabel={t('admin.clients.bookings.filterByStatus', { defaultValue: 'Filter by status' })} value={status} onChange={(v) => { setStatus(v); setPage(1); }} options={statusOptions} />
+        <SearchInput value={q} onChange={setQ} placeholder={t('admin.clients.bookings.searchPlaceholder', { defaultValue: 'Search ref, name, email…' })} />
+        <span className="text-xs text-ink-500 tabular-nums">{loading ? '…' : t('admin.clients.bookings.resultCount', { defaultValue: '{{count}} results', count: total })}</span>
       </Toolbar>
 
       <DataTable
@@ -77,7 +79,7 @@ export function BookingsTab() {
         getRowId={(r) => r.id}
         onRowClick={(r) => setOpenId(r.id)}
         loading={loading}
-        empty="No bookings match these filters."
+        empty={t('admin.clients.bookings.empty', { defaultValue: 'No bookings match these filters.' })}
       />
       <Pagination page={page} pageSize={PAGE_SIZE} total={total} onPage={setPage} />
 

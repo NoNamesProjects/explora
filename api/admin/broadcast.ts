@@ -82,11 +82,16 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
   // ── GET: latest campaign (poll) ────────────────────────────────────────────
   if (req.method === 'GET') {
-    const rows = (await sql`
-      SELECT id, subject, recipients, sent_count, failed_count, status, notes, started_at, finished_at
-      FROM email_campaigns ORDER BY started_at DESC LIMIT 1
-    `) as CampaignRow[];
-    return sendJson(res, 200, { ok: true, campaign: rows[0] ? mapCampaign(rows[0]) : null });
+    try {
+      const rows = (await sql`
+        SELECT id, subject, recipients, sent_count, failed_count, status, notes, started_at, finished_at
+        FROM email_campaigns ORDER BY started_at DESC LIMIT 1
+      `) as CampaignRow[];
+      return sendJson(res, 200, { ok: true, campaign: rows[0] ? mapCampaign(rows[0]) : null });
+    } catch (err) {
+      console.error('[admin/broadcast] poll', err instanceof Error ? err.message : err);
+      return sendJson(res, 500, { ok: false, error: 'server-error' });
+    }
   }
 
   if (req.method !== 'POST') {

@@ -101,11 +101,16 @@ export async function destroySession(token: string): Promise<void> {
   await sql`DELETE FROM admin_sessions WHERE token = ${token}`;
 }
 
-/** Opportunistic cleanup; called fire-and-forget on login. */
+/**
+ * Opportunistic cleanup; called fire-and-forget on login. Prunes both expired
+ * sessions and stale login-attempt rows (the throttle only ever reads the last
+ * 15 minutes, so anything older is dead weight that would otherwise grow forever).
+ */
 export async function sweepExpiredSessions(): Promise<void> {
   try {
     const sql = db();
     await sql`DELETE FROM admin_sessions WHERE expires_at < now()`;
+    await sql`DELETE FROM admin_login_attempts WHERE created_at < now() - interval '30 days'`;
   } catch {
     /* best effort */
   }
@@ -127,13 +132,22 @@ export function parseCookies(req: IncomingMessage): Record<string, string> {
   return out;
 }
 
-function isHttps(req: IncomingMessage): boolean {
-  // PUBLIC_BASE_URL is operator-controlled truth: an https site always gets
-  // Secure cookies, even behind a proxy that doesn't set x-forwarded-proto
-  // (which is client-suppliable and was the only signal before).
+// `Secure` should be set whenever the request is effectively HTTPS. Signals, in
+// order of trust:
+//  1. COOKIE_SECURE=1 — operator override for proxies (a misconfigured cPanel/
+//     Passenger vhost) that drop the x-forwarded-proto header entirely.
+//  2. PUBLIC_BASE_URL https:// — operator-controlled truth, independent of the
+//     client-suppliable proto header.
+//  3. request transport — x-forwarded-proto / x-forwarded-ssl / socket.encrypted.
+function cookieSecure(req?: IncomingMessage): boolean {
+  const forced = process.env.COOKIE_SECURE;
+  if (forced === '1' || forced === 'true') return true;
   if ((process.env.PUBLIC_BASE_URL || '').trim().toLowerCase().startsWith('https://')) return true;
+  if (!req) return false;
   const proto = (req.headers['x-forwarded-proto'] as string | undefined)?.split(',')[0]?.trim();
-  return proto === 'https' || (req.socket as { encrypted?: boolean } | undefined)?.encrypted === true;
+  const fwdSsl = (req.headers['x-forwarded-ssl'] as string | undefined)?.trim();
+  return proto === 'https' || fwdSsl === 'on'
+    || (req.socket as { encrypted?: boolean } | undefined)?.encrypted === true;
 }
 
 export function setSessionCookie(
@@ -149,12 +163,14 @@ export function setSessionCookie(
     'SameSite=Lax',
     `Max-Age=${maxAgeSec}`,
   ];
-  if (isHttps(req)) parts.push('Secure');
+  if (cookieSecure(req)) parts.push('Secure');
   res.setHeader('Set-Cookie', parts.join('; '));
 }
 
-export function clearSessionCookie(res: ServerResponse): void {
-  res.setHeader('Set-Cookie', `${COOKIE_NAME}=; HttpOnly; Path=/; SameSite=Lax; Max-Age=0`);
+export function clearSessionCookie(res: ServerResponse, req?: IncomingMessage): void {
+  const parts = [`${COOKIE_NAME}=`, 'HttpOnly', 'Path=/', 'SameSite=Lax', 'Max-Age=0'];
+  if (cookieSecure(req)) parts.push('Secure');
+  res.setHeader('Set-Cookie', parts.join('; '));
 }
 
 // ── The gate ──────────────────────────────────────────────────────────────────

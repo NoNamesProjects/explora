@@ -19,10 +19,15 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   const user = await requireAuth(req, res, 'agent');
   if (!user) return;
   if (req.method !== 'GET') { res.statusCode = 405; res.setHeader('Allow', 'GET'); return res.end(); }
-  const sql = db();
-  const rows = (await sql`
-    SELECT run_id, started_at, finished_at, journey_count, fare_count, failed_files, status, notes
-    FROM ingest_runs ORDER BY started_at DESC LIMIT 1
-  `) as RunRow[];
-  return sendJson(res, 200, { ok: true, run: rows[0] ? mapRun(rows[0]) : null });
+  try {
+    const sql = db();
+    const rows = (await sql`
+      SELECT run_id, started_at, finished_at, journey_count, fare_count, failed_files, status, notes
+      FROM ingest_runs ORDER BY started_at DESC LIMIT 1
+    `) as RunRow[];
+    return sendJson(res, 200, { ok: true, run: rows[0] ? mapRun(rows[0]) : null });
+  } catch (err) {
+    console.error('[admin/ingest/status]', err instanceof Error ? err.message : err);
+    return sendJson(res, 500, { ok: false, error: 'server-error' });
+  }
 }

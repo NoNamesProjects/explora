@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { registryByPage, type EditableField } from '@/content/registry';
 import { isRichDoc, type RichDoc } from '@/lib/content/types';
 import { contentApi, localesFor, type ContentValues } from '@/lib/admin/contentApi';
@@ -79,6 +80,7 @@ const inputCls =
   'h-9 w-full rounded border border-cream-300 bg-white px-2.5 text-sm text-ink placeholder:text-ink-400 focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink';
 
 export function Content() {
+  const { t } = useTranslation();
   const toast = useToast();
   const byPage = useMemo(() => registryByPage(), []);
   const pages = useMemo(() => Object.keys(byPage), [byPage]);
@@ -105,7 +107,7 @@ export function Content() {
         setDirty({});
         if (!activePage) setActivePage([...new Set(r.fields.map((f) => f.page))][0] ?? '');
       })
-      .catch(() => toast.push({ tone: 'error', message: 'Could not load the content registry.' }))
+      .catch(() => toast.push({ tone: 'error', message: t('admin.content.loadError', { defaultValue: 'Could not load the content registry.' }) }))
       .finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -150,9 +152,9 @@ export function Content() {
         for (const loc of localesFor(field)) delete next[bkey(field.key, loc)];
         return next;
       });
-      toast.push({ tone: 'success', message: 'Draft saved.' });
+      toast.push({ tone: 'success', message: t('admin.content.draftSaved', { defaultValue: 'Draft saved.' }) });
     } catch {
-      toast.push({ tone: 'error', message: 'Could not save this field.' });
+      toast.push({ tone: 'error', message: t('admin.content.saveFieldFailed', { defaultValue: 'Could not save this field.' }) });
     } finally {
       setSavingKey(null);
     }
@@ -168,9 +170,9 @@ export function Content() {
         next[field.key] = rec;
         return next;
       });
-      toast.push({ tone: 'success', message: 'Published live.' });
+      toast.push({ tone: 'success', message: t('admin.content.publishedLive', { defaultValue: 'Published live.' }) });
     } catch {
-      toast.push({ tone: 'error', message: 'Could not publish this field.' });
+      toast.push({ tone: 'error', message: t('admin.content.publishFieldFailed', { defaultValue: 'Could not publish this field.' }) });
     }
   }
 
@@ -186,9 +188,9 @@ export function Content() {
         }
         return next;
       });
-      toast.push({ tone: 'success', message: `Published ${r.published} change${r.published === 1 ? '' : 's'}.` });
+      toast.push({ tone: 'success', message: t('admin.content.publishedCountToast', { defaultValue: 'Published {{count}} changes.', count: r.published }) });
     } catch {
-      toast.push({ tone: 'error', message: 'Could not publish.' });
+      toast.push({ tone: 'error', message: t('admin.content.publishFailed', { defaultValue: 'Could not publish.' }) });
     } finally {
       setPublishingAll(false);
     }
@@ -211,9 +213,9 @@ export function Content() {
         delete next[bkey(field.key, locale)];
         return next;
       });
-      toast.push({ tone: 'success', message: 'Draft discarded.' });
+      toast.push({ tone: 'success', message: t('admin.content.draftDiscarded', { defaultValue: 'Draft discarded.' }) });
     } catch {
-      toast.push({ tone: 'error', message: 'Could not discard the draft.' });
+      toast.push({ tone: 'error', message: t('admin.content.discardFailed', { defaultValue: 'Could not discard the draft.' }) });
     }
   }
 
@@ -235,9 +237,9 @@ export function Content() {
         for (const loc of localesFor(field)) delete next[bkey(field.key, loc)];
         return next;
       });
-      toast.push({ tone: 'success', message: 'Reverted to the code default.' });
+      toast.push({ tone: 'success', message: t('admin.content.reverted', { defaultValue: 'Reverted to the code default.' }) });
     } catch {
-      toast.push({ tone: 'error', message: 'Could not revert this field.' });
+      toast.push({ tone: 'error', message: t('admin.content.revertFailed', { defaultValue: 'Could not revert this field.' }) });
     }
   }
 
@@ -253,7 +255,7 @@ export function Content() {
             value={String(v ?? '')}
             onChange={(e) => setBuf(field.key, locale, e.target.value)}
             rows={4}
-            placeholder="One item per line…"
+            placeholder={t('admin.content.listPlaceholder', { defaultValue: 'One item per line…' })}
             className={areaCls}
           />
         );
@@ -275,7 +277,7 @@ export function Content() {
                 type="text"
                 value={img.src}
                 onChange={(e) => setBuf(field.key, locale, { ...img, src: e.target.value })}
-                placeholder="/photos/… or https://…"
+                placeholder={t('admin.content.srcPlaceholder', { defaultValue: '/photos/… or https://…' })}
                 className={inputCls}
               />
               <button
@@ -283,14 +285,14 @@ export function Content() {
                 onClick={() => setMediaTarget({ field, locale })}
                 className="h-9 shrink-0 rounded border border-cream-300 bg-white px-3 text-xs font-medium text-ink transition-colors hover:bg-cream-200"
               >
-                Choose image
+                {t('admin.content.chooseImage', { defaultValue: 'Choose image' })}
               </button>
             </div>
             <input
               type="text"
               value={img.alt ?? ''}
               onChange={(e) => setBuf(field.key, locale, { ...img, alt: e.target.value || undefined })}
-              placeholder="Alt text (optional)"
+              placeholder={t('admin.content.altPlaceholder', { defaultValue: 'Alt text (optional)' })}
               className={inputCls}
             />
             {img.src && (
@@ -309,7 +311,7 @@ export function Content() {
             value={String(v ?? '')}
             onChange={(e) => setBuf(field.key, locale, e.target.value)}
             rows={2}
-            placeholder="Using the code default…"
+            placeholder={t('admin.content.plainPlaceholder', { defaultValue: 'Using the code default…' })}
             className={areaCls}
           />
         );
@@ -327,7 +329,7 @@ export function Content() {
               <span className="text-sm font-medium text-ink">{field.label}</span>
               {fieldHasDraft(field) && (
                 <span className="rounded-full bg-accent-gold/15 px-2 py-0.5 text-[0.65rem] uppercase tracking-eyebrow text-accent-tan">
-                  Draft
+                  {t('admin.content.draftBadge', { defaultValue: 'Draft' })}
                 </span>
               )}
               <span className="text-[0.65rem] uppercase tracking-eyebrow text-ink-400">{field.type}</span>
@@ -342,7 +344,7 @@ export function Content() {
               disabled={saving || !fieldDirty(field)}
               className="btn-primary px-3 py-1.5 text-[0.7rem] disabled:opacity-40"
             >
-              {saving ? <Spinner className="text-cream" /> : 'Save'}
+              {saving ? <Spinner className="text-cream" /> : t('admin.content.save', { defaultValue: 'Save' })}
             </button>
             <button
               type="button"
@@ -350,7 +352,7 @@ export function Content() {
               disabled={!fieldHasDraft(field)}
               className="rounded border border-accent-patina/50 px-3 py-1.5 text-[0.7rem] font-medium text-accent-patina transition-colors hover:bg-accent-patina/10 disabled:opacity-40"
             >
-              Publish
+              {t('admin.content.publish', { defaultValue: 'Publish' })}
             </button>
             <button
               type="button"
@@ -358,7 +360,7 @@ export function Content() {
               disabled={!fieldHasOverride(field)}
               className="rounded border border-cream-300 px-3 py-1.5 text-[0.7rem] font-medium text-ink-500 transition-colors hover:bg-cream-200 disabled:opacity-40"
             >
-              Revert to default
+              {t('admin.content.revertToDefault', { defaultValue: 'Revert to default' })}
             </button>
           </div>
         </div>
@@ -375,7 +377,7 @@ export function Content() {
                       onClick={() => discardLocale(field, loc)}
                       className="text-[0.65rem] uppercase tracking-eyebrow text-ink-400 hover:text-ink"
                     >
-                      Discard draft
+                      {t('admin.content.discardDraft', { defaultValue: 'Discard draft' })}
                     </button>
                   )}
                 </div>
@@ -393,9 +395,9 @@ export function Content() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-medium text-ink">Content</h1>
+        <h1 className="font-serif text-[1.75rem] leading-tight text-ink">{t('admin.content.title', { defaultValue: 'Content' })}</h1>
         <p className="mt-1 text-sm text-ink-500">
-          Edit the site's copy, imagery and structured text. Changes are saved as drafts, then go live when you publish.
+          {t('admin.content.subtitle', { defaultValue: "Edit the site's copy, imagery and structured text. Changes are saved as drafts, then go live when you publish." })}
         </p>
       </div>
 
@@ -403,7 +405,7 @@ export function Content() {
         right={
           <div className="flex items-center gap-3">
             <span className="text-xs text-ink-500">
-              {pendingCount === 0 ? 'No pending drafts' : `${pendingCount} pending draft${pendingCount === 1 ? '' : 's'}`}
+              {pendingCount === 0 ? t('admin.content.noPendingDrafts', { defaultValue: 'No pending drafts' }) : t('admin.content.pendingDraftCount', { defaultValue: '{{count}} pending drafts', count: pendingCount })}
             </span>
             <button
               type="button"
@@ -411,7 +413,7 @@ export function Content() {
               disabled={publishingAll || pendingCount === 0}
               className="btn-primary px-4 py-1.5 text-xs disabled:opacity-40"
             >
-              {publishingAll ? <Spinner className="text-cream" /> : 'Publish all'}
+              {publishingAll ? <Spinner className="text-cream" /> : t('admin.content.publishAll', { defaultValue: 'Publish all' })}
             </button>
           </div>
         }
@@ -432,7 +434,7 @@ export function Content() {
 
       {loading ? (
         <div className="flex items-center gap-2 py-16 text-sm text-ink-500">
-          <Spinner /> Loading…
+          <Spinner /> {t('admin.content.loading', { defaultValue: 'Loading…' })}
         </div>
       ) : (
         <div className="space-y-6">
@@ -460,9 +462,9 @@ export function Content() {
         onOpenChange={(o) => {
           if (!o) setConfirmRevert(null);
         }}
-        title="Revert to the code default?"
-        body="This removes the saved override (draft and published) for this field, so the site falls back to the value shipped in code. This cannot be undone here."
-        confirmLabel="Revert"
+        title={t('admin.content.revertConfirmTitle', { defaultValue: 'Revert to the code default?' })}
+        body={t('admin.content.revertConfirmBody', { defaultValue: 'This removes the saved override (draft and published) for this field, so the site falls back to the value shipped in code. This cannot be undone here.' })}
+        confirmLabel={t('admin.content.revert', { defaultValue: 'Revert' })}
         tone="danger"
         onConfirm={() => {
           const f = confirmRevert;

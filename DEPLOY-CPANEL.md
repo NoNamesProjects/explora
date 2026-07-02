@@ -51,11 +51,16 @@ The dual-driver needs **zero code change** — point `DATABASE_URL` at Neon and 
 # After creating a Neon project and pasting its URL into .env.local (or export it):
 npm run migrate        # applies lib/db/schema.sql (works via the driver; no psql needed)
 npm run ingest         # auth → download flatfiles → parse → upsert (~8s, 753 journeys)
+# Seed the FIRST admin operator — without this, /admin has no login and is unreachable:
+npm run admin:user -- --email you@yourco.com --name "Your Name" --role admin --password 'a-strong-password'
 # sanity:
 curl -s "$FRONTEND_URL/api/journeys" | python3 -c "import sys,json;print(json.load(sys.stdin)['total'])"
 ```
 
 Run this from your machine against the Neon URL; the deployed app then just reads it.
+The `admin:user` script hashes the password with scrypt and writes the `admin_users` row directly
+(`--list` to see accounts; re-running with an existing email resets that user's password / re-enables them).
+`/admin` is server-gated end-to-end, so it stays locked until this first account exists.
 
 ### 2b. Create the first admin login (required — there is no public signup)
 
