@@ -176,7 +176,6 @@ CREATE TABLE IF NOT EXISTS booking_requests (
   updated_at        timestamptz NOT NULL DEFAULT now()
 );
 
-CREATE INDEX IF NOT EXISTS booking_requests_ref_idx ON booking_requests (ref);
 CREATE INDEX IF NOT EXISTS booking_requests_journey_idx ON booking_requests (journey_id);
 
 -- ── Admin / operations dashboard ───────────────────────────────────────────
@@ -329,3 +328,26 @@ CREATE INDEX IF NOT EXISTS email_campaigns_started_idx ON email_campaigns (start
 -- Newsletter double-opt-in needs an unsubscribe token (confirm_token already exists).
 ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS unsubscribe_token text;
 ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS locale text;
+
+-- ── 2026-07-02 backend-hardening pass ──────────────────────────────────────
+
+-- PayPal capture claim: set atomically (WHERE status='pending' … RETURNING) so
+-- two concurrent capture calls can never both reach PayPal for the same ref.
+ALTER TABLE booking_requests ADD COLUMN IF NOT EXISTS capture_started_at timestamptz;
+
+-- Cross-process ingest lock. runIngest INSERTs its 'running' audit row before
+-- doing any work; this partial unique index makes that INSERT an atomic claim
+-- on both drivers (advisory locks don't exist over the Neon HTTP driver).
+-- Sweep any stale claim first so the index can always be created.
+UPDATE ingest_runs SET status = 'failed', finished_at = now(), notes = COALESCE(notes, 'stale — swept by migration') WHERE status = 'running' AND started_at < now() - interval '30 minutes';
+
+UPDATE ingest_runs SET status = 'failed', finished_at = now(), notes = COALESCE(notes, 'duplicate running row — swept by migration') WHERE status = 'running' AND run_id NOT IN (SELECT run_id FROM ingest_runs WHERE status = 'running' ORDER BY started_at DESC LIMIT 1);
+
+CREATE UNIQUE INDEX IF NOT EXISTS ingest_runs_one_running_idx ON ingest_runs (status) WHERE status = 'running';
+
+-- Token lookups on the double-opt-in path (confirm/unsubscribe are WHERE token=$1).
+CREATE INDEX IF NOT EXISTS newsletter_confirm_token_idx ON newsletter_subscribers (confirm_token) WHERE confirm_token IS NOT NULL;
+CREATE INDEX IF NOT EXISTS newsletter_unsub_token_idx ON newsletter_subscribers (unsubscribe_token) WHERE unsubscribe_token IS NOT NULL;
+
+-- ref already has a UNIQUE constraint (implicit index) — the extra index was redundant.
+DROP INDEX IF EXISTS booking_requests_ref_idx;
