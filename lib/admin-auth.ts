@@ -101,11 +101,16 @@ export async function destroySession(token: string): Promise<void> {
   await sql`DELETE FROM admin_sessions WHERE token = ${token}`;
 }
 
-/** Opportunistic cleanup; called fire-and-forget on login. */
+/**
+ * Opportunistic cleanup; called fire-and-forget on login. Prunes both expired
+ * sessions and stale login-attempt rows (the throttle only ever reads the last
+ * 15 minutes, so anything older is dead weight that would otherwise grow forever).
+ */
 export async function sweepExpiredSessions(): Promise<void> {
   try {
     const sql = db();
     await sql`DELETE FROM admin_sessions WHERE expires_at < now()`;
+    await sql`DELETE FROM admin_login_attempts WHERE created_at < now() - interval '30 days'`;
   } catch {
     /* best effort */
   }
@@ -127,9 +132,17 @@ export function parseCookies(req: IncomingMessage): Record<string, string> {
   return out;
 }
 
-function isHttps(req: IncomingMessage): boolean {
+// `Secure` should be set whenever the request arrives over HTTPS. Some proxies
+// (a misconfigured cPanel/Passenger vhost) forget to forward the proto header —
+// set COOKIE_SECURE=1 in that environment to force it on regardless.
+function cookieSecure(req?: IncomingMessage): boolean {
+  const forced = process.env.COOKIE_SECURE;
+  if (forced === '1' || forced === 'true') return true;
+  if (!req) return false;
   const proto = (req.headers['x-forwarded-proto'] as string | undefined)?.split(',')[0]?.trim();
-  return proto === 'https' || (req.socket as { encrypted?: boolean } | undefined)?.encrypted === true;
+  const fwdSsl = (req.headers['x-forwarded-ssl'] as string | undefined)?.trim();
+  return proto === 'https' || fwdSsl === 'on'
+    || (req.socket as { encrypted?: boolean } | undefined)?.encrypted === true;
 }
 
 export function setSessionCookie(
@@ -145,12 +158,14 @@ export function setSessionCookie(
     'SameSite=Lax',
     `Max-Age=${maxAgeSec}`,
   ];
-  if (isHttps(req)) parts.push('Secure');
+  if (cookieSecure(req)) parts.push('Secure');
   res.setHeader('Set-Cookie', parts.join('; '));
 }
 
-export function clearSessionCookie(res: ServerResponse): void {
-  res.setHeader('Set-Cookie', `${COOKIE_NAME}=; HttpOnly; Path=/; SameSite=Lax; Max-Age=0`);
+export function clearSessionCookie(res: ServerResponse, req?: IncomingMessage): void {
+  const parts = [`${COOKIE_NAME}=`, 'HttpOnly', 'Path=/', 'SameSite=Lax', 'Max-Age=0'];
+  if (cookieSecure(req)) parts.push('Secure');
+  res.setHeader('Set-Cookie', parts.join('; '));
 }
 
 // ── The gate ──────────────────────────────────────────────────────────────────

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { Spinner } from '@/components/admin/ui/Spinner';
 
 interface FormValues { email: string; password: string }
 
 export function AdminLogin() {
+  const { t } = useTranslation();
   const { status, login } = useAdminAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,7 +24,7 @@ export function AdminLogin() {
       await login(values.email.trim(), values.password);
       navigate(from, { replace: true });
     } catch {
-      setError('Email or password is incorrect.');
+      setError(t('admin.login.invalidCredentials', { defaultValue: 'Email or password is incorrect.' }));
     }
   });
 
@@ -31,7 +33,7 @@ export function AdminLogin() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <div className="font-serif text-3xl text-ink">Explora</div>
-          <div className="mt-1 text-eyebrow uppercase tracking-eyebrow text-ink-500">Operations Console</div>
+          <div className="mt-1 text-eyebrow uppercase tracking-eyebrow text-ink-500">{t('admin.login.subtitle', { defaultValue: 'Operations Console' })}</div>
         </div>
         <form
           onSubmit={onSubmit}
@@ -42,7 +44,7 @@ export function AdminLogin() {
               {error}
             </div>
           )}
-          <label className="block text-eyebrow uppercase tracking-eyebrow text-ink-500" htmlFor="email">Email</label>
+          <label className="block text-eyebrow uppercase tracking-eyebrow text-ink-500" htmlFor="email">{t('admin.login.email', { defaultValue: 'Email' })}</label>
           <input
             id="email"
             type="email"
@@ -50,7 +52,7 @@ export function AdminLogin() {
             {...register('email', { required: true })}
             className="mt-1.5 mb-4 h-10 w-full rounded border border-cream-300 bg-white px-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
           />
-          <label className="block text-eyebrow uppercase tracking-eyebrow text-ink-500" htmlFor="password">Password</label>
+          <label className="block text-eyebrow uppercase tracking-eyebrow text-ink-500" htmlFor="password">{t('admin.login.password', { defaultValue: 'Password' })}</label>
           <input
             id="password"
             type="password"
@@ -59,7 +61,7 @@ export function AdminLogin() {
             className="mt-1.5 mb-6 h-10 w-full rounded border border-cream-300 bg-white px-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
           />
           <button type="submit" disabled={isSubmitting} className="btn-primary w-full disabled:opacity-60">
-            {isSubmitting ? <Spinner className="text-cream" /> : 'Sign in'}
+            {isSubmitting ? <Spinner className="text-cream" /> : t('admin.login.signIn', { defaultValue: 'Sign in' })}
           </button>
         </form>
       </div>

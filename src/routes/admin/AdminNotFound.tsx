@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export function AdminNotFound() {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-24 text-center">
       <p className="font-serif text-4xl text-ink">404</p>
-      <p className="text-sm text-ink-500">That admin page doesn’t exist.</p>
-      <Link to="/admin" className="btn-secondary mt-2">Back to overview</Link>
+      <p className="text-sm text-ink-500">{t('admin.notFound.body', { defaultValue: 'That admin page doesn’t exist.' })}</p>
+      <Link to="/admin" className="btn-secondary mt-2">{t('admin.notFound.back', { defaultValue: 'Back to overview' })}</Link>
     </div>
   );
 }

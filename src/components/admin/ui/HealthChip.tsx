@@ -1,4 +1,10 @@
+import { useTranslation } from 'react-i18next';
+
 export function HealthChip({ label, ok, detail }: { label: string; ok: boolean; detail?: string }) {
+  const { t } = useTranslation();
+  const fallback = ok
+    ? t('admin.common.configured', { defaultValue: 'Configured' })
+    : t('admin.common.notConfigured', { defaultValue: 'Not configured' });
   return (
     <div className="flex items-center gap-2.5 rounded-card border border-cream-300 bg-cream-soft px-4 py-3">
       <span
@@ -7,7 +13,7 @@ export function HealthChip({ label, ok, detail }: { label: string; ok: boolean; 
       />
       <div className="min-w-0">
         <div className="text-sm font-medium text-ink">{label}</div>
-        <div className="text-xs text-ink-500">{ok ? (detail ?? 'Configured') : (detail ?? 'Not configured')}</div>
+        <div className="text-xs text-ink-500">{detail ?? fallback}</div>
       </div>
     </div>
   );

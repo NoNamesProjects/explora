@@ -34,7 +34,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         {toasts.map((t) => (
           <div
             key={t.id}
-            role="status"
+            role={t.tone === 'error' ? 'alert' : 'status'}
+            aria-live={t.tone === 'error' ? 'assertive' : 'polite'}
             className={`pointer-events-auto flex items-start gap-3 rounded-card border px-4 py-3 text-sm shadow-2xl
                         motion-safe:animate-fade-up ${TONE[t.tone]}`}
           >

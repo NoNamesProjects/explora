@@ -8,7 +8,8 @@
   ],
   "functions": {
     "api/cron/ingest-flatfiles.ts": { "maxDuration": 300 },
-    "api/admin/ingest/run.ts": { "maxDuration": 300 }
+    "api/admin/ingest/run.ts": { "maxDuration": 300 },
+    "api/admin/broadcast.ts": { "maxDuration": 300 }
   },
   "headers": [
     {

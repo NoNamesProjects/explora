@@ -1,5 +1,9 @@
 /**
- * GET /api/admin/subscribers — newsletter subscriber list (agent-ok).
+ * GET /api/admin/subscribers — newsletter subscriber list (admin-only).
+ *
+ * Admin-gated: the list (and especially ?format=csv) is a bulk export of
+ * subscriber emails + consent/unsubscribe timestamps — GDPR-relevant PII — and
+ * the Subscribers page is itself admin-only in the UI. Keep the two in lockstep.
  *
  * Filters: ?status=confirmed|pending|unsubscribed & ?q= & ?page= & ?pageSize=,
  * plus ?format=csv export. Mirrors api/admin/contacts.ts (paramQuery + toCsv).
@@ -35,7 +39,7 @@ const STATUS_SQL: Record<Status, string> = {
 };
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
-  const user = await requireAuth(req, res, 'agent');
+  const user = await requireAuth(req, res, 'admin');
   if (!user) return;
   if (req.method !== 'GET') { res.statusCode = 405; res.setHeader('Allow', 'GET'); return res.end(); }
 

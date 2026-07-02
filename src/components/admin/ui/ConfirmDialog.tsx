@@ -1,8 +1,9 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export function ConfirmDialog({
-  open, onOpenChange, title, body, confirmLabel = 'Confirm', tone = 'default', onConfirm, busy = false,
+  open, onOpenChange, title, body, confirmLabel, tone = 'default', onConfirm, busy = false,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -13,6 +14,7 @@ export function ConfirmDialog({
   onConfirm: () => void;
   busy?: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
@@ -21,18 +23,18 @@ export function ConfirmDialog({
           <Dialog.Title className="text-base font-medium text-ink">{title}</Dialog.Title>
           {body && <Dialog.Description className="mt-2 text-sm text-ink-500">{body}</Dialog.Description>}
           <div className="mt-6 flex justify-end gap-2">
-            <Dialog.Close className="rounded border border-cream-300 px-4 py-2 text-xs font-medium text-ink transition-colors hover:bg-cream-200">
-              Cancel
+            <Dialog.Close className="rounded border border-cream-300 px-4 py-2 text-xs font-medium text-ink transition-colors hover:bg-cream-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink">
+              {t('admin.common.cancel', { defaultValue: 'Cancel' })}
             </Dialog.Close>
             <button
               type="button"
               disabled={busy}
               onClick={onConfirm}
-              className={`rounded px-4 py-2 text-xs font-medium text-cream transition-colors disabled:opacity-60 ${
-                tone === 'danger' ? 'bg-red-600 hover:bg-red-700' : 'bg-ink hover:bg-ink-soft'
+              className={`rounded px-4 py-2 text-xs font-medium text-cream transition-colors disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 ${
+                tone === 'danger' ? 'bg-red-600 hover:bg-red-700 focus-visible:ring-red-600' : 'bg-ink hover:bg-ink-soft focus-visible:ring-ink'
               }`}
             >
-              {confirmLabel}
+              {confirmLabel ?? t('admin.common.confirm', { defaultValue: 'Confirm' })}
             </button>
           </div>
         </Dialog.Content>

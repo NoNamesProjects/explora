@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as Dialog from '@radix-ui/react-dialog';
 import { ApiError } from '@/lib/api';
 import {
@@ -11,10 +12,6 @@ import { SearchInput, SelectInput } from '@/components/admin/ui/Toolbar';
 const PICK_PAGE_SIZE = 48;
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-const CATEGORY_OPTIONS = [
-  { value: '', label: 'All categories' },
-  ...MEDIA_CATEGORIES.map((c) => ({ value: c, label: cap(c) })),
-];
 
 /**
  * Reusable image picker. Other CMS modules import this to attach an image to a
@@ -27,6 +24,11 @@ export function MediaPicker({
   onOpenChange: (o: boolean) => void;
   onPick: (asset: { url: string; alt?: string }) => void;
 }): JSX.Element {
+  const { t } = useTranslation();
+  const categoryOptions = [
+    { value: '', label: t('admin.media.allCategories', { defaultValue: 'All categories' }) },
+    ...MEDIA_CATEGORIES.map((c) => ({ value: c, label: cap(c) })),
+  ];
   const [items, setItems] = useState<MediaAsset[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -49,11 +51,11 @@ export function MediaPicker({
       const r = await listMedia({ category: category || undefined, q: debouncedQ || undefined, page: 1, pageSize: PICK_PAGE_SIZE });
       setItems(r.items);
     } catch {
-      setError('Could not load the media library.');
+      setError(t('admin.media.pickerLoadError', { defaultValue: 'Could not load the media library.' }));
     } finally {
       setLoading(false);
     }
-  }, [category, debouncedQ]);
+  }, [category, debouncedQ, t]);
 
   // (Re)fetch whenever the picker is open and the filters change.
   useEffect(() => {
@@ -73,8 +75,8 @@ export function MediaPicker({
 
   const doUpload = async (file: File | undefined) => {
     if (!file) return;
-    if (!file.type.startsWith('image/')) { setError('Please choose an image file.'); return; }
-    if (file.size > MAX_UPLOAD_BYTES) { setError('That image is larger than 8 MB.'); return; }
+    if (!file.type.startsWith('image/')) { setError(t('admin.media.chooseImageFile', { defaultValue: 'Please choose an image file.' })); return; }
+    if (file.size > MAX_UPLOAD_BYTES) { setError(t('admin.media.tooLarge', { defaultValue: 'That image is larger than 8 MB.' })); return; }
     setUploading(true);
     setError(null);
     try {
@@ -84,8 +86,8 @@ export function MediaPicker({
     } catch (e) {
       setError(
         e instanceof ApiError && e.message === 'uploads-need-disk-host'
-          ? 'Uploads are disabled on this host (no persistent disk).'
-          : 'Upload failed. Please try again.',
+          ? t('admin.media.uploadsDisabled', { defaultValue: 'Uploads are disabled on this host (no persistent disk).' })
+          : t('admin.media.uploadFailed', { defaultValue: 'Upload failed. Please try again.' }),
       );
     } finally {
       setUploading(false);
@@ -103,15 +105,15 @@ export function MediaPicker({
         >
           <header className="flex items-start justify-between gap-4 border-b border-cream-300 px-6 py-4">
             <div>
-              <Dialog.Title className="text-base font-medium text-ink">Choose an image</Dialog.Title>
+              <Dialog.Title className="text-base font-medium text-ink">{t('admin.media.pickerTitle', { defaultValue: 'Choose an image' })}</Dialog.Title>
               <Dialog.Description className="mt-0.5 text-xs text-ink-500">
-                Pick one from the library, or drop / upload a new image.
+                {t('admin.media.pickerDescription', { defaultValue: 'Pick one from the library, or drop / upload a new image.' })}
               </Dialog.Description>
             </div>
             <Dialog.Close
               className="rounded p-1.5 text-ink-500 transition-colors hover:bg-cream-200 hover:text-ink
                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
-              aria-label="Close"
+              aria-label={t('admin.media.close', { defaultValue: 'Close' })}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
                 <path d="M18 6 6 18M6 6l12 12" />
@@ -120,8 +122,8 @@ export function MediaPicker({
           </header>
 
           <div className="flex flex-wrap items-center gap-2 border-b border-cream-300 px-6 py-3">
-            <SelectInput ariaLabel="Filter by category" value={category} onChange={setCategory} options={CATEGORY_OPTIONS} />
-            <SearchInput value={q} onChange={setQ} placeholder="Search alt text, name…" />
+            <SelectInput ariaLabel={t('admin.media.filterByCategory', { defaultValue: 'Filter by category' })} value={category} onChange={setCategory} options={categoryOptions} />
+            <SearchInput value={q} onChange={setQ} placeholder={t('admin.media.searchPlaceholder', { defaultValue: 'Search alt text, name…' })} />
             <div className="ml-auto">
               <button
                 type="button"
@@ -129,7 +131,7 @@ export function MediaPicker({
                 disabled={uploading}
                 className="btn-primary h-9 py-0 disabled:opacity-60"
               >
-                {uploading ? <Spinner className="text-cream" /> : 'Upload'}
+                {uploading ? <Spinner className="text-cream" /> : t('admin.media.upload', { defaultValue: 'Upload' })}
               </button>
             </div>
           </div>
@@ -146,7 +148,7 @@ export function MediaPicker({
           >
             {dragOver && (
               <div className="pointer-events-none absolute inset-3 z-10 flex items-center justify-center rounded-card border-2 border-dashed border-ink/40 bg-cream/80 text-sm font-medium text-ink">
-                Drop to upload
+                {t('admin.media.dropToUpload', { defaultValue: 'Drop to upload' })}
               </div>
             )}
 
@@ -154,8 +156,8 @@ export function MediaPicker({
               <div className="flex items-center justify-center py-16 text-ink-400"><Spinner /></div>
             ) : items.length === 0 ? (
               <EmptyState
-                title="No images yet"
-                body="Upload your first image, or clear the filters to see everything."
+                title={t('admin.media.emptyTitle', { defaultValue: 'No images yet' })}
+                body={t('admin.media.pickerEmptyBody', { defaultValue: 'Upload your first image, or clear the filters to see everything.' })}
               />
             ) : (
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
@@ -176,7 +178,7 @@ export function MediaPicker({
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       />
                     </div>
-                    <div className="truncate px-2 py-1.5 text-[0.7rem] text-ink-500">{a.category ?? 'uncategorized'}</div>
+                    <div className="truncate px-2 py-1.5 text-[0.7rem] text-ink-500">{a.category ?? t('admin.media.uncategorized', { defaultValue: 'uncategorized' })}</div>
                   </button>
                 ))}
               </div>

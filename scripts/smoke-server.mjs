@@ -62,6 +62,36 @@ const checks = [
   ['POST /api/paypal/create-order', async () => { const r = await get('/api/paypal/create-order', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ ref: 'EXP-NONE' }) }); return r.status !== 500; }],
   ['GET  /api/cron (no bearer)→401', async () => (await get('/api/cron/ingest-flatfiles')).status === 401],
   ['GET  /api/missing → 404',       async () => (await get('/api/nope')).status === 404],
+  // Admin surface: login is reachable + validates, and every gated endpoint (incl.
+  // dynamic segments) is mounted on the Express/cPanel runtime and 401s without a
+  // session. requireAuth runs first in every handler, so an unauth GET → 401 even
+  // on POST-only routes — a uniform "is it wired + gated?" probe across all 3 runtimes.
+  ['POST /api/admin/auth/login (invalid)→400', async () => (await get('/api/admin/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}' })).status === 400],
+  ...[
+    '/api/admin/auth/me',
+    '/api/admin/bookings',
+    '/api/admin/bookings/1',
+    '/api/admin/contacts',
+    '/api/admin/ingest/status',
+    '/api/admin/ingest/history',
+    '/api/admin/ingest/run',
+    '/api/admin/catalog/health',
+    '/api/admin/catalog/journeys',
+    '/api/admin/catalog/fares',
+    '/api/admin/catalog/ships',
+    '/api/admin/catalog/ports',
+    '/api/admin/catalog/pricing/EP01X',
+    '/api/admin/analytics/kpis',
+    '/api/admin/diagnostics',
+    '/api/admin/users',
+    '/api/admin/users/1',
+    '/api/admin/content',
+    '/api/admin/content/publish',
+    '/api/admin/media',
+    '/api/admin/media/1',
+    '/api/admin/subscribers',
+    '/api/admin/broadcast',
+  ].map((p) => [`GET  ${p} (no auth)→401`, async () => (await get(p)).status === 401]),
 ];
 
 let failures = 0;

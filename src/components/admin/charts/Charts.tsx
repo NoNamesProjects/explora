@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export interface Point { label: string; value: number }
 export interface Slice { label: string; value: number; color: string }
@@ -14,8 +15,9 @@ function SrTable({ caption, rows }: { caption: string; rows: Array<[string, stri
 
 /** Area line chart for a time series. */
 export function LineChart({ points, height = 160, format = (n: number) => String(n) }: { points: Point[]; height?: number; format?: (n: number) => string }) {
+  const { t } = useTranslation();
   const gid = useId();
-  if (points.length === 0) return <p className="py-8 text-center text-sm text-ink-500">No data in this window.</p>;
+  if (points.length === 0) return <p className="py-8 text-center text-sm text-ink-500">{t('admin.insights.charts.noDataWindow', { defaultValue: 'No data in this window.' })}</p>;
   const W = 600, H = height, pad = 8;
   const max = Math.max(1, ...points.map((p) => p.value));
   const stepX = points.length > 1 ? (W - pad * 2) / (points.length - 1) : 0;
@@ -25,7 +27,7 @@ export function LineChart({ points, height = 160, format = (n: number) => String
   const area = `${line} L ${x(points.length - 1).toFixed(1)} ${H - pad} L ${x(0).toFixed(1)} ${H - pad} Z`;
   return (
     <div>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Bookings over time" preserveAspectRatio="none">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={t('admin.insights.charts.bookingsOverTime', { defaultValue: 'Bookings over time' })} preserveAspectRatio="none">
         <defs>
           <linearGradient id={`g-${gid}`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#96845E" stopOpacity="0.28" />
@@ -37,17 +39,18 @@ export function LineChart({ points, height = 160, format = (n: number) => String
       </svg>
       <div className="mt-1 flex justify-between text-[0.65rem] text-ink-400">
         <span>{points[0].label}</span>
-        <span>peak {format(max)}</span>
+        <span>{t('admin.insights.charts.peak', { defaultValue: 'peak' })} {format(max)}</span>
         <span>{points[points.length - 1].label}</span>
       </div>
-      <SrTable caption="Bookings over time" rows={points.map((p) => [p.label, p.value])} />
+      <SrTable caption={t('admin.insights.charts.bookingsOverTime', { defaultValue: 'Bookings over time' })} rows={points.map((p) => [p.label, p.value])} />
     </div>
   );
 }
 
 /** Horizontal bars — good for labelled categories (top journeys). */
 export function BarChart({ points, format = (n: number) => String(n) }: { points: Point[]; format?: (n: number) => string }) {
-  if (points.length === 0) return <p className="py-8 text-center text-sm text-ink-500">No data.</p>;
+  const { t } = useTranslation();
+  if (points.length === 0) return <p className="py-8 text-center text-sm text-ink-500">{t('admin.insights.charts.noData', { defaultValue: 'No data.' })}</p>;
   const max = Math.max(1, ...points.map((p) => p.value));
   return (
     <div>
@@ -62,20 +65,21 @@ export function BarChart({ points, format = (n: number) => String(n) }: { points
           </li>
         ))}
       </ul>
-      <SrTable caption="Top categories" rows={points.map((p) => [p.label, p.value])} />
+      <SrTable caption={t('admin.insights.charts.topCategories', { defaultValue: 'Top categories' })} rows={points.map((p) => [p.label, p.value])} />
     </div>
   );
 }
 
 /** Donut for a small distribution (booking status). */
 export function Donut({ slices }: { slices: Slice[] }) {
+  const { t } = useTranslation();
   const total = slices.reduce((s, x) => s + x.value, 0);
-  if (total === 0) return <p className="py-8 text-center text-sm text-ink-500">No data.</p>;
+  if (total === 0) return <p className="py-8 text-center text-sm text-ink-500">{t('admin.insights.charts.noData', { defaultValue: 'No data.' })}</p>;
   const R = 60, C = 2 * Math.PI * R;
   let offset = 0;
   return (
     <div className="flex items-center gap-6">
-      <svg viewBox="0 0 160 160" className="h-36 w-36 -rotate-90" role="img" aria-label="Booking status distribution">
+      <svg viewBox="0 0 160 160" className="h-36 w-36 -rotate-90" role="img" aria-label={t('admin.insights.charts.bookingStatusDistribution', { defaultValue: 'Booking status distribution' })}>
         <circle cx="80" cy="80" r={R} fill="none" stroke="#EDE9E4" strokeWidth="18" />
         {slices.map((s, i) => {
           const len = (s.value / total) * C;
@@ -96,7 +100,7 @@ export function Donut({ slices }: { slices: Slice[] }) {
           </li>
         ))}
       </ul>
-      <SrTable caption="Booking status distribution" rows={slices.map((s) => [s.label, s.value])} />
+      <SrTable caption={t('admin.insights.charts.bookingStatusDistribution', { defaultValue: 'Booking status distribution' })} rows={slices.map((s) => [s.label, s.value])} />
     </div>
   );
 }

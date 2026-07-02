@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 
 export interface NavItem {
   to: string;
+  /** i18n key (admin.nav.*), resolved with t() where the item is rendered. */
   label: string;
   end?: boolean;
   adminOnly?: boolean;
@@ -15,13 +16,13 @@ const I = (d: string) => (
 );
 
 export const NAV_ITEMS: NavItem[] = [
-  { to: '/admin', end: true, label: 'Overview', icon: I('M3 12l9-9 9 9|M5 10v10h14V10') },
-  { to: '/admin/clients', label: 'Clients', icon: I('M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2|M9 7a4 4 0 1 0 0 .01|M22 21v-2a4 4 0 0 0-3-3.87') },
-  { to: '/admin/catalog', label: 'Catalog', icon: I('M4 19.5A2.5 2.5 0 0 1 6.5 17H20|M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z') },
-  { to: '/admin/insights', label: 'Insights', icon: I('M3 3v18h18|M7 14l3-3 3 3 4-5') },
-  { to: '/admin/content', label: 'Content', adminOnly: true, icon: I('M12 20h9|M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z') },
-  { to: '/admin/media', label: 'Media', adminOnly: true, icon: I('M3 5h18v14H3z|M3 15l5-5 4 4 3-3 6 6') },
-  { to: '/admin/subscribers', label: 'Subscribers', adminOnly: true, icon: I('M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z|M22 6l-10 7L2 6') },
-  { to: '/admin/data', label: 'Refresh prices', adminOnly: true, icon: I('M23 4v6h-6|M1 20v-6h6|M3.51 9a9 9 0 0 1 14.85-3.36L23 10|M1 14l4.64 4.36A9 9 0 0 0 20.49 15') },
-  { to: '/admin/users', label: 'Users', adminOnly: true, icon: I('M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2|M9 7a4 4 0 1 0 0 .01|M23 21v-2a4 4 0 0 0-3-3.87|M16 3.13a4 4 0 0 1 0 7.75') },
+  { to: '/admin', end: true, label: 'admin.nav.overview', icon: I('M3 12l9-9 9 9|M5 10v10h14V10') },
+  { to: '/admin/clients', label: 'admin.nav.clients', icon: I('M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2|M9 7a4 4 0 1 0 0 .01|M22 21v-2a4 4 0 0 0-3-3.87') },
+  { to: '/admin/catalog', label: 'admin.nav.catalog', icon: I('M4 19.5A2.5 2.5 0 0 1 6.5 17H20|M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z') },
+  { to: '/admin/insights', label: 'admin.nav.insights', icon: I('M3 3v18h18|M7 14l3-3 3 3 4-5') },
+  { to: '/admin/content', label: 'admin.nav.content', adminOnly: true, icon: I('M12 20h9|M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z') },
+  { to: '/admin/media', label: 'admin.nav.media', adminOnly: true, icon: I('M3 5h18v14H3z|M3 15l5-5 4 4 3-3 6 6') },
+  { to: '/admin/subscribers', label: 'admin.nav.subscribers', adminOnly: true, icon: I('M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z|M22 6l-10 7L2 6') },
+  { to: '/admin/data', label: 'admin.nav.dataIngest', adminOnly: true, icon: I('M23 4v6h-6|M1 20v-6h6|M3.51 9a9 9 0 0 1 14.85-3.36L23 10|M1 14l4.64 4.36A9 9 0 0 0 20.49 15') },
+  { to: '/admin/users', label: 'admin.nav.users', adminOnly: true, icon: I('M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2|M9 7a4 4 0 1 0 0 .01|M23 21v-2a4 4 0 0 0-3-3.87|M16 3.13a4 4 0 0 1 0 7.75') },
 ];

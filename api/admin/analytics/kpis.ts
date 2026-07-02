@@ -13,6 +13,11 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   const now = new Date();
   const to = q.get('to') ? new Date(q.get('to')!) : new Date(now.getTime() + 86_400_000);
   const from = q.get('from') ? new Date(q.get('from')!) : new Date(now.getTime() - 90 * 86_400_000);
+  // A malformed ?from/?to yields an Invalid Date whose toISOString() throws a
+  // RangeError — validate up front and return a clean 400 rather than a 500.
+  if (Number.isNaN(from.getTime()) || Number.isNaN(to.getTime())) {
+    return sendJson(res, 400, { ok: false, error: 'bad-date' });
+  }
   const win = [from.toISOString(), to.toISOString()];
 
   try {
