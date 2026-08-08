@@ -359,3 +359,106 @@ CREATE INDEX IF NOT EXISTS newsletter_unsub_token_idx ON newsletter_subscribers 
 
 -- ref already has a UNIQUE constraint (implicit index) — the extra index was redundant.
 DROP INDEX IF EXISTS booking_requests_ref_idx;
+
+-- ══ 2026-08-04 · CMS page-builder (Tier B) ═════════════════════════════════
+-- site_content (above) is Tier A: flat, always-present leaf fields, one row per
+-- (key, locale). It cannot express ORDER or EXISTENCE, so it can never model
+-- "add / delete / reorder a section". These tables are Tier B: an ordered list
+-- of section INSTANCES per page, plus the entities (ships / destinations) whose
+-- detail pages are assembled from them. The two tiers coexist — a page migrates
+-- to Tier B only when it needs restructuring, everything else stays on Tier A.
+--
+-- Field VALUES live inside the jsonb config; their SHAPE is validated
+-- server-side against src/content/sectionTypes.ts (the write allowlist, same
+-- role CONTENT_REGISTRY plays for site_content). section_type / kind are
+-- deliberately NOT DB enums: a new type is a code change, never a migration.
+
+-- Admin-manageable "things" that own a detail page. Replaces the closed
+-- RegionKey / ShipCode TS unions that are duplicated across 5-7 files each.
+CREATE TABLE IF NOT EXISTS site_entities (
+  id               bigserial PRIMARY KEY,
+  kind             text NOT NULL,
+  slug             text NOT NULL UNIQUE,
+  name_en          text NOT NULL DEFAULT '',
+  name_el          text NOT NULL DEFAULT '',
+  group_key        text,
+  visible          boolean NOT NULL DEFAULT false,
+  position         int NOT NULL DEFAULT 0,
+  fields           jsonb NOT NULL DEFAULT '{}'::jsonb,
+  published_fields jsonb,
+  created_by       bigint REFERENCES admin_users(id) ON DELETE SET NULL,
+  updated_by       bigint REFERENCES admin_users(id) ON DELETE SET NULL,
+  created_at       timestamptz NOT NULL DEFAULT now(),
+  updated_at       timestamptz NOT NULL DEFAULT now(),
+  published_at     timestamptz
+);
+CREATE INDEX IF NOT EXISTS site_entities_kind_idx ON site_entities (kind, position);
+
+-- One generic ordered gallery table, replacing four hardcoded per-category
+-- arrays (shipAssets exterior/onboard/decks/cabins) plus regions.ts ports[].
+-- src is a plain path so the 686 existing /photos/* brand images seed straight
+-- in without first becoming media_assets rows; media_asset_id is set only for
+-- admin-uploaded images (kept for provenance + cascade cleanup).
+CREATE TABLE IF NOT EXISTS entity_media (
+  id             bigserial PRIMARY KEY,
+  entity_slug    text NOT NULL,
+  group_name     text NOT NULL,
+  group_key      text,
+  src            text NOT NULL,
+  alt            text,
+  media_asset_id bigint REFERENCES media_assets(id) ON DELETE SET NULL,
+  name_en        text,
+  name_el        text,
+  position       int NOT NULL DEFAULT 0,
+  created_at     timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS entity_media_lookup_idx ON entity_media (entity_slug, group_name, position);
+
+-- A suite tier has its own copy beyond "a photo", so it gets a small table.
+-- Its cabin photos live in entity_media as group_name='cabin', group_key=tier_key.
+CREATE TABLE IF NOT EXISTS ship_suite_tiers (
+  ship_slug   text NOT NULL,
+  tier_key    text NOT NULL,
+  name_en     text NOT NULL DEFAULT '',
+  name_el     text NOT NULL DEFAULT '',
+  tagline_en  text,
+  tagline_el  text,
+  position    int NOT NULL DEFAULT 0,
+  PRIMARY KEY (ship_slug, tier_key)
+);
+
+-- The ordered, addable / removable / hideable section list. Draft/published is
+-- doubled across order + visibility + config (not just value, as site_content
+-- does) so an admin can stage a whole restructure and publish it atomically.
+CREATE TABLE IF NOT EXISTS page_sections (
+  id                bigserial PRIMARY KEY,
+  page_key          text NOT NULL,
+  entity_slug       text,
+  section_type      text NOT NULL,
+  slug              text NOT NULL,
+  position          int NOT NULL DEFAULT 0,
+  position_published int,
+  visible_draft     boolean NOT NULL DEFAULT true,
+  visible_published boolean,
+  config_draft      jsonb NOT NULL DEFAULT '{}'::jsonb,
+  config_published  jsonb,
+  is_new            boolean NOT NULL DEFAULT true,
+  deleted_draft     boolean NOT NULL DEFAULT false,
+  created_by        bigint REFERENCES admin_users(id) ON DELETE SET NULL,
+  updated_by        bigint REFERENCES admin_users(id) ON DELETE SET NULL,
+  created_at        timestamptz NOT NULL DEFAULT now(),
+  updated_at        timestamptz NOT NULL DEFAULT now(),
+  published_at      timestamptz
+);
+
+-- entity_slug is NULL on singleton pages (home / both index pages) and NULL is
+-- never equal to NULL in a UNIQUE constraint, so the identity index coalesces.
+CREATE UNIQUE INDEX IF NOT EXISTS page_sections_identity_idx
+  ON page_sections (page_key, coalesce(entity_slug, ''), slug);
+CREATE INDEX IF NOT EXISTS page_sections_order_idx
+  ON page_sections (page_key, coalesce(entity_slug, ''), position);
+
+-- Order is staged like everything else: `position` is the draft order the admin
+-- drags, `position_published` is what the live site sorts by. Added after the
+-- first cut of page_sections, hence the ALTER rather than an inline column.
+ALTER TABLE page_sections ADD COLUMN IF NOT EXISTS position_published int;

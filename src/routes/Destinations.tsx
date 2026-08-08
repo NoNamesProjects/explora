@@ -11,6 +11,7 @@ import {
   type DestinationRegion,
 } from '@/data/destinationRegions';
 import { api } from '@/lib/api';
+import { bannerOverride } from '@/lib/content/bannerSrc';
 
 /** Fast region-by-slug lookup for the grouped atlas sections. */
 const REGION_BY_SLUG = new Map<string, DestinationRegion>(
@@ -51,6 +52,7 @@ export default function Destinations() {
   const { t } = useTranslation();
   const reduce = useReducedMotion();
   const [stats, setStats] = useState<StatsMap>({});
+  const heroImage = bannerOverride('destinations.hero') ?? '/photos/ports/HRDBV.jpg';
 
   useEffect(() => {
     let alive = true;
@@ -91,19 +93,31 @@ export default function Destinations() {
 
   return (
     <>
-      {/* ═══════════════ HERO / INTRO — calm cream, no parallax photo ═══════════════ */}
-      <section className="bg-cream pt-32 pb-12 md:pb-16">
-        <div className="container">
+      {/* ═══════════════ HERO / INTRO — full-bleed destination photo ═══════════════ */}
+      <section className="relative min-h-[52vh] md:min-h-[60vh] flex items-end overflow-hidden bg-ink">
+        <motion.div
+          aria-hidden
+          initial={reduce ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          className={['absolute inset-0 bg-cover bg-center', reduce ? '' : 'animate-slow-zoom'].join(' ')}
+          style={{ backgroundImage: `url(${heroImage})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/20 to-ink/90 pointer-events-none" aria-hidden />
+        <div className="absolute inset-0 bg-grain opacity-[0.12] mix-blend-overlay pointer-events-none" aria-hidden />
+
+        <div className="relative container pt-32 pb-12 md:pb-16 text-cream [text-shadow:0_1px_14px_rgba(12,35,64,0.5)]">
           <Breadcrumb
+            variant="light"
             items={[{ label: t('nav.home'), href: '/' }, { label: t('nav.destinations') }]}
-            className="mb-10"
+            className="mb-10 opacity-90"
           />
-          <span aria-hidden className="block h-px w-24 bg-accent-gold/60" />
-          <div className="eyebrow mt-8 mb-4 text-accent-tan">{t('destination.index.eyebrow')}</div>
-          <h1 className="font-serif font-normal text-ink text-hero-xl leading-[1.0] tracking-tight text-balance max-w-3xl">
+          <span aria-hidden className="block h-px w-24 bg-accent-goldSoft/70" />
+          <div className="eyebrow mt-8 mb-4 text-cream/80">{t('destination.index.eyebrow')}</div>
+          <h1 className="font-serif font-normal text-cream text-hero-xl leading-[1.0] tracking-tight text-balance max-w-3xl">
             {t('destination.index.title')}
           </h1>
-          <p className="mt-7 max-w-prose text-ink-600 text-lg leading-relaxed text-pretty">
+          <p className="mt-7 max-w-prose text-cream/80 text-lg leading-relaxed text-pretty">
             {t('destination.index.intro')}
           </p>
         </div>

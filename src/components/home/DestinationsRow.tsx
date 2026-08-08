@@ -5,6 +5,8 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { imageUrl } from '@/lib/image';
 import { portImage } from '@/lib/portImages';
 import { DESTINATION_REGIONS } from '@/data/destinationRegions';
+import { RichText } from '@/components/content/RichText';
+import type { RichDoc } from '@/lib/content/types';
 
 function Chevron({ direction }: { direction: 'prev' | 'next' }) {
   return (
@@ -35,8 +37,21 @@ function Chevron({ direction }: { direction: 'prev' | 'next' }) {
  * placeholder ladder so the section stays honest before brand photography lands.
  * The region list itself lives in src/data/destinationRegions.ts (shared with
  * the /destinations Atlas index page).
+ *
+ * Chrome (heading / intro / link label / background) is OPTIONAL-overridable so
+ * the same component serves both the legacy hardcoded Home and an admin-managed
+ * `destinations-row` section. Unset props fall back to the i18n defaults, so
+ * nothing changes for callers that pass nothing.
  */
-export function DestinationsRow() {
+interface DestinationsRowProps {
+  id?: string;
+  tone?: string;
+  heading?: RichDoc | string;
+  intro?: string;
+  ctaLabel?: string;
+}
+
+export function DestinationsRow({ id, tone, heading, intro, ctaLabel }: DestinationsRowProps = {}) {
   const { t } = useTranslation();
   const reduce = useReducedMotion();
   const trackRef = useRef<HTMLDivElement>(null);
@@ -68,22 +83,22 @@ export function DestinationsRow() {
   }, []);
 
   return (
-    <section className="py-section-y bg-cream">
+    <section id={id} className={`py-section-y ${tone === 'cream-soft' ? 'bg-cream-soft' : tone === 'ink' ? 'bg-ink' : 'bg-cream'}`}>
       <div className="container">
         {/* Header row: editorial heading + intro on the left, arrows top-right */}
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
           <div className="max-w-editorial">
             <h2 className="font-serif text-display leading-[1.05] text-ink text-balance">
-              {t('home.destinations.ourTitle')}
+              {heading ? <RichText value={heading} /> : t('home.destinations.ourTitle')}
             </h2>
             <p className="mt-5 max-w-prose text-ink-600">
-              {t('home.destinations.ourIntro')}
+              {intro || t('home.destinations.ourIntro')}
             </p>
             <Link
               to="/destinations"
               className="group mt-6 link-underline text-accent-gold inline-flex items-baseline gap-1.5"
             >
-              <span>{t('home.destinations.viewAll')}</span>
+              <span>{ctaLabel || t('home.destinations.viewAll')}</span>
               <span aria-hidden className="transition-transform duration-300 ease-out-soft group-hover:translate-x-1">
                 ›
               </span>

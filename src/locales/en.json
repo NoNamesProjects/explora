@@ -1,6 +1,6 @@
 {
   "brand": {
-    "name": "Explora Journeys",
+    "name": "Aesthisis",
     "tagline": "Ultra-luxury ocean journeys"
   },
   "nav": {
@@ -873,7 +873,7 @@
       "privacy": "Privacy Policy",
       "terms": "Terms & Conditions",
       "codeOfConduct": "Codes of Conduct",
-      "copyright": "© Explora Journeys"
+      "copyright": "© Aesthisis"
     },
     "social": {
       "title": "Follow",
@@ -969,7 +969,7 @@
     }
   },
   "about": {
-    "eyebrow": "About us",
+    "eyebrow": "About Aesthisis",
     "title": "Your specialist for ultra-luxury journeys at sea",
     "lede": "We help discerning travellers discover Explora Journeys — an all-suite, ultra-luxury way to see the world by ocean.",
     "body": [
@@ -1411,7 +1411,7 @@
       "maltWhiskyBar": "A hushed bar of rare malts and unhurried evenings.",
       "exploraLounge": "A sociable room for an afternoon drink and easy conversation.",
       "journeysLounge": "The ship's living room — sofas, sea views and a slow pace.",
-      "theJourney": "A panoramic perch to watch the wake and the changing light.",
+      "theJourney": "A concept boutique for the road — travel-ready pieces picked for the ship.",
       "skyLounge": "Sweeping views from the top of the ship, day into night.",
       "nautilusLounge": "An intimate lounge tucked away for a quieter moment.",
       "lobby": "The calm heart of the ship, where every day begins and ends.",
@@ -1424,7 +1424,20 @@
       "fitnessCentre": "A light-filled studio for moving with the horizon in view.",
       "soundWellness": "Guided sound sessions to settle the mind against the waves.",
       "cartier": "The maison's fine jewellery and watches, at sea.",
-      "chopard": "Haute jewellery and timepieces in an intimate boutique."
+      "chopard": "Haute jewellery and timepieces in an intimate boutique.",
+      "chefsKitchen": "A private table where a chef narrates the dish as it's plated.",
+      "shoreClub": "Barefoot plates and a pool bar, one deck up from the tender.",
+      "asternLounge": "A quieter lounge astern, art deco touches and the wake in view.",
+      "asternPoolBar": "A pool bar at the stern, drinks in hand as the wake unfurls.",
+      "heliosPoolBar": "Sun, a swim-up bar and nowhere else to be.",
+      "conservatoryPoolBar": "Poolside drinks under glass, whatever the weather outside.",
+      "gelateriaConservatory": "Gelato and crêpes by the pool, for the slow hour after lunch.",
+      "skyBar14": "The highest bar on the ship, a drink above the wake.",
+      "beautySalon": "Hair, nails and a quiet chair before a morning ashore.",
+      "wellbeing": "Yoga and guided movement on deck, sea air instead of a studio.",
+      "panerai": "Instrument-grade watches for a life spent watching the horizon.",
+      "piaget": "Fine jewellery and slim watchmaking, off the runway and onto the ship.",
+      "rolex": "The maison's watches, presented in their own quiet room at sea."
     }
   },
   "booking": {
@@ -1512,8 +1525,8 @@
       "messageLabel": "Anything we should know?",
       "optional": "(optional)",
       "messagePlaceholder": "Special occasions, dietary needs, accessibility, preferred dates…",
-      "consent": "I understand this is a reservation request — availability and the final price are confirmed by the Explora team. I agree to the booking terms.",
-      "consentWithDeposit": "I understand this is a reservation request — availability and the final price are confirmed by the Explora team, and a refundable deposit secures my place. I agree to the booking terms.",
+      "consent": "I understand this is a reservation request — availability and the final price are confirmed by the Aesthisis team. I agree to the booking terms.",
+      "consentWithDeposit": "I understand this is a reservation request — availability and the final price are confirmed by the Aesthisis team, and a refundable deposit secures my place. I agree to the booking terms.",
       "errorSubmit": "Sorry — we couldn’t submit your request just now. Please try again.",
       "helper": "No live availability is taken from this request; our team confirms within 24 hours. Use the <cta>Request to book</cta> button on the right to continue.",
       "submitting": "Submitting…",
@@ -1804,7 +1817,7 @@
     },
     "chrome": {
       "operations": "Operations",
-      "opsTitle": "Explora Ops",
+      "opsTitle": "Aesthisis Ops",
       "signOut": "Sign out",
       "toggleMenu": "Toggle menu",
       "role_admin": "admin",
@@ -1815,6 +1828,8 @@
       "clients": "Clients",
       "catalog": "Catalog",
       "insights": "Insights",
+      "pages": "Pages",
+      "entities": "Ships & destinations",
       "content": "Content",
       "media": "Media",
       "subscribers": "Subscribers",

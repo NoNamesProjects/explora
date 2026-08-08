@@ -41,6 +41,59 @@ function mimeFromImage(buf: Buffer): string {
   return 'image/gif';
 }
 
+/**
+ * Read pixel dimensions straight from the header bytes we already have in
+ * memory. Dependency-free on purpose: `sharp` ships a native binary that's a
+ * liability on cPanel shared hosting, and this only needs the header, not a
+ * decode. Returns nulls for anything it can't parse — width/height are a
+ * nice-to-have (they drive the aspect-mismatch hint), never a gate on upload.
+ */
+function imageSize(buf: Buffer): { width: number | null; height: number | null } {
+  const none = { width: null, height: null };
+  try {
+    // PNG: IHDR width/height are big-endian u32 at byte 16.
+    if (buf[0] === 0x89 && buf[1] === 0x50) {
+      return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+    }
+    // GIF: logical screen width/height are little-endian u16 at byte 6.
+    if (buf.subarray(0, 3).toString('ascii') === 'GIF') {
+      return { width: buf.readUInt16LE(6), height: buf.readUInt16LE(8) };
+    }
+    // WebP: VP8 / VP8L / VP8X each store the size differently.
+    if (buf.subarray(0, 4).toString('ascii') === 'RIFF' && buf.subarray(8, 12).toString('ascii') === 'WEBP') {
+      const fourcc = buf.subarray(12, 16).toString('ascii');
+      if (fourcc === 'VP8 ') {
+        return { width: buf.readUInt16LE(26) & 0x3fff, height: buf.readUInt16LE(28) & 0x3fff };
+      }
+      if (fourcc === 'VP8L') {
+        const bits = buf.readUInt32LE(21);
+        return { width: (bits & 0x3fff) + 1, height: ((bits >> 14) & 0x3fff) + 1 };
+      }
+      if (fourcc === 'VP8X') {
+        const rd24 = (o: number) => buf[o] | (buf[o + 1] << 8) | (buf[o + 2] << 16);
+        return { width: rd24(24) + 1, height: rd24(27) + 1 };
+      }
+      return none;
+    }
+    // JPEG: walk the segment chain to the SOFn frame header.
+    if (buf[0] === 0xff && buf[1] === 0xd8) {
+      let o = 2;
+      while (o + 9 < buf.length) {
+        if (buf[o] !== 0xff) { o++; continue; }
+        const marker = buf[o + 1];
+        // SOF0-SOF15, excluding the non-frame markers DHT(c4)/JPG(c8)/DAC(cc).
+        if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+          return { height: buf.readUInt16BE(o + 5), width: buf.readUInt16BE(o + 7) };
+        }
+        o += 2 + buf.readUInt16BE(o + 2);
+      }
+    }
+  } catch {
+    /* malformed header — fall through to nulls */
+  }
+  return none;
+}
+
 const EXT_BY_MIME: Record<string, string> = {
   'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp', 'image/gif': '.gif',
 };
@@ -174,9 +227,10 @@ async function upload(req: IncomingMessage, res: ServerResponse, user: AuthUser)
 
   try {
     const sql = db();
+    const { width, height } = imageSize(buf);
     const rows = (await sql`
-      INSERT INTO media_assets (filename, url, original_name, mime, bytes, category, alt_en, alt_el, uploaded_by)
-      VALUES (${filename}, ${url}, ${originalName}, ${mime}, ${buf.length}, ${category}, ${altEn}, ${altEl}, ${user.id})
+      INSERT INTO media_assets (filename, url, original_name, mime, bytes, width, height, category, alt_en, alt_el, uploaded_by)
+      VALUES (${filename}, ${url}, ${originalName}, ${mime}, ${buf.length}, ${width}, ${height}, ${category}, ${altEn}, ${altEl}, ${user.id})
       RETURNING id, filename, url, original_name, mime, bytes, width, height, alt_en, alt_el, category, uploaded_by, created_at
     `) as Row[];
     const asset = toAsset(rows[0]);

@@ -25,6 +25,9 @@
     "admin:user": "tsx scripts/admin-user.ts",
     "ingest": "tsx scripts/ingest-once.ts",
     "seed:dev": "tsx scripts/dev-seed.ts",
+    "seed:home-sections": "tsx scripts/seed-home-sections.ts",
+    "seed:ships": "tsx scripts/seed-ship-entities.ts",
+    "seed:ship-sections": "tsx scripts/seed-ship-sections.ts",
     "ingest:dry": "INGEST_DRY_RUN=1 tsx scripts/ingest-once.ts",
     "fetch:port-images": "tsx scripts/fetch-port-images.ts"
   },

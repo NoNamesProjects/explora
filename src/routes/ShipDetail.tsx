@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
+import { PageSections } from '@/components/sections/PageSections';
 import { useTranslation } from 'react-i18next';
 import { ShipHeroCinematic } from '@/components/ship/ShipHeroCinematic';
 import { SpecificationsBand } from '@/components/ship/SpecificationsBand';
@@ -29,12 +30,32 @@ const LIFE_LINKS = [
 ] as const;
 
 /**
- * Route guard: ships hidden until launch (EXPLORA V/VI) have no public detail page,
- * so a direct visit to /ships/explora-v|vi bounces to the fleet index. Keeping this
- * in a thin wrapper (only `useParams`) means the inner component's hook order is
- * never affected when navigating between ship codes.
+ * The ship page is assembled from admin-managed sections (page_key
+ * 'ship-detail', scoped to this ship's slug), with the ship's own photos, specs
+ * and suite tiers coming from its record under Entities → Ships.
+ *
+ * Two fallbacks, doing different jobs:
+ *  - `fallback` renders the original hardcoded layout when a ship has no
+ *    sections yet (or the CMS is unreachable) — the migration stays reversible.
+ *  - `onMissingEntity` bounces an unknown/hidden slug to the fleet index. This
+ *    is what replaces the old `isShipHidden()` guard: visibility is now a data
+ *    flag on the record, so hiding a ship no longer needs a code change.
  */
 export default function ShipDetail() {
+  const { code = 'explora-i' } = useParams();
+  return (
+    <PageSections
+      page="ship-detail"
+      entity={code}
+      subNav
+      onMissingEntity={<Navigate to="/ships" replace />}
+      fallback={<LegacyShipDetail />}
+    />
+  );
+}
+
+/** The pre-page-builder ship page, verbatim. Renders until a ship is seeded. */
+function LegacyShipDetail() {
   const { code = 'explora-i' } = useParams();
   if (isShipHidden(code)) return <Navigate to="/ships" replace />;
   return <ShipDetailInner />;

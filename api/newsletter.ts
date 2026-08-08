@@ -59,7 +59,7 @@ export async function sendEmail(opts: {
   headers?: Record<string, string>;
 }): Promise<boolean> {
   const key = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM || 'Explora Journeys <onboarding@resend.dev>';
+  const from = process.env.RESEND_FROM || 'Aesthisis <onboarding@resend.dev>';
   if (!key) {
     console.log(`[email] skipped (no RESEND_API_KEY) — to=${opts.to} subject="${opts.subject}"`);
     return false;

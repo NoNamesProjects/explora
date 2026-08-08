@@ -22,7 +22,8 @@ export function MediaPicker({
 }: {
   open: boolean;
   onOpenChange: (o: boolean) => void;
-  onPick: (asset: { url: string; alt?: string }) => void;
+  /** width/height come from media_assets and let a caller warn on aspect mismatch. */
+  onPick: (asset: { url: string; alt?: string; width?: number | null; height?: number | null }) => void;
 }): JSX.Element {
   const { t } = useTranslation();
   const categoryOptions = [
@@ -69,7 +70,7 @@ export function MediaPicker({
   }, [open]);
 
   const pick = (a: MediaAsset) => {
-    onPick({ url: a.url, alt: a.altEn ?? a.altEl ?? undefined });
+    onPick({ url: a.url, alt: a.altEn ?? a.altEl ?? undefined, width: a.width, height: a.height });
     onOpenChange(false);
   };
 
@@ -170,7 +171,10 @@ export function MediaPicker({
                     className="group overflow-hidden rounded-card border border-cream-300 bg-white text-left transition-colors
                                hover:border-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-ink"
                   >
-                    <div className="aspect-[4/3] w-full overflow-hidden bg-cream-100">
+                    <div
+                      className="w-full overflow-hidden bg-cream-100"
+                      style={{ aspectRatio: a.width && a.height ? `${a.width} / ${a.height}` : '4 / 3' }}
+                    >
                       <img
                         src={a.url}
                         alt={a.altEn ?? ''}

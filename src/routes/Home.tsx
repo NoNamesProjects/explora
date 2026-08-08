@@ -8,21 +8,34 @@ import { DestinationsRow } from '@/components/home/DestinationsRow';
 import { LifeOnboard } from '@/components/home/LifeOnboard';
 import { AllJourneysInclude } from '@/components/home/AllJourneysInclude';
 import { NewsletterBand } from '@/components/home/NewsletterBand';
+import { PageSections } from '@/components/sections/PageSections';
 import { imageUrl } from '@/lib/image';
 import { bannerOverride } from '@/lib/content/bannerSrc';
 import { RichText } from '@/components/content/RichText';
 
 /**
- * Home: hero + package search, featured voyages, a video, destinations,
- * life onboard, the fleet, journey inclusions, and a newsletter band.
+ * Home is now assembled from admin-managed sections (page_sections, page_key
+ * 'home') — the client can reorder, hide, delete and add sections from
+ * /admin/pages without a deploy.
+ *
+ * `LegacyHome` below is the original hardcoded composition, kept as the
+ * fallback: it renders whenever the CMS returns no sections (seed not run, DB
+ * unreachable, or a deliberate rollback). That's what makes this migration
+ * reversible rather than a one-way door. Once the seeded sections have been
+ * live and stable for a while, this fallback can be deleted.
  */
 export default function Home() {
+  return <PageSections page="home" fallback={<LegacyHome />} />;
+}
+
+/** The pre-page-builder Home, verbatim. See the note above before removing. */
+function LegacyHome() {
   const { t } = useTranslation();
 
   return (
     <>
       {/* ── Hero banner + package search ──────────────────────────────── */}
-      <section className="relative h-[calc(100vh-80px)] min-h-[600px] max-h-[880px] overflow-hidden bg-ink">
+      <section className="relative h-[calc(100vh-80px)] min-h-[480px] max-h-[620px] overflow-hidden bg-ink">
         <img
           src={imageUrl(bannerOverride('home.hero') ?? '/photos/banner/astern-pool.webp', { w: 1920, h: 1200, fit: 'cover' })}
           alt=""
@@ -32,10 +45,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-ink/15 via-transparent to-ink/55 pointer-events-none" aria-hidden />
         <div className="absolute inset-0 bg-grain opacity-15 mix-blend-overlay pointer-events-none" aria-hidden />
 
-        <div className="absolute inset-0 flex flex-col items-center justify-end pb-28 md:pb-32 px-5 text-cream text-center">
-          {/* Hero tagline as a single elegant upright Cormorant-Garamond line over a
-              soft text-shadow halo (legible on the bright pool photo), closed by a
-              center-growing gold hairline. Sits above the floating search widget. */}
+        <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 md:pb-20 px-5 text-cream text-center">
           <motion.h1
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
@@ -55,7 +65,7 @@ export default function Home() {
       </section>
 
       {/* ── Journey search — floats across the hero/cream seam ────────── */}
-      <div className="relative z-20 -mt-6 md:-mt-7 px-5">
+      <div className="relative z-20 -mt-9 md:-mt-11 px-5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -84,19 +94,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Video ─────────────────────────────────────────────────────── */}
       <HomeVideo />
-
-      {/* ── Destinations row ──────────────────────────────────────────── */}
       <DestinationsRow />
-
-      {/* ── Life onboard ──────────────────────────────────────────────── */}
       <LifeOnboard />
-
-      {/* ── All journeys include ──────────────────────────────────────── */}
       <AllJourneysInclude />
-
-      {/* ── Newsletter band ───────────────────────────────────────────── */}
       <NewsletterBand />
     </>
   );

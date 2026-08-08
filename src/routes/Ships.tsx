@@ -5,6 +5,7 @@ import { FleetRegister } from '@/components/ships/FleetRegister';
 import { visibleShips } from '@/data/megaMenu';
 import { shipCountWord } from '@/lib/shipCount';
 import { bannerOverride } from '@/lib/content/bannerSrc';
+import { PageSections } from '@/components/sections/PageSections';
 
 interface Stat { value: string; label: string }
 
@@ -14,7 +15,16 @@ interface Stat { value: string; label: string }
  * launched are hidden via src/data/shipVisibility.ts. Reached from the header
  * SHIPS trigger and its "View all ships" link, and from the ship-detail breadcrumb.
  */
+/**
+ * The fleet index, assembled from admin-managed sections (page_key
+ * 'ships-index'), falling back to the original layout until it's seeded.
+ */
 export default function Ships() {
+  return <PageSections page="ships-index" fallback={<LegacyShips />} />;
+}
+
+/** The pre-page-builder fleet index, verbatim. */
+function LegacyShips() {
   const { t, i18n } = useTranslation();
   const reduce = useReducedMotion();
   const heroImage = bannerOverride('ships.hero') ?? '/photos/banner/explora-ii-aerial.webp';

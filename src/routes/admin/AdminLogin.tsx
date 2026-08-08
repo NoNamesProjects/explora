@@ -32,7 +32,7 @@ export function AdminLogin() {
     <div className="flex min-h-screen items-center justify-center bg-cream px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <div className="font-serif text-3xl text-ink">Explora</div>
+          <div className="font-serif text-3xl text-ink">Aesthisis</div>
           <div className="mt-1 text-eyebrow uppercase tracking-eyebrow text-ink-500">{t('admin.login.subtitle', { defaultValue: 'Operations Console' })}</div>
         </div>
         <form

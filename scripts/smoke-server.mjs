@@ -168,7 +168,37 @@ const checks = [
     '/api/admin/media/1',
     '/api/admin/subscribers',
     '/api/admin/broadcast',
+    '/api/admin/sections',
+    '/api/admin/sections/1',
+    '/api/admin/sections/reorder',
+    '/api/admin/sections/publish',
+    '/api/admin/entities',
+    '/api/admin/entities/explora-i',
   ].map((p) => [`GET  ${p} (no auth)→401`, async () => (await get(p)).status === 401]),
+
+  // ── Page-builder public read: open, and never leaks drafts to anon ──────────
+  ['GET  /api/content/sections?page=home → 200 published list', async () => {
+    const b = await json('/api/content/sections?page=home');
+    return b.ok === true && Array.isArray(b.items);
+  }],
+  ['GET  /api/content/sections?draft=1 (no auth) → serves PUBLISHED, not drafts', async () => {
+    // draft:false is the security assertion — an anonymous caller asking for
+    // drafts must silently fall back to published, never see unpublished work.
+    return (await json('/api/content/sections?page=home&draft=1')).draft === false;
+  }],
+  ['GET  /api/content/sections (no page) → 400', async () => (await get('/api/content/sections')).status === 400],
+
+  // ── Entities: public list is open, hidden records stay hidden ──────────────
+  ['GET  /api/content/entities?kind=ship → 200 list', async () => {
+    const b = await json('/api/content/entities?kind=ship');
+    return b.ok === true && Array.isArray(b.items);
+  }],
+  ['GET  /api/content/entities hidden ship (no auth) → 404', async () =>
+    (await get('/api/content/entities?kind=ship&slug=explora-v')).status === 404],
+  ['GET  /api/content/entities unknown slug → 404 (never a silent fallback)', async () =>
+    (await get('/api/content/entities?kind=ship&slug=no-such-ship')).status === 404],
+  ['GET  /api/content/entities (no kind) → 400', async () =>
+    (await get('/api/content/entities')).status === 400],
 ];
 
 let failures = 0;

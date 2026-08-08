@@ -32,6 +32,8 @@ const ROUTES: ApiRoute[] = [
   { pattern: /^\/api\/contact\/?$/,                   file: 'api/contact.ts' },
   { pattern: /^\/api\/content\/?$/,                   file: 'api/content.ts' },
   { pattern: /^\/api\/content\/version\/?$/,          file: 'api/content/version.ts' },
+  { pattern: /^\/api\/content\/sections\/?$/,         file: 'api/content/sections.ts' },
+  { pattern: /^\/api\/content\/entities\/?$/,         file: 'api/content/entities.ts' },
   { pattern: /^\/api\/cron\/ingest-flatfiles\/?$/,    file: 'api/cron/ingest-flatfiles.ts' },
   { pattern: /^\/api\/booking-request\/?$/,           file: 'api/booking-request.ts' },
   { pattern: /^\/api\/booking-request\/[^/]+\/?$/,    file: 'api/booking-request/[ref].ts' },
@@ -66,6 +68,14 @@ const ROUTES: ApiRoute[] = [
   { pattern: /^\/api\/admin\/catalog\/pricing\/[^/]+\/?$/, file: 'api/admin/catalog/pricing/[journeyId].ts' },
   { pattern: /^\/api\/admin\/subscribers\/?$/,        file: 'api/admin/subscribers.ts' },
   { pattern: /^\/api\/admin\/broadcast\/?$/,          file: 'api/admin/broadcast.ts' },
+  // ── Page-builder (Tier B CMS). reorder/publish are STATIC and must precede
+  //    the [id] pattern below — ROUTES.find returns the first match.
+  { pattern: /^\/api\/admin\/sections\/reorder\/?$/,  file: 'api/admin/sections/reorder.ts' },
+  { pattern: /^\/api\/admin\/sections\/publish\/?$/,  file: 'api/admin/sections/publish.ts' },
+  { pattern: /^\/api\/admin\/sections\/?$/,           file: 'api/admin/sections.ts' },
+  { pattern: /^\/api\/admin\/sections\/[^/]+\/?$/,    file: 'api/admin/sections/[id].ts' },
+  { pattern: /^\/api\/admin\/entities\/?$/,           file: 'api/admin/entities.ts' },
+  { pattern: /^\/api\/admin\/entities\/[^/]+\/?$/,    file: 'api/admin/entities/[slug].ts' },
 ];
 
 export function apiPlugin(): Plugin {

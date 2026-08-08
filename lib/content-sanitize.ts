@@ -121,6 +121,114 @@ export function sanitizeFieldValue(type: FieldType, raw: unknown): unknown {
   }
 }
 
+// ── Section configs (Tier B page-builder) ────────────────────────────────────
+// The same defense-in-depth as sanitizeFieldValue, applied to a whole section
+// config at once. The caller passes the field list from the section type's
+// definition (src/content/sectionTypes.ts) — this module stays import-free, so
+// the field shape below is declared structurally rather than imported.
+
+/** Structural mirror of SectionField — kept local to preserve the lib/→src/ boundary. */
+export interface SanitizerField {
+  key: string;
+  type: string;
+  bilingual?: boolean;
+  options?: Array<{ value: string }>;
+  itemFields?: SanitizerField[];
+  maxItems?: number;
+}
+
+const BUTTON_STYLES = new Set(['primary', 'secondary', 'ghost', 'link']);
+const MAX_CARDS = 48;
+
+/** Mirrors fieldIsBilingual() in src/content/sectionTypes.ts — keep in sync. */
+function isBilingual(f: SanitizerField): boolean {
+  if (typeof f.bilingual === 'boolean') return f.bilingual;
+  return f.type === 'plain' || f.type === 'rich' || f.type === 'list';
+}
+
+function sanitizeButton(raw: unknown): unknown {
+  if (!raw || typeof raw !== 'object') return null;
+  const r = raw as Record<string, unknown>;
+  const str = (v: unknown) => (typeof v === 'string' ? v.slice(0, 200) : '');
+  const labelEn = str(r.labelEn);
+  const labelEl = str(r.labelEl);
+  const href = sanitizeHref(r.href) ?? '';
+  if (!labelEn && !labelEl && !href) return null;
+  const style = typeof r.style === 'string' && BUTTON_STYLES.has(r.style) ? r.style : 'primary';
+  return { labelEn, labelEl, href, style };
+}
+
+/** One field value, WITHOUT the bilingual wrapper (applied by the caller). */
+function sanitizeLeaf(field: SanitizerField, raw: unknown): unknown {
+  switch (field.type) {
+    case 'plain':
+    case 'rich':
+    case 'number':
+    case 'image':
+    case 'list':
+      return sanitizeFieldValue(field.type as FieldType, raw);
+    case 'link':
+      // NEVER let an href through as a plain string — sanitizeHref is the only
+      // thing standing between the admin form and a javascript: URL in an <a>.
+      return sanitizeHref(raw) ?? null;
+    case 'toggle':
+      return raw === true || raw === 'true';
+    case 'select': {
+      if (typeof raw !== 'string') return null;
+      const allowed = field.options?.some((o) => o.value === raw);
+      return allowed ? raw : null;
+    }
+    case 'button':
+      return sanitizeButton(raw);
+    case 'cards': {
+      if (!Array.isArray(raw)) return [];
+      const cap = Math.min(field.maxItems ?? MAX_CARDS, MAX_CARDS);
+      const itemFields = field.itemFields ?? [];
+      return raw.slice(0, cap).map((item) => sanitizeSectionConfig(itemFields, item));
+    }
+    default:
+      return null;
+  }
+}
+
+/**
+ * Sanitize a whole section (or card-item) config against its declared fields.
+ * Keys not present in `fields` are DROPPED — this is the write allowlist, so a
+ * crafted payload can never smuggle an unexpected key into the stored jsonb.
+ */
+export function sanitizeSectionConfig(
+  fields: SanitizerField[],
+  raw: unknown,
+): Record<string, unknown> {
+  const src = (raw && typeof raw === 'object' && !Array.isArray(raw))
+    ? (raw as Record<string, unknown>)
+    : {};
+  const out: Record<string, unknown> = {};
+
+  for (const field of fields) {
+    if (!Object.prototype.hasOwnProperty.call(src, field.key)) continue;
+    if (field.key === '__proto__' || field.key === 'constructor' || field.key === 'prototype') continue;
+    const value = src[field.key];
+    if (value == null) continue;
+
+    if (isBilingual(field)) {
+      const byLocale = (value && typeof value === 'object' && !Array.isArray(value))
+        ? (value as Record<string, unknown>)
+        : { en: value, el: value }; // tolerate a bare value from an older payload
+      const clean: Record<string, unknown> = {};
+      for (const loc of ['en', 'el']) {
+        if (byLocale[loc] == null) continue;
+        clean[loc] = sanitizeLeaf(field, byLocale[loc]);
+      }
+      if (Object.keys(clean).length) out[field.key] = clean;
+    } else {
+      const clean = sanitizeLeaf(field, value);
+      if (clean !== null && clean !== undefined) out[field.key] = clean;
+    }
+  }
+  return out;
+}
+
 /** Render a rich "runs" doc to sanitized HTML (used for the email broadcast body). */
 export function richDocToHtml(raw: unknown): string {
   const doc = sanitizeRichDoc(raw);

@@ -43,7 +43,7 @@ export function LifeOnboard() {
     <section className="py-section-y bg-cream-soft border-t border-cream-300/50">
       <div className="container">
         <header className="max-w-editorial mb-14 md:mb-20">
-          <h2 className="font-serif text-hero-xl leading-tight text-ink text-balance">
+          <h2 className="font-serif text-display leading-[1.05] text-ink text-balance">
             {t('home.lifeOnboard.eyebrow')}
           </h2>
         </header>

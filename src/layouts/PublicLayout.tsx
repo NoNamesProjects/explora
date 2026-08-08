@@ -2,7 +2,6 @@ import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header } from '@/components/chrome/Header';
 import { Footer } from '@/components/chrome/Footer';
-import { PromoBar } from '@/components/chrome/PromoBar';
 import { CookieBanner } from '@/components/chrome/CookieBanner';
 import { ScrollToTop } from '@/components/chrome/ScrollToTop';
 
@@ -15,12 +14,11 @@ function PageFallback() {
   );
 }
 
-/** The public marketing chrome (PromoBar / Header / Footer / CookieBanner). */
+/** The public marketing chrome (Header / Footer / CookieBanner). */
 export function PublicLayout() {
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
-      <PromoBar />
       <Header />
       <main className="flex-1">
         <Suspense fallback={<PageFallback />}>

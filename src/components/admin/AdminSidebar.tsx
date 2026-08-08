@@ -10,7 +10,7 @@ export function AdminSidebar() {
   return (
     <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col bg-ink-900 text-cream/75 lg:flex">
       <div className="px-6 py-5">
-        <div className="font-serif text-lg leading-none text-cream">Explora</div>
+        <div className="font-serif text-lg leading-none text-cream">Aesthisis</div>
         <div className="mt-1 text-eyebrow uppercase tracking-eyebrow text-cream/45">{t('admin.chrome.operations', { defaultValue: 'Operations' })}</div>
       </div>
       <nav className="flex flex-1 flex-col gap-0.5 px-3 py-2">

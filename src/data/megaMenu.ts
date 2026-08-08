@@ -105,7 +105,6 @@ export const megaMenu: MegaPanel[] = [
           { labelKey: 'mega.ships.exploraIII', href: '/ships/explora-iii' },
           { labelKey: 'mega.ships.exploraIV', href: '/ships/explora-iv' },
           // EXPLORA V/VI hidden until launch — see src/data/shipVisibility.ts
-          { labelKey: 'mega.ships.viewAll', href: '/ships' },
         ],
       },
     ],

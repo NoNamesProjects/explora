@@ -12,6 +12,8 @@ import { Insights } from './Insights';
 import { DataIngest } from './DataIngest';
 import { Users } from './Users';
 import { Content } from './Content';
+import { Pages } from './Pages';
+import { Entities } from './Entities';
 import { Media } from './Media';
 import { Subscribers } from './Subscribers';
 import { AdminNotFound } from './AdminNotFound';
@@ -30,6 +32,8 @@ export default function AdminRoot() {
               <Route path="catalog" element={<Catalog />} />
               <Route path="insights" element={<Insights />} />
               <Route element={<RequireRole role="admin" />}>
+                <Route path="pages" element={<Pages />} />
+                <Route path="entities" element={<Entities />} />
                 <Route path="content" element={<Content />} />
                 <Route path="media" element={<Media />} />
                 <Route path="subscribers" element={<Subscribers />} />

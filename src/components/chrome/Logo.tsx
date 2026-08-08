@@ -6,9 +6,11 @@ interface LogoProps {
 }
 
 /**
- * Placeholder wordmark — small circular brand mark + "Explora" in upright
- * Cormorant Garamond + small-caps "Journeys" sub-line. Partner replaces with the
- * licensed brand wordmark .svg at /public/brand/wordmark.svg when assets arrive.
+ * Brand mark — the licensed "A" monogram (/public/brand/mark.png, cut from the
+ * partner's logo art) + "Aesthisis" (the agency) in upright Cormorant Garamond +
+ * small-caps "Explore Cruise" sub-line. The cruise product itself stays branded
+ * "Explora Journeys" everywhere it's discussed in page copy — only the agency's
+ * own identity (header/footer lockup, admin, copyright) uses Aesthisis.
  */
 export function Logo({ className = '', variant = 'dark' }: LogoProps) {
   const color = variant === 'light' ? 'text-cream' : 'text-accent-gold';
@@ -16,32 +18,22 @@ export function Logo({ className = '', variant = 'dark' }: LogoProps) {
   return (
     <Link
       to="/"
-      aria-label="Explora Journeys"
+      aria-label="Aesthisis"
       className={`inline-flex items-center gap-2.5 leading-none ${color} ${className}`}
     >
-      {/* Generic brand mark — concentric circles with a horizon line through the centre.
-          Replace with /public/brand/wordmark.svg when partner provides the asset. */}
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 28 28"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+      <img
+        src="/brand/mark.png"
+        alt=""
         aria-hidden
-        className="shrink-0"
-      >
-        <circle cx="14" cy="14" r="13" stroke="currentColor" strokeWidth="0.75" opacity="0.6" />
-        <circle cx="14" cy="14" r="8" stroke="currentColor" strokeWidth="0.75" opacity="0.85" />
-        <line x1="2" y1="14" x2="26" y2="14" stroke="currentColor" strokeWidth="0.75" opacity="0.45" />
-        <circle cx="14" cy="14" r="1.4" fill="currentColor" />
-      </svg>
+        className="h-8 w-8 shrink-0 object-contain"
+      />
 
       <span className="flex flex-col leading-[0.95]">
         <span className="font-serif text-[1.4rem] tracking-tight font-normal">
-          Explora
+          Aesthisis
         </span>
         <span className={`font-sans text-[0.52rem] tracking-[0.34em] uppercase mt-1 ${subColor}`}>
-          Journeys
+          Explore Cruise
         </span>
       </span>
     </Link>

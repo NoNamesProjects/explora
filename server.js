@@ -76,10 +76,14 @@ if (paypalCapture) app.all('/api/paypal/capture-order', adapt(paypalCapture));
 // ── Client CMS: public content bundle + newsletter confirm/unsubscribe ──
 const content = await maybe('./api/content.js');
 const contentVersion = await maybe('./api/content/version.js');
+const contentSections = await maybe('./api/content/sections.js');
+const contentEntities = await maybe('./api/content/entities.js');
 const nlConfirm = await maybe('./api/newsletter/confirm.js');
 const nlUnsub = await maybe('./api/newsletter/unsubscribe.js');
 if (content) app.all('/api/content', adapt(content));
 if (contentVersion) app.all('/api/content/version', adapt(contentVersion));
+if (contentSections) app.all('/api/content/sections', adapt(contentSections));
+if (contentEntities) app.all('/api/content/entities', adapt(contentEntities));
 if (nlConfirm) app.all('/api/newsletter/confirm', adapt(nlConfirm));
 if (nlUnsub) app.all('/api/newsletter/unsubscribe', adapt(nlUnsub));
 
@@ -116,6 +120,13 @@ const adMediaId = await ad('media/[id].js');         if (adMediaId) app.all('/ap
 const adCatPricing = await ad('catalog/pricing/[journeyId].js'); if (adCatPricing) app.all('/api/admin/catalog/pricing/:journeyId', adapt(adCatPricing));
 const adSubs = await ad('subscribers.js');           if (adSubs) app.all('/api/admin/subscribers', adapt(adSubs));
 const adBroadcast = await ad('broadcast.js');        if (adBroadcast) app.all('/api/admin/broadcast', adapt(adBroadcast));
+// ── Page-builder (Tier B CMS). Static reorder/publish before the :id sibling. ──
+const adSecReorder = await ad('sections/reorder.js'); if (adSecReorder) app.all('/api/admin/sections/reorder', adapt(adSecReorder));
+const adSecPublish = await ad('sections/publish.js'); if (adSecPublish) app.all('/api/admin/sections/publish', adapt(adSecPublish));
+const adSections = await ad('sections.js');           if (adSections) app.all('/api/admin/sections', adapt(adSections));
+const adSectionId = await ad('sections/[id].js');     if (adSectionId) app.all('/api/admin/sections/:id', adapt(adSectionId));
+const adEntities = await ad('entities.js');           if (adEntities) app.all('/api/admin/entities', adapt(adEntities));
+const adEntitySlug = await ad('entities/[slug].js');  if (adEntitySlug) app.all('/api/admin/entities/:slug', adapt(adEntitySlug));
 
 // ── Client-uploaded media (cPanel disk) ─────────────────────────────────────
 // Served from <app-root>/uploads at /uploads. Kept in lockstep with the media

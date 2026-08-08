@@ -53,7 +53,7 @@ export function AdminTopbar() {
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3 12h18M3 6h18M3 18h18" /></svg>
           </button>
-          <span className="font-serif text-base text-ink lg:hidden">{t('admin.chrome.opsTitle', { defaultValue: 'Explora Ops' })}</span>
+          <span className="font-serif text-base text-ink lg:hidden">{t('admin.chrome.opsTitle', { defaultValue: 'Aesthisis Ops' })}</span>
         </div>
 
         <div className="flex items-center gap-3">

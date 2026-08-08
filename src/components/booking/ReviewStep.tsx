@@ -180,8 +180,8 @@ export function ReviewStep() {
         <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-1 accent-[#0C2340]" />
         <span>
           {paypalEnabled()
-            ? t('booking.review.consentWithDeposit', { defaultValue: 'I understand this is a reservation request — availability and the final price are confirmed by the Explora team, and a refundable deposit secures my place. I agree to the booking terms.' })
-            : t('booking.review.consent', { defaultValue: 'I understand this is a reservation request — availability and the final price are confirmed by the Explora team. I agree to the booking terms.' })}
+            ? t('booking.review.consentWithDeposit', { defaultValue: 'I understand this is a reservation request — availability and the final price are confirmed by the Aesthisis team, and a refundable deposit secures my place. I agree to the booking terms.' })
+            : t('booking.review.consent', { defaultValue: 'I understand this is a reservation request — availability and the final price are confirmed by the Aesthisis team. I agree to the booking terms.' })}
         </span>
       </label>
       {error && <p className="text-sm text-red-700 mb-4">{error}</p>}
