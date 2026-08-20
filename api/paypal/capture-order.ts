@@ -19,6 +19,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { z } from 'zod';
 import { db } from '../../lib/db/client';
 import { readJson, sendJson } from '../../lib/http';
+import { rateLimited } from '../../lib/rate-limit';
 import { getBookingByRef } from '../../lib/booking';
 import { captureOrder } from '../../lib/paypal';
 import { sendBookingNotification } from '../../lib/email';
@@ -31,6 +32,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     res.setHeader('Allow', 'POST');
     return res.end();
   }
+  if (rateLimited(req, res, { scope: 'paypal', limit: 20, windowMs: 10 * 60_000 })) return;
   const parsed = schema.safeParse(await readJson(req));
   if (!parsed.success) return sendJson(res, 400, { ok: false, error: 'invalid' });
   const { ref, orderId } = parsed.data;
