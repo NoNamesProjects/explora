@@ -96,7 +96,7 @@ export function DestinationsRow({ id, tone, heading, intro, ctaLabel }: Destinat
             </p>
             <Link
               to="/destinations"
-              className="group mt-6 link-underline text-accent-gold inline-flex items-baseline gap-1.5"
+              className="group mt-6 link-underline text-accent-goldText inline-flex items-baseline gap-1.5"
             >
               <span>{ctaLabel || t('home.destinations.viewAll')}</span>
               <span aria-hidden className="transition-transform duration-300 ease-out-soft group-hover:translate-x-1">

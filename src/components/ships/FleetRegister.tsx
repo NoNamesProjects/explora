@@ -114,7 +114,7 @@ export function FleetRegister() {
                     </div>
                   )}
 
-                  <div className="mt-8 inline-flex items-baseline gap-1.5 text-accent-gold link-underline">
+                  <div className="mt-8 inline-flex items-baseline gap-1.5 text-accent-goldText link-underline">
                     <span>{t('home.fleet.viewShip')}</span>
                     <span aria-hidden className="transition-transform duration-300 ease-out-soft group-hover:translate-x-1">
                       ›

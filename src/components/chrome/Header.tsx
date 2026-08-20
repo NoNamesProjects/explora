@@ -55,7 +55,7 @@ export function Header() {
       className={[
         'sticky top-0 z-40 transition-transform duration-500 ease-out-soft',
         hidden && !pinned ? '-translate-y-full' : 'translate-y-0',
-        'bg-cream text-accent-gold border-b border-cream-300/60',
+        'bg-cream text-accent-goldText border-b border-cream-300/60',
       ].join(' ')}
     >
       <div className="container flex items-center gap-6 lg:gap-10 py-4">
@@ -64,7 +64,7 @@ export function Header() {
           <Logo />
           <Link
             to="/find-your-journey"
-            className="hidden md:inline-flex items-center text-[0.7rem] uppercase tracking-[0.18em] font-medium text-accent-gold hover:text-ink transition-colors"
+            className="hidden md:inline-flex items-center text-[0.7rem] uppercase tracking-[0.18em] font-medium text-accent-goldText hover:text-ink transition-colors"
           >
             {t('nav.findAJourney')}
           </Link>

@@ -125,7 +125,7 @@ export function RegionSubNav({
                     'transition-colors duration-300 rounded-sm',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
                     active
-                      ? 'text-accent-gold relative after:absolute after:left-0 after:right-0 after:-bottom-[18px] after:h-px after:bg-accent-gold'
+                      ? 'text-accent-goldText relative after:absolute after:left-0 after:right-0 after:-bottom-[18px] after:h-px after:bg-accent-gold'
                       : 'text-ink-600 hover:text-ink',
                   ].join(' ')}
                 >

@@ -23,6 +23,7 @@ export default function FAQ() {
       <section className="border-b border-cream-300/60 bg-cream-soft">
         <div className="container py-section-y max-w-editorial text-center">
           <SectionHeading
+            as="h1"
             eyebrow={t('faq.eyebrow')}
             titleLead={t('faq.titleLead')}
             highlight={t('faq.titleHighlight')}

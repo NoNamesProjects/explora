@@ -104,7 +104,7 @@ function Dropdown({
           className,
         ].join(' ')}
       >
-        <span className={['transition-colors', open || active ? 'text-accent-gold' : 'text-ink-500 group-hover:text-ink'].join(' ')}>
+        <span className={['transition-colors', open || active ? 'text-accent-goldText' : 'text-ink-500 group-hover:text-ink'].join(' ')}>
           {icon}
         </span>
         <span className="min-w-0 flex-1">

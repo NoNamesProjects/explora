@@ -23,6 +23,16 @@ import { useTranslation } from 'react-i18next';
 import { RenderSections } from './registry';
 import { PreviewBanner } from './PreviewBanner';
 
+/** Cheap placeholder for the sections fetch — mounts nothing that calls an API. */
+function PageSectionsSkeleton() {
+  return (
+    <div className="container py-section-y" aria-hidden>
+      <div className="h-10 w-2/3 max-w-md animate-pulse rounded bg-cream-300" />
+      <div className="mt-6 h-72 w-full animate-pulse rounded bg-cream-300" />
+    </div>
+  );
+}
+
 export function PageSections({
   page, entity: entitySlug, fallback = null, onMissingEntity, subNav = false,
 }: {
@@ -59,7 +69,15 @@ export function PageSections({
   }, [sections, subNav, t, entity]);
 
   const waiting = loading || (kind ? entityStatus === 'loading' : false);
-  if (waiting) return <>{fallback}</>;
+  // A brief skeleton, NOT `fallback`, while the sections fetch is in flight.
+  // `fallback` (e.g. LegacyHome) is a full page composition whose subcomponents
+  // fire their own API calls the instant they mount — on the common path
+  // (sections exist), it would mount, fire 2+ requests, then get unmounted the
+  // moment the real sections arrive a beat later, wasting every one of them.
+  // The heavier fallback is reserved for when loading has actually finished
+  // and there truly are no sections (DB down, page not migrated yet) — the
+  // same resilience guarantee, just without paying for it on every load.
+  if (waiting) return <PageSectionsSkeleton />;
 
   // A page that needs an entity but can't find one is a 404, not a fallback:
   // rendering the built-in layout here would show a DIFFERENT ship's content.

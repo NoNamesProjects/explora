@@ -60,6 +60,7 @@ export default function Contact() {
       <section className="border-b border-cream-300/60 bg-cream-soft">
         <div className="container py-section-y max-w-editorial">
           <SectionHeading
+            as="h1"
             eyebrow={t('contact.page.eyebrow')}
             titleLead={t('contact.page.titleLead')}
             highlight={t('contact.page.titleHighlight')}

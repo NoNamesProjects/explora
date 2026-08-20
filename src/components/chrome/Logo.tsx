@@ -13,8 +13,8 @@ interface LogoProps {
  * own identity (header/footer lockup, admin, copyright) uses Aesthisis.
  */
 export function Logo({ className = '', variant = 'dark' }: LogoProps) {
-  const color = variant === 'light' ? 'text-cream' : 'text-accent-gold';
-  const subColor = variant === 'light' ? 'text-cream/75' : 'text-accent-gold/75';
+  const color = variant === 'light' ? 'text-cream' : 'text-accent-goldText';
+  const subColor = variant === 'light' ? 'text-cream/75' : 'text-accent-goldText/75';
   return (
     <Link
       to="/"

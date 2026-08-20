@@ -40,7 +40,7 @@ export function LanguageToggle({ className = '' }: { className?: string }) {
               'min-w-[2.25rem] rounded-full px-2.5 py-1 text-[0.7rem] font-medium uppercase tracking-[0.16em] transition-colors duration-300',
               isActive
                 ? 'bg-accent-gold text-cream'
-                : 'text-accent-gold hover:text-ink',
+                : 'text-accent-goldText hover:text-ink',
             ].join(' ')}
           >
             {l.label}

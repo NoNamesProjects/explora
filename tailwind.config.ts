@@ -55,6 +55,12 @@ const config: Config = {
           gold:     '#96845E',
           goldSoft: '#B5A684',
           tan:      '#866D4B',
+          // #96845E on the cream background measures 3.26:1 — under the 4.5:1
+          // WCAG AA floor for normal text. Same family, darkened, for anywhere
+          // gold is the actual READABLE text (nav links, "Contact Us", the
+          // logo wordmark) — 5.89:1. `gold` stays unchanged for borders,
+          // dividers and backgrounds, which only need 3:1 as non-text elements.
+          goldText: '#6B5B3D',
         },
       },
       fontFamily: {

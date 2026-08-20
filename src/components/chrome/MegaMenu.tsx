@@ -23,7 +23,7 @@ export function MegaMenu({ triggerKeys }: MegaMenuProps) {
         {panels.map((panel) => (
           <NavigationMenu.Item key={panel.triggerKey} className="relative">
             <NavigationMenu.Trigger
-              className="text-[0.72rem] uppercase tracking-[0.18em] font-medium text-accent-gold hover:text-ink data-[state=open]:text-ink transition-colors duration-300"
+              className="text-[0.72rem] uppercase tracking-[0.18em] font-medium text-accent-goldText hover:text-ink data-[state=open]:text-ink transition-colors duration-300"
               aria-label={t('aria.openMegaMenu', { section: t(panel.triggerKey) })}
               onClick={() => {
                 if (panel.triggerHref) navigate(panel.triggerHref);

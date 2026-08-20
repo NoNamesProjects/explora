@@ -6,11 +6,11 @@ export function UtilityNav() {
   const { t } = useTranslation();
 
   return (
-    <div className="flex items-center gap-4 text-accent-gold">
+    <div className="flex items-center gap-4 text-accent-goldText">
       <LanguageToggle />
       <Link
         to="/contact"
-        className="hidden md:inline-flex items-center px-4 py-2 text-[0.7rem] uppercase tracking-[0.18em] font-medium border border-accent-gold text-accent-gold hover:bg-accent-gold hover:text-cream transition-colors duration-300"
+        className="hidden md:inline-flex items-center px-4 py-2 text-[0.7rem] uppercase tracking-[0.18em] font-medium border border-accent-gold text-accent-goldText hover:bg-accent-gold hover:text-cream transition-colors duration-300"
       >
         {t('nav.contact')}
       </Link>

@@ -74,7 +74,7 @@ export function ShipsGrid({ className = '' }: { className?: string }) {
                 <div className="mt-2.5 text-eyebrow uppercase tracking-eyebrow text-ink-600">
                   {statusText}
                 </div>
-                <div className="mt-5 link-underline text-accent-gold inline-flex items-baseline gap-1.5">
+                <div className="mt-5 link-underline text-accent-goldText inline-flex items-baseline gap-1.5">
                   <span>{t('home.fleet.viewShip')}</span>
                   <span aria-hidden className="transition-transform duration-300 ease-out-soft group-hover:translate-x-1">
                     ›
