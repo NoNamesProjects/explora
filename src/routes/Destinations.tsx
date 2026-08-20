@@ -56,35 +56,30 @@ export default function Destinations() {
 
   useEffect(() => {
     let alive = true;
-    // World Journey shows a curated label, not a live count — skip its fetch.
+    // World Journey shows a curated label, not a live count — no stat to wait on.
     const regions = DESTINATION_REGIONS.filter((r) => r.slug !== 'world-journey');
 
-    const tasks = regions.map(async (r) => {
-      try {
-        const [searchRes, facetsRes] = await Promise.allSettled([
-          api.journeys.search({ region: r.slug, pageSize: 1 }),
-          api.journeys.facets({ region: r.slug }),
-        ]);
-        const total = searchRes.status === 'fulfilled' ? searchRes.value.total : null;
-        if (total == null) throw new Error('region search failed');
-        const facets = facetsRes.status === 'fulfilled' ? facetsRes.value : null;
-        const stat: RegionStat = {
-          total,
-          nightsMin: facets?.nightsMin ?? null,
-          nightsMax: facets?.nightsMax ?? null,
-          priceFrom: facets?.priceMin ?? null,
-        };
-        if (alive) setStats((prev) => ({ ...prev, [r.slug]: stat }));
-      } catch {
-        // Failed region: record null so the tile stops loading and shows
-        // name + photo + CTA without a stat line.
-        if (alive) setStats((prev) => ({ ...prev, [r.slug]: null }));
-      }
-    });
-
-    // Each task already writes its own result into state as it resolves; this
-    // just swallows the settled batch so there is no unhandled rejection.
-    void Promise.allSettled(tasks);
+    // One request for every region's figures (api/destinations-stats.ts), not
+    // 2 requests PER region — this page used to fire ~20-22 concurrent calls
+    // on load, against a DB connection pool capped at 8.
+    api.destinations.stats()
+      .then((byRegion) => {
+        if (!alive) return;
+        const next: StatsMap = {};
+        for (const r of regions) {
+          const s = byRegion[r.slug];
+          next[r.slug] = s ? { total: s.total, nightsMin: s.nightsMin, nightsMax: s.nightsMax, priceFrom: s.priceFrom } : null;
+        }
+        setStats(next);
+      })
+      .catch(() => {
+        // Failed: record null for every region so tiles stop loading and show
+        // name + photo + CTA without a stat line, same as a per-region failure did.
+        if (!alive) return;
+        const next: StatsMap = {};
+        for (const r of regions) next[r.slug] = null;
+        setStats(next);
+      });
 
     return () => {
       alive = false;

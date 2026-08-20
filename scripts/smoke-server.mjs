@@ -85,6 +85,28 @@ const checks = [
   ['GET  /api/ships (visible fleet)', async () => { const s = (await json('/api/ships')).ships ?? []; return s.length === 4 && !s.some((x) => ['EP05', 'EP06'].includes(x.ship_cd)); }],
   ['GET  /api/ships/EP01',          async () => (await json('/api/ships/EP01')).ok === true],
   ['GET  /api/ports',               async () => ((await json('/api/ports')).ports?.length ?? 0) > 0],
+  ['GET  /api/destinations-stats (one call, replaces the old per-region fan-out)', async () => {
+    const d = await json('/api/destinations-stats');
+    if (!d.ok || Object.keys(d.stats).length === 0) return false;
+    // Cross-check one region's numbers against the equivalent search+facets
+    // computation, to prove the consolidated query is not just fast but correct.
+    const someRegion = Object.keys(d.stats)[0];
+    const search = await json(`/api/journeys?region=${someRegion}&pageSize=1`);
+    const facets = await json(`/api/journeys?facets=1&region=${someRegion}`);
+    const s = d.stats[someRegion];
+    return s.total === search.total && s.nightsMin === facets.facets.nightsMin && s.priceFrom === facets.facets.priceMin;
+  }],
+  ['GET  /api/journeys sorted+filtered stays correctly ordered (price-asc)', async () => {
+    const d = await json('/api/journeys?sort=price-asc&pageSize=10');
+    const prices = d.journeys.map((j) => j.lowestPriceEUR).filter((p) => p != null);
+    return prices.every((p, i) => i === 0 || p >= prices[i - 1]);
+  }],
+  ['GET  /api/journeys page 2 returns a different set than page 1', async () => {
+    const p1 = await json('/api/journeys?pageSize=5&page=1');
+    const p2 = await json('/api/journeys?pageSize=5&page=2');
+    const ids1 = new Set(p1.journeys.map((j) => j.journeyId));
+    return p2.journeys.every((j) => !ids1.has(j.journeyId));
+  }],
   ['POST /api/contact (valid)',     async () => (await json('/api/contact', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ name: 'Smoke', email: 'smoke@example.com', message: 'smoke' }) })).ok === true],
   ['POST /api/contact (invalid)',   async () => (await get('/api/contact', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'x' }) })).status === 400],
   ['POST /api/newsletter',          async () => (await json('/api/newsletter', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'smoke@example.com', consent: true }) })).ok === true],

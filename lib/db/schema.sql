@@ -101,6 +101,16 @@ CREATE TABLE IF NOT EXISTS fares (
 
 CREATE INDEX IF NOT EXISTS fares_journey_idx ON fares (journey_id);
 
+-- Backs the min_fare aggregate every journey list/count/facets request runs
+-- (MIN(NULLIF((prices->>'2A')::numeric,0)) GROUP BY journey_id WHERE currency=
+-- 'EUR' AND now_available=true) — without it, that's a full seq scan + filter
+-- + hash-aggregate over the whole fares table on every single request. The
+-- partial WHERE keeps the index small (only the rows the query ever touches),
+-- and the expression column lets Postgres serve the MIN via an index scan.
+CREATE INDEX IF NOT EXISTS fares_eur_available_price_idx
+  ON fares (journey_id, (NULLIF((prices->>'2A')::numeric, 0)))
+  WHERE currency = 'EUR' AND now_available = true;
+
 CREATE TABLE IF NOT EXISTS excursions (
   excursion_cd     text PRIMARY KEY,
   port_cd          text REFERENCES ports(port_cd) ON UPDATE CASCADE,
@@ -531,3 +541,8 @@ CREATE TABLE IF NOT EXISTS custom_package_fares (
 CREATE UNIQUE INDEX IF NOT EXISTS custom_package_fares_identity_idx
   ON custom_package_fares (package_id, suite_category, fare_code, currency);
 CREATE INDEX IF NOT EXISTS custom_package_fares_pkg_idx ON custom_package_fares (package_id, sort_order);
+
+-- Same rationale as fares_eur_available_price_idx above.
+CREATE INDEX IF NOT EXISTS custom_package_fares_eur_available_price_idx
+  ON custom_package_fares (package_id, (NULLIF(per_person, 0)))
+  WHERE currency = 'EUR' AND now_available = true;

@@ -53,6 +53,7 @@ app.use((_req, res, next) => {
 // ── Public API ─────────────────────────────────────────────────────────────
 const journeys = await maybe('./api/journeys.js');
 const journeyById = await maybe('./api/journeys/[id].js');
+const destinationsStats = await maybe('./api/destinations-stats.js');
 const ports = await maybe('./api/ports.js');
 const ships = await maybe('./api/ships.js');
 const shipByCode = await maybe('./api/ships/[code].js');
@@ -66,6 +67,7 @@ const paypalCapture = await maybe('./api/paypal/capture-order.js');
 
 if (journeys) app.all('/api/journeys', adapt(journeys));
 if (journeyById) app.all('/api/journeys/:id', adapt(journeyById));
+if (destinationsStats) app.all('/api/destinations-stats', adapt(destinationsStats));
 if (ports) app.all('/api/ports', adapt(ports));
 if (ships) app.all('/api/ships', adapt(ships));
 if (shipByCode) app.all('/api/ships/:code', adapt(shipByCode));

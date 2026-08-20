@@ -92,11 +92,18 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     // ── Faceted filter options ───────────────────────────────────────────────
     if (q.facets) {
+      // The five queries below are fully independent reads (each applies a
+      // different SUBSET of the filters, per the comments), so they run
+      // concurrently instead of one-after-another — this used to be five
+      // sequential round trips serialized behind each other for one facets
+      // request. Each `sql\`...\`` tag starts executing the moment it's
+      // invoked; Promise.all just waits for all five instead of one at a time.
+
       // Available destinations — apply ship + port + month, NOT region.
       // Custom packages join every facet list too (they carry a region and a
       // date), but drop out whenever a ship/port filter is active since they
       // have neither.
-      const regions = (await sql`
+      const regionsP = sql`
         SELECT DISTINCT j.region AS region
         FROM journeys j
         WHERE j.is_available = true
@@ -118,10 +125,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           AND ${fPort}::text IS NULL
           AND (${monthStart}::date IS NULL OR cp.sailing_date >= ${monthStart}::date)
           AND (${monthEnd}::date IS NULL OR cp.sailing_date < ${monthEnd}::date)
-      `) as Array<{ region: string | null }>;
+      `;
 
       // Available ships — apply region + port + month, NOT ship.
-      const ships = (await sql`
+      const shipsP = sql`
         SELECT DISTINCT j.ship_cd AS ship_cd
         FROM journeys j
         WHERE j.is_available = true
@@ -131,10 +138,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           AND (${fPort}::text IS NULL OR j.sailing_port = ${fPort})
           AND (${monthStart}::date IS NULL OR j.sailing_date >= ${monthStart}::date)
           AND (${monthEnd}::date IS NULL OR j.sailing_date < ${monthEnd}::date)
-      `) as Array<{ ship_cd: string }>;
+      `;
 
       // Available months (YYYY-MM) — apply region + ship + port, NOT month.
-      const months = (await sql`
+      const monthsP = sql`
         SELECT DISTINCT to_char(j.sailing_date, 'YYYY-MM') AS ym
         FROM journeys j
         WHERE j.is_available = true
@@ -153,10 +160,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           AND ${fShip}::text IS NULL
           AND ${fPort}::text IS NULL
         ORDER BY ym
-      `) as Array<{ ym: string }>;
+      `;
 
       // Available embarkation ports — apply region + ship + month, NOT port.
-      const ports = (await sql`
+      const portsP = sql`
         SELECT DISTINCT j.sailing_port AS code, p.port_name AS name
         FROM journeys j
         LEFT JOIN ports p ON p.port_cd = j.sailing_port
@@ -169,10 +176,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           AND (${monthStart}::date IS NULL OR j.sailing_date >= ${monthStart}::date)
           AND (${monthEnd}::date IS NULL OR j.sailing_date < ${monthEnd}::date)
         ORDER BY name NULLS LAST
-      `) as Array<{ code: string; name: string | null }>;
+      `;
 
       // Nights / price bounds — apply ALL selections so the sliders tighten too.
-      const bounds = (await sql`
+      const boundsP = sql`
         WITH min_fare AS (
           SELECT journey_id, MIN(NULLIF((prices->>'2A')::numeric, 0))::float8 AS lowest_eur
           FROM fares
@@ -216,7 +223,15 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           FLOOR(MIN(lowest_eur))::int AS price_min,
           CEIL(MAX(lowest_eur))::int AS price_max
         FROM bounded
-      `) as Array<{ nights_min: number | null; nights_max: number | null; price_min: number | null; price_max: number | null }>;
+      `;
+
+      const [regions, ships, months, ports, bounds] = await Promise.all([
+        regionsP as Promise<Array<{ region: string | null }>>,
+        shipsP as Promise<Array<{ ship_cd: string }>>,
+        monthsP as Promise<Array<{ ym: string }>>,
+        portsP as Promise<Array<{ code: string; name: string | null }>>,
+        boundsP as Promise<Array<{ nights_min: number | null; nights_max: number | null; price_min: number | null; price_max: number | null }>>,
+      ]);
 
       const b = bounds[0];
       res.statusCode = 200;
@@ -250,20 +265,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           AND now_available = true
         GROUP BY journey_id
       ),
-      itin AS (
-        -- Full ordered list of REAL destinations (sea days excluded: sea days
-        -- are ingested as port_cd NULL or the "At Sea" port code AAATC). Objects
-        -- carry the code (for the thumbnail), name, day number, and country.
-        SELECT jd.journey_id,
-               json_agg(
-                 json_build_object('code', jd.port_cd, 'name', p.port_name, 'day', jd.day_number, 'country', p.country,
-                                 'arrivalTime', jd.arrival_time, 'departureTime', jd.departure_time)
-                 ORDER BY jd.day_number
-               ) FILTER (WHERE jd.port_cd IS NOT NULL AND lower(coalesce(p.port_name, '')) <> 'at sea') AS destinations
-        FROM journey_days jd
-        LEFT JOIN ports p ON p.port_cd = jd.port_cd
-        GROUP BY jd.journey_id
-      ),
       custom_min_fare AS (
         SELECT package_id, MIN(NULLIF(per_person, 0))::float8 AS lowest_eur
         FROM custom_package_fares
@@ -272,7 +273,12 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       ),
       -- Feed sailings and owner-managed custom packages, projected to one shape
       -- so filtering, sorting, pagination and the total all treat them alike and
-      -- they interleave naturally in the grid.
+      -- they interleave naturally in the grid. Destinations are deliberately
+      -- NOT computed here for feed rows (see the itin CTE below) — a custom package's
+      -- itinerary is cheap (a correlated subquery over its OWN small jsonb
+      -- column, bounded regardless of catalog size) but a feed journey's is a
+      -- GROUP BY over journey_days, and doing that before pagination would mean
+      -- aggregating the whole catalog's days to show one page of cards.
       unified AS (
         SELECT
           j.journey_id,
@@ -287,7 +293,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           j.nights,
           s.ship_name,
           COALESCE(o.override_price, mf.lowest_eur)::float8 AS lowest_eur,
-          pv.destinations,
+          NULL::json AS destinations,
           false AS is_custom,
           NULL::text AS hero_image
         FROM journeys j
@@ -297,7 +303,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         LEFT JOIN min_fare mf ON mf.journey_id = j.journey_id
         LEFT JOIN fare_overrides o
           ON o.journey_id = j.journey_id AND o.suite_category = '' AND o.currency = 'EUR' AND o.enabled
-        LEFT JOIN itin pv ON pv.journey_id = j.journey_id
         WHERE j.is_available = true
           AND j.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
           AND j.ship_cd NOT IN ('EP05', 'EP06') -- EXPLORA V/VI hidden until launch
@@ -332,30 +337,65 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         WHERE cp.visible = true
           AND cp.sailing_date IS NOT NULL
           AND cp.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
+      ),
+      -- Filter + sort + paginate FIRST, on the cheap projection above (no
+      -- journey_days involved yet) — this is the set of journey_ids that will
+      -- actually be shown.
+      paginated AS (
+        SELECT
+          u.journey_id, u.ship_cd, u.itin_desc, u.region, u.sailing_port, u.termination_port,
+          u.sailing_port_name, u.termination_port_name,
+          u.sailing_date::text AS sailing_date,
+          u.nights, u.ship_name, u.lowest_eur, u.destinations, u.is_custom, u.hero_image
+        FROM unified u
+        WHERE (${q.region ?? null}::text IS NULL OR u.region = ${q.region ?? null})
+          AND (${q.ship ?? null}::text IS NULL OR u.ship_cd = ${q.ship ?? null})
+          AND (${q.nights ?? null}::int IS NULL OR u.nights = ${q.nights ?? null})
+          AND (${q.minNights ?? null}::int IS NULL OR u.nights >= ${q.minNights ?? null})
+          AND (${q.maxNights ?? null}::int IS NULL OR u.nights <= ${q.maxNights ?? null})
+          AND (${q.departurePort ?? null}::text IS NULL OR u.sailing_port = ${q.departurePort ?? null})
+          AND (${q.minPrice ?? null}::float8 IS NULL OR u.lowest_eur >= ${q.minPrice ?? null})
+          AND (${q.maxPrice ?? null}::float8 IS NULL OR u.lowest_eur <= ${q.maxPrice ?? null})
+          AND (${monthStart}::date IS NULL OR u.sailing_date >= ${monthStart}::date)
+          AND (${monthEnd}::date IS NULL OR u.sailing_date < ${monthEnd}::date)
+        ORDER BY
+          CASE WHEN ${q.sort} = 'price-asc'   THEN u.lowest_eur END ASC NULLS LAST,
+          CASE WHEN ${q.sort} = 'price-desc'  THEN u.lowest_eur END DESC NULLS LAST,
+          CASE WHEN ${q.sort} = 'nights-asc'  THEN u.nights END ASC,
+          CASE WHEN ${q.sort} = 'nights-desc' THEN u.nights END DESC,
+          u.sailing_date ASC
+        LIMIT ${q.pageSize} OFFSET ${offset}
+      ),
+      -- Destinations for the feed rows on THIS PAGE only — joined against
+      -- paginated, so the journey_days aggregation scales with page size
+      -- (~24 rows), not with the size of the catalog. Custom packages already
+      -- carry their destinations from the unified CTE above.
+      itin AS (
+        SELECT jd.journey_id,
+               json_agg(
+                 json_build_object('code', jd.port_cd, 'name', p.port_name, 'day', jd.day_number, 'country', p.country,
+                                 'arrivalTime', jd.arrival_time, 'departureTime', jd.departure_time)
+                 ORDER BY jd.day_number
+               ) FILTER (WHERE jd.port_cd IS NOT NULL AND lower(coalesce(p.port_name, '')) <> 'at sea') AS destinations
+        FROM journey_days jd
+        JOIN paginated pg ON pg.journey_id = jd.journey_id AND pg.is_custom = false
+        LEFT JOIN ports p ON p.port_cd = jd.port_cd
+        GROUP BY jd.journey_id
       )
       SELECT
-        u.journey_id, u.ship_cd, u.itin_desc, u.region, u.sailing_port, u.termination_port,
-        u.sailing_port_name, u.termination_port_name,
-        u.sailing_date::text AS sailing_date,
-        u.nights, u.ship_name, u.lowest_eur, u.destinations, u.is_custom, u.hero_image
-      FROM unified u
-      WHERE (${q.region ?? null}::text IS NULL OR u.region = ${q.region ?? null})
-        AND (${q.ship ?? null}::text IS NULL OR u.ship_cd = ${q.ship ?? null})
-        AND (${q.nights ?? null}::int IS NULL OR u.nights = ${q.nights ?? null})
-        AND (${q.minNights ?? null}::int IS NULL OR u.nights >= ${q.minNights ?? null})
-        AND (${q.maxNights ?? null}::int IS NULL OR u.nights <= ${q.maxNights ?? null})
-        AND (${q.departurePort ?? null}::text IS NULL OR u.sailing_port = ${q.departurePort ?? null})
-        AND (${q.minPrice ?? null}::float8 IS NULL OR u.lowest_eur >= ${q.minPrice ?? null})
-        AND (${q.maxPrice ?? null}::float8 IS NULL OR u.lowest_eur <= ${q.maxPrice ?? null})
-        AND (${monthStart}::date IS NULL OR u.sailing_date >= ${monthStart}::date)
-        AND (${monthEnd}::date IS NULL OR u.sailing_date < ${monthEnd}::date)
+        pg.journey_id, pg.ship_cd, pg.itin_desc, pg.region, pg.sailing_port, pg.termination_port,
+        pg.sailing_port_name, pg.termination_port_name, pg.sailing_date,
+        pg.nights, pg.ship_name, pg.lowest_eur,
+        COALESCE(pg.destinations, itin.destinations) AS destinations,
+        pg.is_custom, pg.hero_image
+      FROM paginated pg
+      LEFT JOIN itin ON itin.journey_id = pg.journey_id
       ORDER BY
-        CASE WHEN ${q.sort} = 'price-asc'   THEN u.lowest_eur END ASC NULLS LAST,
-        CASE WHEN ${q.sort} = 'price-desc'  THEN u.lowest_eur END DESC NULLS LAST,
-        CASE WHEN ${q.sort} = 'nights-asc'  THEN u.nights END ASC,
-        CASE WHEN ${q.sort} = 'nights-desc' THEN u.nights END DESC,
-        u.sailing_date ASC
-      LIMIT ${q.pageSize} OFFSET ${offset}
+        CASE WHEN ${q.sort} = 'price-asc'   THEN pg.lowest_eur END ASC NULLS LAST,
+        CASE WHEN ${q.sort} = 'price-desc'  THEN pg.lowest_eur END DESC NULLS LAST,
+        CASE WHEN ${q.sort} = 'nights-asc'  THEN pg.nights END ASC,
+        CASE WHEN ${q.sort} = 'nights-desc' THEN pg.nights END DESC,
+        pg.sailing_date ASC
     `) as JourneyCardRow[];
 
     const totalRow = (await sql`

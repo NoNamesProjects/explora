@@ -264,6 +264,18 @@ export const api = {
       return getJson<{ ok: true; facets: JourneyFacets }>(`/api/journeys?${qs}`).then((r) => r.facets);
     },
   },
+  destinations: {
+    /**
+     * Per-region {total, nightsMin, nightsMax, priceFrom} for every region, in
+     * one request. Replaces the old pattern of firing a search + a facets call
+     * PER region (~20-22 concurrent requests for one /destinations page load,
+     * against a DB pool capped at 8 — see api/destinations-stats.ts).
+     */
+    stats: () =>
+      getJson<{ ok: true; stats: Record<string, { total: number; nightsMin: number | null; nightsMax: number | null; priceFrom: number | null }> }>(
+        '/api/destinations-stats',
+      ).then((r) => r.stats),
+  },
   bookings: {
     /** Create a pending booking request; server recomputes the deposit from the fare. */
     request: (input: BookingRequestInput) =>
