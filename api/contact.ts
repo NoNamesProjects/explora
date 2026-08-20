@@ -7,6 +7,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { z } from 'zod';
 import { db } from '../lib/db/client';
 import { readJson, sendJson, reqMeta } from '../lib/http';
+import { rateLimited } from '../lib/rate-limit';
 
 const schema = z.object({
   name: z.string().min(1).max(120),
@@ -21,6 +22,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     res.setHeader('Allow', 'POST');
     return res.end();
   }
+  // 10/10min absorbs shared-IP visitors (hotel/office NAT) while still
+  // bounding contact spam.
+  if (rateLimited(req, res, { scope: 'contact', limit: 10, windowMs: 10 * 60_000 })) return;
   const parsed = schema.safeParse(await readJson(req));
   if (!parsed.success) return sendJson(res, 400, { ok: false, error: 'invalid', issues: parsed.error.issues });
   const { name, email, phone, message } = parsed.data;

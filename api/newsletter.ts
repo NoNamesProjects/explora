@@ -17,6 +17,7 @@ import { randomBytes } from 'node:crypto';
 import { z } from 'zod';
 import { db } from '../lib/db/client';
 import { readJson, sendJson } from '../lib/http';
+import { rateLimited } from '../lib/rate-limit';
 
 const schema = z.object({
   email: z.string().email().max(160),
@@ -59,7 +60,7 @@ export async function sendEmail(opts: {
   headers?: Record<string, string>;
 }): Promise<boolean> {
   const key = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM || 'Aesthisis <onboarding@resend.dev>';
+  const from = process.env.RESEND_FROM || 'Explora Journeys <onboarding@resend.dev>';
   if (!key) {
     console.log(`[email] skipped (no RESEND_API_KEY) — to=${opts.to} subject="${opts.subject}"`);
     return false;
@@ -128,11 +129,22 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     return res.end();
   }
 
+  if (rateLimited(req, res, { scope: 'newsletter', limit: 10, windowMs: 10 * 60_000 })) return;
+
   const parsed = schema.safeParse(await readJson(req));
   if (!parsed.success) return sendJson(res, 400, { ok: false, error: 'invalid' });
 
   const email = parsed.data.email.trim().toLowerCase();
   const locale = parsed.data.locale ?? 'en';
+
+  // Per-address cooldown: every accepted POST for an unconfirmed address
+  // re-arms the token and emails it, so without this cap the endpoint is an
+  // arbitrary-recipient confirmation-email relay (bombing a victim inbox and
+  // burning Resend quota/reputation from many IPs). The cooldown KEY strips
+  // plus-tags (victim+1@x, victim+2@x, … all land in victim@x's inbox) —
+  // the stored subscriber email keeps the tag as entered.
+  const emailKey = email.replace(/\+[^@]*@/, '@');
+  if (rateLimited(req, res, { scope: 'newsletter-email', key: emailKey, limit: 3, windowMs: 60 * 60_000 })) return;
 
   try {
     const sql = db();

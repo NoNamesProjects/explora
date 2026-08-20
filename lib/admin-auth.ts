@@ -182,6 +182,31 @@ function roleSatisfies(have: AdminRole, need?: AdminRole): boolean {
 }
 
 /**
+ * CSRF defense-in-depth for state-changing admin calls. SameSite=Lax already
+ * blocks classic cross-site POSTs, but sibling subdomains of the same
+ * registrable domain count as same-site, and this app deploys next to other
+ * apps on *.corfuwebsites.com. When a browser sends an Origin header on a
+ * mutation, it must match our own origin (PUBLIC_BASE_URL when configured,
+ * else the request Host). Header-less clients (curl, cron, tests) pass.
+ */
+function crossOriginMutation(req: IncomingMessage): boolean {
+  const method = (req.method ?? 'GET').toUpperCase();
+  if (method === 'GET' || method === 'HEAD' || method === 'OPTIONS') return false;
+  const origin = (req.headers.origin as string | undefined)?.trim();
+  if (!origin) return false;
+  let originHost: string;
+  try { originHost = new URL(origin).host; } catch { return true; }
+  const configured = (process.env.PUBLIC_BASE_URL || '').trim();
+  if (configured) {
+    try { if (originHost === new URL(configured).host) return false; } catch { /* malformed env — fall through */ }
+  }
+  const reqHost =
+    (req.headers['x-forwarded-host'] as string | undefined)?.split(',')[0]?.trim() ||
+    (req.headers.host as string | undefined) || '';
+  return originHost !== reqHost;
+}
+
+/**
  * Resolve the current admin user from the session cookie. On failure it SENDS
  * the response (401 no/expired session, 403 wrong role) and returns null.
  * Caller pattern:  const user = await requireAuth(req, res, 'admin'); if (!user) return;
@@ -191,6 +216,10 @@ export async function requireAuth(
   res: ServerResponse,
   role?: AdminRole,
 ): Promise<AuthUser | null> {
+  if (crossOriginMutation(req)) {
+    sendJson(res, 403, { ok: false, error: 'cross-origin' });
+    return null;
+  }
   const token = parseCookies(req)[COOKIE_NAME];
   if (!token) {
     sendJson(res, 401, { ok: false, error: 'unauthenticated' });

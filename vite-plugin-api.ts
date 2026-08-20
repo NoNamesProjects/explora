@@ -143,6 +143,16 @@ export function apiPlugin(): Plugin {
           // Hand the raw IncomingMessage/ServerResponse to the handler.
           await (handler as (req: typeof req, res: typeof res) => Promise<void> | void)(req, res);
         } catch (err) {
+          // Mirror server.js: client faults carrying a 4xx status (e.g. the
+          // 413 BodyTooLargeError from lib/http readJson) keep their status
+          // in dev too, so behavior matches production.
+          const status = Number((err as { statusCode?: number; status?: number })?.statusCode
+            ?? (err as { status?: number })?.status);
+          if (!res.headersSent && Number.isInteger(status) && status >= 400 && status < 500) {
+            res.statusCode = status;
+            res.setHeader('Content-Type', 'application/json');
+            return res.end(JSON.stringify({ ok: false, error: status === 413 ? 'body-too-large' : 'bad-request' }));
+          }
           const msg = err instanceof Error ? err.message : String(err);
           console.error(`[api ${pathOnly}]`, msg);
           if (!res.headersSent) {

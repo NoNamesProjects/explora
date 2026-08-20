@@ -40,3 +40,6 @@ lib/explora-flatfile/probe-output.json
 # Test output
 coverage/
 .nyc_output/
+
+# Claude Code local state
+.claude/

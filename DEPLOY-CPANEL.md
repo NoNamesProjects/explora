@@ -118,7 +118,8 @@ Set these in the panel (NOT in an uploaded `.env` — see secrets hygiene below)
 | `RESEND_FROM` | e.g. `Explora <noreply@yourdomain>` (verified Resend domain) |
 | `BOOKING_NOTIFY_EMAIL` | `cruises2greece@outlook.com` |
 | `DEPOSIT_PERCENT` | `20` |
-| `FRONTEND_URL` | `https://<final-domain>` |
+| `PUBLIC_BASE_URL` | `https://<final-domain>` (emailed links + Secure cookies key off THIS — `FRONTEND_URL` is dead, no code reads it) |
+| `COOKIE_SECURE` | `1` (belt-and-braces Secure flag on admin cookies behind any proxy) |
 | `CRON_SECRET` | a long random string (gates the manual ingest trigger) |
 | `PORT` | leave unset — Passenger assigns it |
 

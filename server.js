@@ -45,6 +45,10 @@ const DIST_DIR = join(__dirname, 'dist');
 const app = express();
 app.disable('x-powered-by');
 app.use(express.json({ limit: '256kb' }));
+app.use((_req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  next();
+});
 
 // ── Public API ─────────────────────────────────────────────────────────────
 const journeys = await maybe('./api/journeys.js');
@@ -127,6 +131,9 @@ const adSections = await ad('sections.js');           if (adSections) app.all('/
 const adSectionId = await ad('sections/[id].js');     if (adSectionId) app.all('/api/admin/sections/:id', adapt(adSectionId));
 const adEntities = await ad('entities.js');           if (adEntities) app.all('/api/admin/entities', adapt(adEntities));
 const adEntitySlug = await ad('entities/[slug].js');  if (adEntitySlug) app.all('/api/admin/entities/:slug', adapt(adEntitySlug));
+// ── Custom packages (owner-managed offers, outside the flatfile) ──
+const adPkgs = await ad('custom-packages.js');        if (adPkgs) app.all('/api/admin/custom-packages', adapt(adPkgs));
+const adPkgId = await ad('custom-packages/[id].js');  if (adPkgId) app.all('/api/admin/custom-packages/:id', adapt(adPkgId));
 
 // ── Client-uploaded media (cPanel disk) ─────────────────────────────────────
 // Served from <app-root>/uploads at /uploads. Kept in lockstep with the media
@@ -151,19 +158,31 @@ if (existsSync(DIST_DIR)) {
 
 // ── Last-resort error handler ──────────────────────────────────────────────
 app.use((err, _req, res, _next) => {
+  // Client faults carry a 4xx status — express.json's entity.too.large (413)
+  // and entity.parse.failed (400), lib/http readJson's BodyTooLargeError (413).
+  // Answer with that status quietly instead of logging a spurious 500.
+  const status = Number(err?.statusCode ?? err?.status);
+  if (Number.isInteger(status) && status >= 400 && status < 500) {
+    if (res.headersSent) return;
+    if (status === 413) res.setHeader('Connection', 'close');
+    return res.status(status).json({ ok: false, error: status === 413 ? 'body-too-large' : 'bad-request' });
+  }
   console.error('[server] unhandled', err);
   if (res.headersSent) return;
   res.status(500).json({ ok: false, error: 'server-error' });
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`[server] listening on :${PORT}`);
+// Loopback by default: on a VPS the app must only be reachable through the
+// reverse proxy (TLS, real Host header). Set HOST=0.0.0.0 to expose directly.
+const HOST = process.env.HOST || '127.0.0.1';
+app.listen(PORT, HOST, () => {
+  console.log(`[server] listening on ${HOST}:${PORT}`);
   // Loud misconfiguration warnings — these fail silently at request time.
   if (!process.env.RESEND_API_KEY) {
     console.warn('[server] ⚠️ RESEND_API_KEY is not set — newsletter confirmations, booking notifications and broadcasts will be SKIPPED (subscribers stay pending forever).');
   }
   if (!process.env.PUBLIC_BASE_URL) {
-    console.warn('[server] ⚠️ PUBLIC_BASE_URL is not set — emailed links fall back to request headers and admin cookies may miss the Secure flag.');
+    console.warn('[server] ⚠️ PUBLIC_BASE_URL is not set — emailed links fall back to request headers, admin cookies may miss the Secure flag, AND admin saves 403 as cross-origin unless the proxy forwards the real Host header (nginx: proxy_set_header Host $host).');
   }
 });

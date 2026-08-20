@@ -11,8 +11,16 @@
  */
 
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import { timingSafeEqual } from 'node:crypto';
 import { runIngest, IngestAbort } from '../../lib/explora-flatfile/ingest';
 import { ExploraEnvError } from '../../lib/explora-flatfile/env';
+
+/** Constant-time string compare so the bearer can't be probed byte-by-byte. */
+function safeEqual(a: string, b: string): boolean {
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+  return ab.length === bb.length && timingSafeEqual(ab, bb);
+}
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   res.setHeader('Content-Type', 'application/json');
@@ -30,7 +38,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
   // Gate: must be either Vercel Cron OR a force-with-bearer call.
   if (!isVercelCron) {
-    if (!force || !expected || auth !== expected) {
+    if (!force || !expected || !safeEqual(auth, expected)) {
       res.statusCode = 401;
       return res.end(JSON.stringify({ ok: false, error: 'unauthorized' }));
     }
