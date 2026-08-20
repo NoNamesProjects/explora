@@ -8,12 +8,12 @@
   "AEAUH": {
     "credit": "Wikimedia Commons — Abu Dhabi",
     "creditUrl": "https://en.wikipedia.org/wiki/Abu_Dhabi",
-    "file": "/photos/ports/AEAUH.jpg",
+    "file": "/photos/ports/AEAUH.webp",
     "query": "Abu Dhabi",
     "source": "wikimedia"
   },
   "AEDFW": {
-    "file": "/photos/ports/AEDFW.jpg",
+    "file": "/photos/ports/AEDFW.webp",
     "credit": "Wikimedia Commons — Member of the Expedition 22 crew.",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Artificial_Archipelagos,_Dubai,_United_Arab_Emirates_ISS022-E-024940_lrg.jpg",
     "source": "wikimedia-commons",
@@ -22,33 +22,33 @@
   "AEDXB": {
     "credit": "Wikimedia Commons — Dubai",
     "creditUrl": "https://en.wikipedia.org/wiki/Dubai",
-    "file": "/photos/ports/AEDXB.jpg",
+    "file": "/photos/ports/AEDXB.webp",
     "query": "Dubai",
     "source": "wikimedia"
   },
   "AEKLF": {
     "credit": "Wikimedia Commons — Khor Fakkan",
     "creditUrl": "https://en.wikipedia.org/wiki/Khor_Fakkan",
-    "file": "/photos/ports/AEKLF.jpg",
+    "file": "/photos/ports/AEKLF.webp",
     "query": "Khor Fakkan",
     "source": "wikimedia"
   },
   "AERKT": {
-    "file": "/photos/ports/AERKT.jpg",
+    "file": "/photos/ports/AERKT.webp",
     "credit": "Wikimedia Commons — Original: Florian Kriechbaumer Derivative work: Aristeas",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Mountains_of_Wadi_Shawka_denoised.jpg",
     "source": "wikimedia-commons",
     "query": "Ras Al Khaimah United Arab Emirates"
   },
   "AIRBY": {
-    "file": "/photos/ports/AIRBY.jpg",
+    "file": "/photos/ports/AIRBY.webp",
     "credit": "Wikimedia Commons — John Phelan",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Bay_Road_at_Wheaton_Farm,_Easton_MA.jpg",
     "source": "wikimedia-commons",
     "query": "Road Bay"
   },
   "ALSAR": {
-    "file": "/photos/ports/ALSAR.jpg",
+    "file": "/photos/ports/ALSAR.webp",
     "credit": "Wikimedia Commons — Sarandë",
     "creditUrl": "https://en.wikipedia.org/wiki/Sarand%C3%AB",
     "source": "wikimedia",
@@ -57,12 +57,12 @@
   "AUBNE": {
     "credit": "Wikimedia Commons — Brisbane",
     "creditUrl": "https://en.wikipedia.org/wiki/Brisbane",
-    "file": "/photos/ports/AUBNE.jpg",
+    "file": "/photos/ports/AUBNE.webp",
     "query": "Brisbane",
     "source": "wikimedia"
   },
   "AUCNS": {
-    "file": "/photos/ports/AUCNS.jpg",
+    "file": "/photos/ports/AUCNS.webp",
     "credit": "Wikimedia Commons — Ridiculopathy",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:The_sole_outlet_of_Cairns_Bank,_Grafton_Street,_Cairns,_Australia_04.jpg",
     "source": "wikimedia-commons",
@@ -71,33 +71,33 @@
   "AUDRW": {
     "credit": "Wikimedia Commons — Darwin, Northern Territory",
     "creditUrl": "https://en.wikipedia.org/wiki/Darwin,_Northern_Territory",
-    "file": "/photos/ports/AUDRW.jpg",
+    "file": "/photos/ports/AUDRW.webp",
     "query": "Darwin",
     "source": "wikimedia"
   },
   "AUHBA": {
     "credit": "Wikimedia Commons — Hobart",
     "creditUrl": "https://en.wikipedia.org/wiki/Hobart",
-    "file": "/photos/ports/AUHBA.jpg",
+    "file": "/photos/ports/AUHBA.webp",
     "query": "Hobart",
     "source": "wikimedia"
   },
   "AUMEL": {
-    "file": "/photos/ports/AUMEL.jpg",
+    "file": "/photos/ports/AUMEL.webp",
     "credit": "Wikimedia Commons — Melbourne",
     "creditUrl": "https://en.wikipedia.org/wiki/Melbourne",
     "source": "wikimedia",
     "query": "Melbourne"
   },
   "AUSYD": {
-    "file": "/photos/ports/AUSYD.jpg",
+    "file": "/photos/ports/AUSYD.webp",
     "credit": "Wikimedia Commons — Sydney",
     "creditUrl": "https://en.wikipedia.org/wiki/Sydney",
     "source": "wikimedia",
     "query": "Sydney"
   },
   "AWORJ": {
-    "file": "/photos/ports/AWORJ.jpg",
+    "file": "/photos/ports/AWORJ.webp",
     "credit": "Wikimedia Commons — Martin Falbisoner",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Plaza_Daniel_Leo,_Oranjestad,_Aruba_-_February_2020.jpg",
     "source": "wikimedia-commons",
@@ -106,12 +106,12 @@
   "BEZEE": {
     "credit": "Wikimedia Commons — Bruges",
     "creditUrl": "https://en.wikipedia.org/wiki/Bruges",
-    "file": "/photos/ports/BEZEE.jpg",
+    "file": "/photos/ports/BEZEE.webp",
     "query": "Bruges",
     "source": "wikimedia"
   },
   "BRADC": {
-    "file": "/photos/ports/BRADC.jpg",
+    "file": "/photos/ports/BRADC.webp",
     "credit": "Wikimedia Commons — Espaço São José Liberto",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Alter_do_ch%C3%A3o,_Santar%C3%A9m_(23311400635).jpg",
     "source": "wikimedia-commons",
@@ -120,40 +120,40 @@
   "BRMAO": {
     "credit": "Wikimedia Commons — Manaus",
     "creditUrl": "https://en.wikipedia.org/wiki/Manaus",
-    "file": "/photos/ports/BRMAO.jpg",
+    "file": "/photos/ports/BRMAO.webp",
     "query": "Manaus",
     "source": "wikimedia"
   },
   "BRMCP": {
-    "file": "/photos/ports/BRMCP.jpg",
+    "file": "/photos/ports/BRMCP.webp",
     "credit": "Wikimedia Commons — Fabio Gomes",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Fortaleza_de_S%C3%A3o_Jos%C3%A9_de_Macap%C3%A1_-_P%C3%B3rtico.jpg",
     "source": "wikimedia-commons",
     "query": "Macapá Brazil"
   },
   "BRPIN": {
-    "file": "/photos/ports/BRPIN.jpg",
+    "file": "/photos/ports/BRPIN.webp",
     "credit": "Wikimedia Commons — Parintins",
     "creditUrl": "https://en.wikipedia.org/wiki/Parintins",
     "source": "wikimedia",
     "query": "Parintins"
   },
   "BRSTM": {
-    "file": "/photos/ports/BRSTM.jpg",
+    "file": "/photos/ports/BRSTM.webp",
     "credit": "Wikimedia Commons — Santarém, Pará",
     "creditUrl": "https://en.wikipedia.org/wiki/Santar%C3%A9m,_Par%C3%A1",
     "source": "wikimedia",
     "query": "Santarem"
   },
   "BSOCE": {
-    "file": "/photos/ports/BSOCE.jpg",
+    "file": "/photos/ports/BSOCE.webp",
     "credit": "Wikimedia Commons — Ocean Cay",
     "creditUrl": "https://en.wikipedia.org/wiki/Ocean_Cay",
     "source": "wikimedia",
     "query": "Ocean Cay"
   },
   "BZBZE": {
-    "file": "/photos/ports/BZBZE.jpg",
+    "file": "/photos/ports/BZBZE.webp",
     "credit": "Wikimedia Commons — Jasmine Halki",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Belize_City_harbour,_Belize.jpg",
     "source": "wikimedia-commons",
@@ -162,12 +162,12 @@
   "CACHA": {
     "credit": "Wikimedia Commons — Charlottetown",
     "creditUrl": "https://en.wikipedia.org/wiki/Charlottetown",
-    "file": "/photos/ports/CACHA.jpg",
+    "file": "/photos/ports/CACHA.webp",
     "query": "Charlottetown",
     "source": "wikimedia"
   },
   "CAGPE": {
-    "file": "/photos/ports/CAGPE.jpg",
+    "file": "/photos/ports/CAGPE.webp",
     "credit": "Wikimedia Commons — Hayden Soloviev",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Gasp%C3%A9,_Quebec,_Canada.jpg",
     "source": "wikimedia-commons",
@@ -176,33 +176,33 @@
   "CAHAL": {
     "credit": "Wikimedia Commons — Halifax, Nova Scotia",
     "creditUrl": "https://en.wikipedia.org/wiki/Halifax,_Nova_Scotia",
-    "file": "/photos/ports/CAHAL.jpg",
+    "file": "/photos/ports/CAHAL.webp",
     "query": "Halifax",
     "source": "wikimedia"
   },
   "CAHSP": {
-    "file": "/photos/ports/CAHSP.jpg",
+    "file": "/photos/ports/CAHSP.webp",
     "credit": "Wikimedia Commons — Marc-Lautenbacher",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Wagons_%C3%A0_Havre-Saint-Pierre_-_Rio_Tinto_Fer_et_Titane,_Qu%C3%A9bec.jpg",
     "source": "wikimedia-commons",
     "query": "Havre-Saint-Pierre Canada"
   },
   "CALBA": {
-    "file": "/photos/ports/CALBA.jpg",
+    "file": "/photos/ports/CALBA.webp",
     "credit": "Wikimedia Commons — La Baie",
     "creditUrl": "https://en.wikipedia.org/wiki/La_Baie",
     "source": "wikimedia",
     "query": "La Baie"
   },
   "CALM1": {
-    "file": "/photos/ports/CALM1.jpg",
+    "file": "/photos/ports/CALM1.webp",
     "credit": "Wikimedia Commons — L'Anse aux Meadows",
     "creditUrl": "https://en.wikipedia.org/wiki/L%27Anse_aux_Meadows",
     "source": "wikimedia",
     "query": "L'Anse aux Meadows"
   },
   "CAPRR": {
-    "file": "/photos/ports/CAPRR.jpg",
+    "file": "/photos/ports/CAPRR.webp",
     "credit": "Wikimedia Commons — WindBorneListener",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Prince_Rupert_detachment_building.jpg",
     "source": "wikimedia-commons",
@@ -211,33 +211,33 @@
   "CAQUE": {
     "credit": "Wikimedia Commons — Quebec City",
     "creditUrl": "https://en.wikipedia.org/wiki/Quebec_City",
-    "file": "/photos/ports/CAQUE.jpg",
+    "file": "/photos/ports/CAQUE.webp",
     "query": "Quebec City",
     "source": "wikimedia"
   },
   "CASEI": {
-    "file": "/photos/ports/CASEI.jpg",
+    "file": "/photos/ports/CASEI.webp",
     "credit": "Wikimedia Commons — Khayman",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Sept-%C3%8Eles_(lever_de_Soleil).jpg",
     "source": "wikimedia-commons",
     "query": "Sept-Iles Canada"
   },
   "CASJB": {
-    "file": "/photos/ports/CASJB.jpg",
+    "file": "/photos/ports/CASJB.webp",
     "credit": "Wikimedia Commons — Saint John, New Brunswick",
     "creditUrl": "https://en.wikipedia.org/wiki/Saint_John,_New_Brunswick",
     "source": "wikimedia",
     "query": "Saint John"
   },
   "CASJF": {
-    "file": "/photos/ports/CASJF.jpg",
+    "file": "/photos/ports/CASJF.webp",
     "credit": "Wikimedia Commons — Erikallen920",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Aerial_view_of_Signal_Hill,_St._John%27s,_Newfoundland_at_sunset_by_photographer_Erik_Mclean_of_Introspective_Design.jpg",
     "source": "wikimedia-commons",
     "query": "St John's Canada"
   },
   "CASYD": {
-    "file": "/photos/ports/CASYD.jpg",
+    "file": "/photos/ports/CASYD.webp",
     "credit": "Wikimedia Commons — Quintin Soloviev",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Sydney,_Nova_Scotia,_Canada.jpg",
     "source": "wikimedia-commons",
@@ -246,26 +246,26 @@
   "CAVAN": {
     "credit": "Wikimedia Commons — Vancouver",
     "creditUrl": "https://en.wikipedia.org/wiki/Vancouver",
-    "file": "/photos/ports/CAVAN.jpg",
+    "file": "/photos/ports/CAVAN.webp",
     "query": "Vancouver",
     "source": "wikimedia"
   },
   "CAVIC": {
-    "file": "/photos/ports/CAVIC.jpg",
+    "file": "/photos/ports/CAVIC.webp",
     "credit": "Wikimedia Commons — Michal Klajban",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:British_Columbia_Parliament_Building_in_Victoria,_British_Columbia,_Canada_07.jpg",
     "source": "wikimedia-commons",
     "query": "Victoria Canada"
   },
   "CAYGR": {
-    "file": "/photos/ports/CAYGR.jpg",
+    "file": "/photos/ports/CAYGR.webp",
     "credit": "Wikimedia Commons — Marc-Lautenbacher",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Village_Havre-aux-Maisons,_Iles_des_la_Madeleine,_Canada.jpg",
     "source": "wikimedia-commons",
     "query": "Iles de la Madeleine Canada"
   },
   "CLCQQ": {
-    "file": "/photos/ports/CLCQQ.jpg",
+    "file": "/photos/ports/CLCQQ.webp",
     "credit": "Wikimedia Commons — mauricio.parapente",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Coquimbo,_Regi%C3%B3n_de_Coquimbo,_Chile_-_panoramio.jpg",
     "source": "wikimedia-commons",
@@ -274,12 +274,12 @@
   "CLIPC": {
     "credit": "Wikimedia Commons — Easter Island",
     "creditUrl": "https://en.wikipedia.org/wiki/Easter_Island",
-    "file": "/photos/ports/CLIPC.jpg",
+    "file": "/photos/ports/CLIPC.webp",
     "query": "Easter Island",
     "source": "wikimedia"
   },
   "CLVAP": {
-    "file": "/photos/ports/CLVAP.jpg",
+    "file": "/photos/ports/CLVAP.webp",
     "credit": "Wikimedia Commons — Valparaíso",
     "creditUrl": "https://en.wikipedia.org/wiki/Valpara%C3%ADso",
     "source": "wikimedia",
@@ -288,47 +288,47 @@
   "CNSGH": {
     "credit": "Wikimedia Commons — Shanghai",
     "creditUrl": "https://en.wikipedia.org/wiki/Shanghai",
-    "file": "/photos/ports/CNSGH.jpg",
+    "file": "/photos/ports/CNSGH.webp",
     "query": "Shanghai",
     "source": "wikimedia"
   },
   "COADZ": {
-    "file": "/photos/ports/COADZ.jpg",
+    "file": "/photos/ports/COADZ.webp",
     "credit": "Wikimedia Commons — Fundacionfadesco",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Islas_San_Andres._Colombia._2015.JPG",
     "source": "wikimedia-commons",
     "query": "San Andres Island Colombia"
   },
   "COCTG": {
-    "file": "/photos/ports/COCTG.jpg",
+    "file": "/photos/ports/COCTG.webp",
     "credit": "Wikimedia Commons — Igvir Ramirez",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Sunset-cartagena-tower-dewired.jpg",
     "source": "wikimedia-commons",
     "query": "Cartagena Colombia"
   },
   "COSMR": {
-    "file": "/photos/ports/COSMR.jpg",
+    "file": "/photos/ports/COSMR.webp",
     "credit": "Wikimedia Commons — Santa Marta",
     "creditUrl": "https://en.wikipedia.org/wiki/Santa_Marta",
     "source": "wikimedia",
     "query": "Santa Marta"
   },
   "CRLIO": {
-    "file": "/photos/ports/CRLIO.jpg",
+    "file": "/photos/ports/CRLIO.webp",
     "credit": "Wikimedia Commons — Balou46",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Avenida_am_Markt,_puerto_Lim%C3%B3n,_Costa_Rica.jpg",
     "source": "wikimedia-commons",
     "query": "Puerto Limon Costa Rica"
   },
   "CWWIL": {
-    "file": "/photos/ports/CWWIL.jpg",
+    "file": "/photos/ports/CWWIL.webp",
     "credit": "Wikimedia Commons — Willemstad",
     "creditUrl": "https://en.wikipedia.org/wiki/Willemstad",
     "source": "wikimedia",
     "query": "Willemstad"
   },
   "CYLMS": {
-    "file": "/photos/ports/CYLMS.jpg",
+    "file": "/photos/ports/CYLMS.webp",
     "credit": "Wikimedia Commons — Limassol",
     "creditUrl": "https://en.wikipedia.org/wiki/Limassol",
     "source": "wikimedia",
@@ -337,68 +337,68 @@
   "DEHAM": {
     "credit": "Wikimedia Commons — Hamburg",
     "creditUrl": "https://en.wikipedia.org/wiki/Hamburg",
-    "file": "/photos/ports/DEHAM.jpg",
+    "file": "/photos/ports/DEHAM.webp",
     "query": "Hamburg",
     "source": "wikimedia"
   },
   "DEKEL": {
     "credit": "Wikimedia Commons — Kiel",
     "creditUrl": "https://en.wikipedia.org/wiki/Kiel",
-    "file": "/photos/ports/DEKEL.jpg",
+    "file": "/photos/ports/DEKEL.webp",
     "query": "Kiel",
     "source": "wikimedia"
   },
   "DEWAR": {
     "credit": "Wikimedia Commons — Berlin",
     "creditUrl": "https://en.wikipedia.org/wiki/Berlin",
-    "file": "/photos/ports/DEWAR.jpg",
+    "file": "/photos/ports/DEWAR.webp",
     "query": "Berlin",
     "source": "wikimedia"
   },
   "DKAAR": {
     "credit": "Wikimedia Commons — Aarhus",
     "creditUrl": "https://en.wikipedia.org/wiki/Aarhus",
-    "file": "/photos/ports/DKAAR.jpg",
+    "file": "/photos/ports/DKAAR.webp",
     "query": "Aarhus",
     "source": "wikimedia"
   },
   "DKCPH": {
     "credit": "Wikimedia Commons — Copenhagen",
     "creditUrl": "https://en.wikipedia.org/wiki/Copenhagen",
-    "file": "/photos/ports/DKCPH.jpg",
+    "file": "/photos/ports/DKCPH.webp",
     "query": "Copenhagen",
     "source": "wikimedia"
   },
   "DKRNN": {
-    "file": "/photos/ports/DKRNN.jpg",
+    "file": "/photos/ports/DKRNN.webp",
     "credit": "Wikimedia Commons — Rønne",
     "creditUrl": "https://en.wikipedia.org/wiki/R%C3%B8nne",
     "source": "wikimedia",
     "query": "Rønne"
   },
   "DKSKA": {
-    "file": "/photos/ports/DKSKA.jpg",
+    "file": "/photos/ports/DKSKA.webp",
     "credit": "Wikimedia Commons — Skagen",
     "creditUrl": "https://en.wikipedia.org/wiki/Skagen",
     "source": "wikimedia",
     "query": "Skagen"
   },
   "DMRSU": {
-    "file": "/photos/ports/DMRSU.jpg",
+    "file": "/photos/ports/DMRSU.webp",
     "credit": "Wikimedia Commons — Roseau",
     "creditUrl": "https://en.wikipedia.org/wiki/Roseau",
     "source": "wikimedia",
     "query": "Roseau"
   },
   "DOAZS": {
-    "file": "/photos/ports/DOAZS.jpg",
+    "file": "/photos/ports/DOAZS.webp",
     "credit": "Wikimedia Commons — Anton Bielousov",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Santa_Barbara_de_Saman%C3%A1_(Dominican_Republic).jpeg",
     "source": "wikimedia-commons",
     "query": "Samaná Dominican Republic"
   },
   "DOCAI": {
-    "file": "/photos/ports/DOCAI.jpg",
+    "file": "/photos/ports/DOCAI.webp",
     "credit": "Wikimedia Commons — Dr. Ondřej Havelka (cestovatel)",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Isla_Catalina,_Caribbean.jpg",
     "source": "wikimedia-commons",
@@ -407,12 +407,12 @@
   "DOLEV": {
     "credit": "Wikimedia Commons — Cayo Levantado",
     "creditUrl": "https://en.wikipedia.org/wiki/Cayo_Levantado",
-    "file": "/photos/ports/DOLEV.jpg",
+    "file": "/photos/ports/DOLEV.webp",
     "query": "Cayo Levantado",
     "source": "wikimedia"
   },
   "DOPOP": {
-    "file": "/photos/ports/DOPOP.jpg",
+    "file": "/photos/ports/DOPOP.webp",
     "credit": "Wikimedia Commons — Puerto Plata",
     "creditUrl": "https://en.wikipedia.org/wiki/Puerto_Plata",
     "source": "wikimedia",
@@ -421,68 +421,68 @@
   "DZALG": {
     "credit": "Wikimedia Commons — Algiers",
     "creditUrl": "https://en.wikipedia.org/wiki/Algiers",
-    "file": "/photos/ports/DZALG.jpg",
+    "file": "/photos/ports/DZALG.webp",
     "query": "Alger",
     "source": "wikimedia"
   },
   "ECMEC": {
-    "file": "/photos/ports/ECMEC.jpg",
+    "file": "/photos/ports/ECMEC.webp",
     "credit": "Wikimedia Commons — Cayambe",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Manta_Ec_playa_Murci%C3%A9lago.jpg",
     "source": "wikimedia-commons",
     "query": "Manta Ecuador"
   },
   "EESMA": {
-    "file": "/photos/ports/EESMA.jpg",
+    "file": "/photos/ports/EESMA.webp",
     "credit": "Wikimedia Commons — Saaremaa",
     "creditUrl": "https://en.wikipedia.org/wiki/Saaremaa",
     "source": "wikimedia",
     "query": "Saaremaa"
   },
   "EETLL": {
-    "file": "/photos/ports/EETLL.jpg",
+    "file": "/photos/ports/EETLL.webp",
     "credit": "Wikimedia Commons — Tallinn",
     "creditUrl": "https://en.wikipedia.org/wiki/Tallinn",
     "source": "wikimedia",
     "query": "Tallinn"
   },
   "EGPSD": {
-    "file": "/photos/ports/EGPSD.jpg",
+    "file": "/photos/ports/EGPSD.webp",
     "credit": "Wikimedia Commons — Vyacheslav Argenberg",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Port_Said,_Egypt,_Street.jpg",
     "source": "wikimedia-commons",
     "query": "Port Said Egypt"
   },
   "EGSGA": {
-    "file": "/photos/ports/EGSGA.jpg",
+    "file": "/photos/ports/EGSGA.webp",
     "credit": "Wikimedia Commons — Balloon_over_Luxor_-_Egypt.jpg: Marcosleal derivative work: Pro2 (talk)",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Balloon_over_Luxor_-_Egypt_denoised.jpg",
     "source": "wikimedia-commons",
     "query": "Luxor Egypt"
   },
   "EGSOK": {
-    "file": "/photos/ports/EGSOK.jpg",
+    "file": "/photos/ports/EGSOK.webp",
     "credit": "Wikimedia Commons — Rebeccananonof",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Egypt_Porto_Sokhna.jpg",
     "source": "wikimedia-commons",
     "query": "Sokhna Egypt"
   },
   "EGSSH": {
-    "file": "/photos/ports/EGSSH.jpg",
+    "file": "/photos/ports/EGSSH.webp",
     "credit": "Wikimedia Commons — Sharm El Sheikh",
     "creditUrl": "https://en.wikipedia.org/wiki/Sharm_El_Sheikh",
     "source": "wikimedia",
     "query": "Sharm El-Sheikh"
   },
   "EGSUZ": {
-    "file": "/photos/ports/EGSUZ.jpg",
+    "file": "/photos/ports/EGSUZ.webp",
     "credit": "Wikimedia Commons — Godot13",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Suez_Canal_Bridge_(2008)_04.jpg",
     "source": "wikimedia-commons",
     "query": "Crossing the Suez Canal Egypt"
   },
   "EGSZC": {
-    "file": "/photos/ports/EGSZC.jpg",
+    "file": "/photos/ports/EGSZC.webp",
     "credit": "Wikimedia Commons — Godot13",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Suez_Canal_Bridge_(2008)_04.jpg",
     "source": "wikimedia-commons",
@@ -491,33 +491,33 @@
   "ESACE": {
     "credit": "Wikimedia Commons — Arrecife",
     "creditUrl": "https://en.wikipedia.org/wiki/Arrecife",
-    "file": "/photos/ports/ESACE.jpg",
+    "file": "/photos/ports/ESACE.webp",
     "query": "Arrecife",
     "source": "wikimedia"
   },
   "ESAGP": {
     "credit": "Wikimedia Commons — Málaga",
     "creditUrl": "https://en.wikipedia.org/wiki/M%C3%A1laga",
-    "file": "/photos/ports/ESAGP.jpg",
+    "file": "/photos/ports/ESAGP.webp",
     "query": "Málaga",
     "source": "wikimedia"
   },
   "ESALC": {
     "credit": "Wikimedia Commons — Alicante",
     "creditUrl": "https://en.wikipedia.org/wiki/Alicante",
-    "file": "/photos/ports/ESALC.jpg",
+    "file": "/photos/ports/ESALC.webp",
     "query": "Alicante",
     "source": "wikimedia"
   },
   "ESBCN": {
     "credit": "Wikimedia Commons — Barcelona",
     "creditUrl": "https://en.wikipedia.org/wiki/Barcelona",
-    "file": "/photos/ports/ESBCN.jpg",
+    "file": "/photos/ports/ESBCN.webp",
     "query": "Barcelona",
     "source": "wikimedia"
   },
   "ESBIO": {
-    "file": "/photos/ports/ESBIO.jpg",
+    "file": "/photos/ports/ESBIO.webp",
     "credit": "Wikimedia Commons — Mariordo (Mario Roberto Durán Ortiz)",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Bilbao_05_2012_Guggenheim_Aerial_Panorama_2007.jpg",
     "source": "wikimedia-commons",
@@ -526,40 +526,40 @@
   "ESCAD": {
     "credit": "Wikimedia Commons — Cádiz",
     "creditUrl": "https://en.wikipedia.org/wiki/C%C3%A1diz",
-    "file": "/photos/ports/ESCAD.jpg",
+    "file": "/photos/ports/ESCAD.webp",
     "query": "Cadiz",
     "source": "wikimedia"
   },
   "ESCEU": {
     "credit": "Wikimedia Commons — Ceuta",
     "creditUrl": "https://en.wikipedia.org/wiki/Ceuta",
-    "file": "/photos/ports/ESCEU.jpg",
+    "file": "/photos/ports/ESCEU.webp",
     "query": "CEUTA",
     "source": "wikimedia"
   },
   "ESGIJ": {
     "credit": "Wikimedia Commons — Gijón",
     "creditUrl": "https://en.wikipedia.org/wiki/Gij%C3%B3n",
-    "file": "/photos/ports/ESGIJ.jpg",
+    "file": "/photos/ports/ESGIJ.webp",
     "query": "Gijón",
     "source": "wikimedia"
   },
   "ESLCG": {
-    "file": "/photos/ports/ESLCG.jpg",
+    "file": "/photos/ports/ESLCG.webp",
     "credit": "Wikimedia Commons — A Coruña",
     "creditUrl": "https://en.wikipedia.org/wiki/A_Coru%C3%B1a",
     "source": "wikimedia",
     "query": "La Coruña"
   },
   "ESPBN": {
-    "file": "/photos/ports/ESPBN.jpg",
+    "file": "/photos/ports/ESPBN.webp",
     "credit": "Wikimedia Commons — Puerto Banús",
     "creditUrl": "https://en.wikipedia.org/wiki/Puerto_Ban%C3%BAs",
     "source": "wikimedia",
     "query": "Puerto Banus"
   },
   "ESPMI": {
-    "file": "/photos/ports/ESPMI.jpg",
+    "file": "/photos/ports/ESPMI.webp",
     "credit": "Wikimedia Commons — Palma de Mallorca",
     "creditUrl": "https://en.wikipedia.org/wiki/Palma_de_Mallorca",
     "source": "wikimedia",
@@ -568,33 +568,33 @@
   "ESSCT": {
     "credit": "Wikimedia Commons — Santa Cruz de Tenerife",
     "creditUrl": "https://en.wikipedia.org/wiki/Santa_Cruz_de_Tenerife",
-    "file": "/photos/ports/ESSCT.jpg",
+    "file": "/photos/ports/ESSCT.webp",
     "query": "Santa Cruz de Tenerife",
     "source": "wikimedia"
   },
   "ESSPC": {
-    "file": "/photos/ports/ESSPC.jpg",
+    "file": "/photos/ports/ESSPC.webp",
     "credit": "Wikimedia Commons — Santa Cruz de La Palma",
     "creditUrl": "https://en.wikipedia.org/wiki/Santa_Cruz_de_La_Palma",
     "source": "wikimedia",
     "query": "Santa Cruz de La Palma"
   },
   "ESSSG": {
-    "file": "/photos/ports/ESSSG.jpg",
+    "file": "/photos/ports/ESSSG.webp",
     "credit": "Wikimedia Commons — San Sebastián de La Gomera",
     "creditUrl": "https://en.wikipedia.org/wiki/San_Sebasti%C3%A1n_de_La_Gomera",
     "source": "wikimedia",
     "query": "San Sebastian de La Gomera"
   },
   "ESTAR": {
-    "file": "/photos/ports/ESTAR.jpg",
+    "file": "/photos/ports/ESTAR.webp",
     "credit": "Wikimedia Commons — Tarragona",
     "creditUrl": "https://en.wikipedia.org/wiki/Tarragona",
     "source": "wikimedia",
     "query": "Tarragona"
   },
   "ESVLC": {
-    "file": "/photos/ports/ESVLC.jpg",
+    "file": "/photos/ports/ESVLC.webp",
     "credit": "Wikimedia Commons — Diego Delso",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:El_Hemisf%C3%A9rico,_Ciudad_de_las_Artes_y_las_Ciencias,_Valencia,_Espa%C3%B1a,_2014-06-29,_DD_71.JPG",
     "source": "wikimedia-commons",
@@ -603,26 +603,26 @@
   "FIHEL": {
     "credit": "Wikimedia Commons — Helsinki",
     "creditUrl": "https://en.wikipedia.org/wiki/Helsinki",
-    "file": "/photos/ports/FIHEL.jpg",
+    "file": "/photos/ports/FIHEL.webp",
     "query": "Helsinki",
     "source": "wikimedia"
   },
   "FJSUV": {
-    "file": "/photos/ports/FJSUV.jpg",
+    "file": "/photos/ports/FJSUV.webp",
     "credit": "Wikimedia Commons — Maksym Kozlenko",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Suva,_Fiji_52.jpg",
     "source": "wikimedia-commons",
     "query": "Suva"
   },
   "FORVK": {
-    "file": "/photos/ports/FORVK.jpg",
+    "file": "/photos/ports/FORVK.webp",
     "credit": "Wikimedia Commons — Runavík",
     "creditUrl": "https://en.wikipedia.org/wiki/Runav%C3%ADk",
     "source": "wikimedia",
     "query": "Runavik"
   },
   "FOTHO": {
-    "file": "/photos/ports/FOTHO.jpg",
+    "file": "/photos/ports/FOTHO.webp",
     "credit": "Wikimedia Commons — Tórshavn",
     "creditUrl": "https://en.wikipedia.org/wiki/T%C3%B3rshavn",
     "source": "wikimedia",
@@ -631,26 +631,26 @@
   "FRAJA": {
     "credit": "Wikimedia Commons — Ajaccio",
     "creditUrl": "https://en.wikipedia.org/wiki/Ajaccio",
-    "file": "/photos/ports/FRAJA.jpg",
+    "file": "/photos/ports/FRAJA.webp",
     "query": "Ajaccio",
     "source": "wikimedia"
   },
   "FRCEQ": {
     "credit": "Wikimedia Commons — Cannes",
     "creditUrl": "https://en.wikipedia.org/wiki/Cannes",
-    "file": "/photos/ports/FRCEQ.jpg",
+    "file": "/photos/ports/FRCEQ.webp",
     "query": "Cannes",
     "source": "wikimedia"
   },
   "FRCLY": {
     "credit": "Wikimedia Commons — Calvi, Haute-Corse",
     "creditUrl": "https://en.wikipedia.org/wiki/Calvi,_Haute-Corse",
-    "file": "/photos/ports/FRCLY.jpg",
+    "file": "/photos/ports/FRCLY.webp",
     "query": "Calvi",
     "source": "wikimedia"
   },
   "FRFWC": {
-    "file": "/photos/ports/FRFWC.jpg",
+    "file": "/photos/ports/FRFWC.webp",
     "credit": "Wikimedia Commons — Fécamp",
     "creditUrl": "https://en.wikipedia.org/wiki/F%C3%A9camp",
     "source": "wikimedia",
@@ -659,26 +659,26 @@
   "FRMRS": {
     "credit": "Wikimedia Commons — Marseille",
     "creditUrl": "https://en.wikipedia.org/wiki/Marseille",
-    "file": "/photos/ports/FRMRS.jpg",
+    "file": "/photos/ports/FRMRS.webp",
     "query": "Marseille",
     "source": "wikimedia"
   },
   "FRSTP": {
-    "file": "/photos/ports/FRSTP.jpg",
+    "file": "/photos/ports/FRSTP.webp",
     "credit": "Wikimedia Commons — Saint-Tropez",
     "creditUrl": "https://en.wikipedia.org/wiki/Saint-Tropez",
     "source": "wikimedia",
     "query": "Saint-Tropez"
   },
   "FRVFM": {
-    "file": "/photos/ports/FRVFM.jpg",
+    "file": "/photos/ports/FRVFM.webp",
     "credit": "Wikimedia Commons — Villefranche-sur-Mer",
     "creditUrl": "https://en.wikipedia.org/wiki/Villefranche-sur-Mer",
     "source": "wikimedia",
     "query": "Villefranche-sur-Mer"
   },
   "FRZJZ": {
-    "file": "/photos/ports/FRZJZ.jpg",
+    "file": "/photos/ports/FRZJZ.webp",
     "credit": "Wikimedia Commons — Didier Descouens",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:(Gaillac)_La_famille_Loubat_%C3%A0_Saint-jean_de_Luz_-_Henri_Loubat_-_Mus%C3%A9e_des_Beaux-Arts_de_Gaillac.jpg",
     "source": "wikimedia-commons",
@@ -687,110 +687,110 @@
   "GBBEL": {
     "credit": "Wikimedia Commons — Belfast",
     "creditUrl": "https://en.wikipedia.org/wiki/Belfast",
-    "file": "/photos/ports/GBBEL.jpg",
+    "file": "/photos/ports/GBBEL.webp",
     "query": "Belfast",
     "source": "wikimedia"
   },
   "GBEDI": {
     "credit": "Wikimedia Commons — Edinburgh",
     "creditUrl": "https://en.wikipedia.org/wiki/Edinburgh",
-    "file": "/photos/ports/GBEDI.jpg",
+    "file": "/photos/ports/GBEDI.webp",
     "query": "Edinburgh",
     "source": "wikimedia"
   },
   "GBGRK": {
     "credit": "Wikimedia Commons — Glasgow",
     "creditUrl": "https://en.wikipedia.org/wiki/Glasgow",
-    "file": "/photos/ports/GBGRK.jpg",
+    "file": "/photos/ports/GBGRK.webp",
     "query": "Glasgow",
     "source": "wikimedia"
   },
   "GBKWL": {
     "credit": "Wikimedia Commons — Kirkwall",
     "creditUrl": "https://en.wikipedia.org/wiki/Kirkwall",
-    "file": "/photos/ports/GBKWL.jpg",
+    "file": "/photos/ports/GBKWL.webp",
     "query": "Kirkwall",
     "source": "wikimedia"
   },
   "GBLER": {
-    "file": "/photos/ports/GBLER.jpg",
+    "file": "/photos/ports/GBLER.webp",
     "credit": "Wikimedia Commons — Virtual-Pano",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:05933_UK_Shetland_Lerwick_St_Ringan%27s_united_free_church_E_V-P.jpg",
     "source": "wikimedia-commons",
     "query": "Lerwick United Kingdom"
   },
   "GBPRT": {
-    "file": "/photos/ports/GBPRT.jpg",
+    "file": "/photos/ports/GBPRT.webp",
     "credit": "Wikimedia Commons — Portree",
     "creditUrl": "https://en.wikipedia.org/wiki/Portree",
     "source": "wikimedia",
     "query": "Portree"
   },
   "GBSOU": {
-    "file": "/photos/ports/GBSOU.jpg",
+    "file": "/photos/ports/GBSOU.webp",
     "credit": "Wikimedia Commons — Gerd Fahrenhorst",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Novotel_Southampton_2024-03.jpg",
     "source": "wikimedia-commons",
     "query": "Southampton United Kingdom"
   },
   "GBSTO": {
-    "file": "/photos/ports/GBSTO.jpg",
+    "file": "/photos/ports/GBSTO.webp",
     "credit": "Wikimedia Commons — Stornoway",
     "creditUrl": "https://en.wikipedia.org/wiki/Stornoway",
     "source": "wikimedia",
     "query": "Stornoway"
   },
   "GDSTG": {
-    "file": "/photos/ports/GDSTG.jpg",
+    "file": "/photos/ports/GDSTG.webp",
     "credit": "Wikimedia Commons — Martin Falbisoner",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:The_City_of_St._George%27s,_Grenada_-_February_2020.jpg",
     "source": "wikimedia-commons",
     "query": "St. George's"
   },
   "GFDEV": {
-    "file": "/photos/ports/GFDEV.jpg",
+    "file": "/photos/ports/GFDEV.webp",
     "credit": "Wikimedia Commons — Cayambe",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:%C3%8Ele_du_diable_depuis_l%27%C3%8Ele_Royale.jpg",
     "source": "wikimedia-commons",
     "query": "Devil's Island"
   },
   "GLJFR": {
-    "file": "/photos/ports/GLJFR.jpg",
+    "file": "/photos/ports/GLJFR.webp",
     "credit": "Wikimedia Commons — Paamiut",
     "creditUrl": "https://en.wikipedia.org/wiki/Paamiut",
     "source": "wikimedia",
     "query": "Paamiut"
   },
   "GLJJU": {
-    "file": "/photos/ports/GLJJU.jpg",
+    "file": "/photos/ports/GLJJU.webp",
     "credit": "Wikimedia Commons — Balou46",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:GL-Qaqortoq-Relief-03.jpg",
     "source": "wikimedia-commons",
     "query": "Qaqortoq"
   },
   "GLJNN": {
-    "file": "/photos/ports/GLJNN.jpg",
+    "file": "/photos/ports/GLJNN.webp",
     "credit": "Wikimedia Commons — Nanortalik",
     "creditUrl": "https://en.wikipedia.org/wiki/Nanortalik",
     "source": "wikimedia",
     "query": "Nanortalik"
   },
   "GLZ44": {
-    "file": "/photos/ports/GLZ44.jpg",
+    "file": "/photos/ports/GLZ44.webp",
     "credit": "Wikimedia Commons — Sammisoq",
     "creditUrl": "https://en.wikipedia.org/wiki/Sammisoq",
     "source": "wikimedia",
     "query": "Sailing Prince Christian Sund"
   },
   "GPLSS": {
-    "file": "/photos/ports/GPLSS.jpg",
+    "file": "/photos/ports/GPLSS.webp",
     "credit": "Wikimedia Commons — Terre-de-Haut",
     "creditUrl": "https://en.wikipedia.org/wiki/Terre-de-Haut",
     "source": "wikimedia",
     "query": "Terre-de-Haut"
   },
   "GPPTP": {
-    "file": "/photos/ports/GPPTP.jpg",
+    "file": "/photos/ports/GPPTP.webp",
     "credit": "Wikimedia Commons — Pointe-à-Pitre",
     "creditUrl": "https://en.wikipedia.org/wiki/Pointe-%C3%A0-Pitre",
     "source": "wikimedia",
@@ -799,12 +799,12 @@
   "GRANI": {
     "credit": "Wikimedia Commons — Agios Nikolaos, Crete",
     "creditUrl": "https://en.wikipedia.org/wiki/Agios_Nikolaos,_Crete",
-    "file": "/photos/ports/GRANI.jpg",
+    "file": "/photos/ports/GRANI.webp",
     "query": "Agios Nikolaos",
     "source": "wikimedia"
   },
   "GRARM": {
-    "file": "/photos/ports/GRARM.jpg",
+    "file": "/photos/ports/GRARM.webp",
     "credit": "Wikimedia Commons — No machine-readable author provided. Christos Vittoratos assumed (based on copyr",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Argostoli_Mnimeio.JPG",
     "source": "wikimedia-commons",
@@ -813,75 +813,75 @@
   "GRCFU": {
     "credit": "Wikimedia Commons — Corfu",
     "creditUrl": "https://en.wikipedia.org/wiki/Corfu",
-    "file": "/photos/ports/GRCFU.jpg",
+    "file": "/photos/ports/GRCFU.webp",
     "query": "Corfu",
     "source": "wikimedia"
   },
   "GRFIS": {
     "credit": "Wikimedia Commons — Fiskardo",
     "creditUrl": "https://en.wikipedia.org/wiki/Fiskardo",
-    "file": "/photos/ports/GRFIS.jpg",
+    "file": "/photos/ports/GRFIS.webp",
     "query": "Fiskardo",
     "source": "wikimedia"
   },
   "GRJMK": {
-    "file": "/photos/ports/GRJMK.jpg",
+    "file": "/photos/ports/GRJMK.webp",
     "credit": "Wikimedia Commons — Roberto Faccenda",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Sunset_of_Mykonos.jpg",
     "source": "wikimedia-commons",
     "query": "Mykonos Greece"
   },
   "GRJSI": {
-    "file": "/photos/ports/GRJSI.jpg",
+    "file": "/photos/ports/GRJSI.webp",
     "credit": "Wikimedia Commons — Skiathos",
     "creditUrl": "https://en.wikipedia.org/wiki/Skiathos",
     "source": "wikimedia",
     "query": "Skíathos"
   },
   "GRJSY": {
-    "file": "/photos/ports/GRJSY.jpg",
+    "file": "/photos/ports/GRJSY.webp",
     "credit": "Wikimedia Commons — Syros",
     "creditUrl": "https://en.wikipedia.org/wiki/Syros",
     "source": "wikimedia",
     "query": "Syros"
   },
   "GRJTR": {
-    "file": "/photos/ports/GRJTR.jpg",
+    "file": "/photos/ports/GRJTR.webp",
     "credit": "Wikimedia Commons — Giles Laurent",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:1000_Three_domes_of_Oia_in_Santorini_Photo_by_Giles_Laurent.jpg",
     "source": "wikimedia-commons",
     "query": "Santorini Greece"
   },
   "GRKAT": {
-    "file": "/photos/ports/GRKAT.jpg",
+    "file": "/photos/ports/GRKAT.webp",
     "credit": "Wikimedia Commons — Oliwan",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Amorgos-1.jpg",
     "source": "wikimedia-commons",
     "query": "Amorgos Greece"
   },
   "GRMLO": {
-    "file": "/photos/ports/GRMLO.jpg",
+    "file": "/photos/ports/GRMLO.webp",
     "credit": "Wikimedia Commons — Milos",
     "creditUrl": "https://en.wikipedia.org/wiki/Milos",
     "source": "wikimedia",
     "query": "Milos"
   },
   "GRMON": {
-    "file": "/photos/ports/GRMON.jpg",
+    "file": "/photos/ports/GRMON.webp",
     "credit": "Wikimedia Commons — Monemvasia",
     "creditUrl": "https://en.wikipedia.org/wiki/Monemvasia",
     "source": "wikimedia",
     "query": "Monemvasia"
   },
   "GRNAF": {
-    "file": "/photos/ports/GRNAF.jpg",
+    "file": "/photos/ports/GRNAF.webp",
     "credit": "Wikimedia Commons — Erik Drost",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Nafplion,_Greece_(5987156502).jpg",
     "source": "wikimedia-commons",
     "query": "Nafplion Greece"
   },
   "GRPAS": {
-    "file": "/photos/ports/GRPAS.jpg",
+    "file": "/photos/ports/GRPAS.webp",
     "credit": "Wikimedia Commons — pdeligiannis / Pdeligiannis at Greek Wikipedia",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Paralia_alikis_paroy.jpg",
     "source": "wikimedia-commons",
@@ -890,40 +890,40 @@
   "GRPIR": {
     "credit": "Wikimedia Commons — Athens",
     "creditUrl": "https://en.wikipedia.org/wiki/Athens",
-    "file": "/photos/ports/GRPIR.jpg",
+    "file": "/photos/ports/GRPIR.webp",
     "query": "Athens",
     "source": "wikimedia"
   },
   "GRPMS": {
-    "file": "/photos/ports/GRPMS.jpg",
+    "file": "/photos/ports/GRPMS.webp",
     "credit": "Wikimedia Commons — Patmos",
     "creditUrl": "https://en.wikipedia.org/wiki/Patmos",
     "source": "wikimedia",
     "query": "Patmos"
   },
   "GRPYL": {
-    "file": "/photos/ports/GRPYL.jpg",
+    "file": "/photos/ports/GRPYL.webp",
     "credit": "Wikimedia Commons — Pylos",
     "creditUrl": "https://en.wikipedia.org/wiki/Pylos",
     "source": "wikimedia",
     "query": "Pylos"
   },
   "GRVOL": {
-    "file": "/photos/ports/GRVOL.jpg",
+    "file": "/photos/ports/GRVOL.webp",
     "credit": "Wikimedia Commons — Volos",
     "creditUrl": "https://en.wikipedia.org/wiki/Volos",
     "source": "wikimedia",
     "query": "Volos"
   },
   "GTPRQ": {
-    "file": "/photos/ports/GTPRQ.jpg",
+    "file": "/photos/ports/GTPRQ.webp",
     "credit": "Wikimedia Commons — Puerto Quetzal",
     "creditUrl": "https://en.wikipedia.org/wiki/Puerto_Quetzal",
     "source": "wikimedia",
     "query": "Puerto Quetzal"
   },
   "HNRTB": {
-    "file": "/photos/ports/HNRTB.jpg",
+    "file": "/photos/ports/HNRTB.webp",
     "credit": "Wikimedia Commons — Roatán",
     "creditUrl": "https://en.wikipedia.org/wiki/Roat%C3%A1n",
     "source": "wikimedia",
@@ -932,61 +932,61 @@
   "HRDBV": {
     "credit": "Wikimedia Commons — Dubrovnik",
     "creditUrl": "https://en.wikipedia.org/wiki/Dubrovnik",
-    "file": "/photos/ports/HRDBV.jpg",
+    "file": "/photos/ports/HRDBV.webp",
     "query": "Dubrovnik",
     "source": "wikimedia"
   },
   "HRHVA": {
     "credit": "Wikimedia Commons — Hvar",
     "creditUrl": "https://en.wikipedia.org/wiki/Hvar",
-    "file": "/photos/ports/HRHVA.jpg",
+    "file": "/photos/ports/HRHVA.webp",
     "query": "Hvar",
     "source": "wikimedia"
   },
   "HRKOR": {
     "credit": "Wikimedia Commons — Korčula",
     "creditUrl": "https://en.wikipedia.org/wiki/Kor%C4%8Dula",
-    "file": "/photos/ports/HRKOR.jpg",
+    "file": "/photos/ports/HRKOR.webp",
     "query": "Korcula",
     "source": "wikimedia"
   },
   "HRRJK": {
-    "file": "/photos/ports/HRRJK.jpg",
+    "file": "/photos/ports/HRRJK.webp",
     "credit": "Wikimedia Commons — Rijeka",
     "creditUrl": "https://en.wikipedia.org/wiki/Rijeka",
     "source": "wikimedia",
     "query": "Rijeka"
   },
   "HRROV": {
-    "file": "/photos/ports/HRROV.jpg",
+    "file": "/photos/ports/HRROV.webp",
     "credit": "Wikimedia Commons — Rovinj",
     "creditUrl": "https://en.wikipedia.org/wiki/Rovinj",
     "source": "wikimedia",
     "query": "Rovinj"
   },
   "HRSPU": {
-    "file": "/photos/ports/HRSPU.jpg",
+    "file": "/photos/ports/HRSPU.webp",
     "credit": "Wikimedia Commons — Split, Croatia",
     "creditUrl": "https://en.wikipedia.org/wiki/Split,_Croatia",
     "source": "wikimedia",
     "query": "Split"
   },
   "HRTRO": {
-    "file": "/photos/ports/HRTRO.jpg",
+    "file": "/photos/ports/HRTRO.webp",
     "credit": "Wikimedia Commons — Trogir",
     "creditUrl": "https://en.wikipedia.org/wiki/Trogir",
     "source": "wikimedia",
     "query": "Trogir"
   },
   "HRZAD": {
-    "file": "/photos/ports/HRZAD.jpg",
+    "file": "/photos/ports/HRZAD.webp",
     "credit": "Wikimedia Commons — Zadar",
     "creditUrl": "https://en.wikipedia.org/wiki/Zadar",
     "source": "wikimedia",
     "query": "Zadar"
   },
   "IDBOA": {
-    "file": "/photos/ports/IDBOA.jpg",
+    "file": "/photos/ports/IDBOA.webp",
     "credit": "Wikimedia Commons — Jakub Hałun",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Sunset,_Kuta,_Bali,_Indonesia,_20220825_1755_0879.jpg",
     "source": "wikimedia-commons",
@@ -995,26 +995,26 @@
   "IDJKT": {
     "credit": "Wikimedia Commons — Jakarta",
     "creditUrl": "https://en.wikipedia.org/wiki/Jakarta",
-    "file": "/photos/ports/IDJKT.jpg",
+    "file": "/photos/ports/IDJKT.webp",
     "query": "Jakarta port_name",
     "source": "wikimedia"
   },
   "IDKMD": {
-    "file": "/photos/ports/IDKMD.jpg",
+    "file": "/photos/ports/IDKMD.webp",
     "credit": "Wikimedia Commons — Charles J. Sharp",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Komodo_dragon_(Varanus_komodoensis).jpg",
     "source": "wikimedia-commons",
     "query": "Komodo Indonesia"
   },
   "IDSRG": {
-    "file": "/photos/ports/IDSRG.jpg",
+    "file": "/photos/ports/IDSRG.webp",
     "credit": "Wikimedia Commons — Semarang",
     "creditUrl": "https://en.wikipedia.org/wiki/Semarang",
     "source": "wikimedia",
     "query": "Semarang"
   },
   "IDSUB": {
-    "file": "/photos/ports/IDSUB.jpg",
+    "file": "/photos/ports/IDSUB.webp",
     "credit": "Wikimedia Commons — Mujiono Ma'ruf",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Peron_bus_kota_Surabaya,_31_Maret_2022.jpg",
     "source": "wikimedia-commons",
@@ -1023,33 +1023,33 @@
   "IEDLG": {
     "credit": "Wikimedia Commons — Dún Laoghaire",
     "creditUrl": "https://en.wikipedia.org/wiki/D%C3%BAn_Laoghaire",
-    "file": "/photos/ports/IEDLG.jpg",
+    "file": "/photos/ports/IEDLG.webp",
     "query": "Dun Laoghaire",
     "source": "wikimedia"
   },
   "IEGRE": {
     "credit": "Wikimedia Commons — Greencastle, County Donegal",
     "creditUrl": "https://en.wikipedia.org/wiki/Greencastle,_County_Donegal",
-    "file": "/photos/ports/IEGRE.jpg",
+    "file": "/photos/ports/IEGRE.webp",
     "query": "Greencastle",
     "source": "wikimedia"
   },
   "IEKBS": {
-    "file": "/photos/ports/IEKBS.jpg",
+    "file": "/photos/ports/IEKBS.webp",
     "credit": "Wikimedia Commons — Rossographer",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:The_%27Colmcille%27_at_Killybegs_-_geograph.org.uk_-_6886504.jpg",
     "source": "wikimedia-commons",
     "query": "Killybegs Ireland"
   },
   "IEORK": {
-    "file": "/photos/ports/IEORK.jpg",
+    "file": "/photos/ports/IEORK.webp",
     "credit": "Wikimedia Commons — This Photo was taken by Timothy A. Gonsalves. Feel free to use my photos, but pl",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Farmhouse_Wide_Allihies_Cork_Ireland_Jun08_DSC00356.jpg",
     "source": "wikimedia-commons",
     "query": "Cork Ireland"
   },
   "INBOM": {
-    "file": "/photos/ports/INBOM.jpg",
+    "file": "/photos/ports/INBOM.webp",
     "credit": "Wikimedia Commons — Mumbai",
     "creditUrl": "https://en.wikipedia.org/wiki/Mumbai",
     "source": "wikimedia",
@@ -1058,26 +1058,26 @@
   "INGOI": {
     "credit": "Wikimedia Commons — Goa",
     "creditUrl": "https://en.wikipedia.org/wiki/Goa",
-    "file": "/photos/ports/INGOI.jpg",
+    "file": "/photos/ports/INGOI.webp",
     "query": "Goa",
     "source": "wikimedia"
   },
   "ISAKU": {
     "credit": "Wikimedia Commons — Akureyri",
     "creditUrl": "https://en.wikipedia.org/wiki/Akureyri",
-    "file": "/photos/ports/ISAKU.jpg",
+    "file": "/photos/ports/ISAKU.webp",
     "query": "Akureyri",
     "source": "wikimedia"
   },
   "ISDJU": {
     "credit": "Wikimedia Commons — Djúpivogur",
     "creditUrl": "https://en.wikipedia.org/wiki/Dj%C3%BApivogur",
-    "file": "/photos/ports/ISDJU.jpg",
+    "file": "/photos/ports/ISDJU.webp",
     "query": "Djúpivogur",
     "source": "wikimedia"
   },
   "ISHEI": {
-    "file": "/photos/ports/ISHEI.jpg",
+    "file": "/photos/ports/ISHEI.webp",
     "credit": "Wikimedia Commons — Diego Delso",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Roca_del_elefante,_Heimaey,_Islas_Vestman,_Su%C3%B0urland,_Islandia,_2014-08-17,_DD_036.JPG",
     "source": "wikimedia-commons",
@@ -1086,26 +1086,26 @@
   "ISISA": {
     "credit": "Wikimedia Commons — Ísafjörður",
     "creditUrl": "https://en.wikipedia.org/wiki/%C3%8Dsafj%C3%B6r%C3%B0ur",
-    "file": "/photos/ports/ISISA.jpg",
+    "file": "/photos/ports/ISISA.webp",
     "query": "Isafjordur",
     "source": "wikimedia"
   },
   "ISREY": {
     "credit": "Wikimedia Commons — Reykjavík",
     "creditUrl": "https://en.wikipedia.org/wiki/Reykjav%C3%ADk",
-    "file": "/photos/ports/ISREY.jpg",
+    "file": "/photos/ports/ISREY.webp",
     "query": "Reykjavik",
     "source": "wikimedia"
   },
   "ISSEY": {
-    "file": "/photos/ports/ISSEY.jpg",
+    "file": "/photos/ports/ISSEY.webp",
     "credit": "Wikimedia Commons — Seyðisfjörður",
     "creditUrl": "https://en.wikipedia.org/wiki/Sey%C3%B0isfj%C3%B6r%C3%B0ur",
     "source": "wikimedia",
     "query": "Seydisfjordur"
   },
   "ISSIG": {
-    "file": "/photos/ports/ISSIG.jpg",
+    "file": "/photos/ports/ISSIG.webp",
     "credit": "Wikimedia Commons — Siglufjörður",
     "creditUrl": "https://en.wikipedia.org/wiki/Siglufj%C3%B6r%C3%B0ur",
     "source": "wikimedia",
@@ -1114,47 +1114,47 @@
   "ITAMA": {
     "credit": "Wikimedia Commons — Amalfi",
     "creditUrl": "https://en.wikipedia.org/wiki/Amalfi",
-    "file": "/photos/ports/ITAMA.jpg",
+    "file": "/photos/ports/ITAMA.webp",
     "query": "Amalfi",
     "source": "wikimedia"
   },
   "ITBDS": {
     "credit": "Wikimedia Commons — Brindisi",
     "creditUrl": "https://en.wikipedia.org/wiki/Brindisi",
-    "file": "/photos/ports/ITBDS.jpg",
+    "file": "/photos/ports/ITBDS.webp",
     "query": "Brindisi",
     "source": "wikimedia"
   },
   "ITBRI": {
     "credit": "Wikimedia Commons — Bari",
     "creditUrl": "https://en.wikipedia.org/wiki/Bari",
-    "file": "/photos/ports/ITBRI.jpg",
+    "file": "/photos/ports/ITBRI.webp",
     "query": "Bari",
     "source": "wikimedia"
   },
   "ITCLF": {
     "credit": "Wikimedia Commons — Carloforte",
     "creditUrl": "https://en.wikipedia.org/wiki/Carloforte",
-    "file": "/photos/ports/ITCLF.jpg",
+    "file": "/photos/ports/ITCLF.webp",
     "query": "Carloforte",
     "source": "wikimedia"
   },
   "ITCVV": {
     "credit": "Wikimedia Commons — Rome",
     "creditUrl": "https://en.wikipedia.org/wiki/Rome",
-    "file": "/photos/ports/ITCVV.jpg",
+    "file": "/photos/ports/ITCVV.webp",
     "query": "Rome",
     "source": "wikimedia"
   },
   "ITFSA": {
     "credit": "Wikimedia Commons — Venice",
     "creditUrl": "https://en.wikipedia.org/wiki/Venice",
-    "file": "/photos/ports/ITFSA.jpg",
+    "file": "/photos/ports/ITFSA.webp",
     "query": "Venice",
     "source": "wikimedia"
   },
   "ITGAL": {
-    "file": "/photos/ports/ITGAL.jpg",
+    "file": "/photos/ports/ITGAL.webp",
     "credit": "Wikimedia Commons — Bernard Gagnon",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Fontana_Greca_(Gallipoli).jpg",
     "source": "wikimedia-commons",
@@ -1163,47 +1163,47 @@
   "ITGIA": {
     "credit": "Wikimedia Commons — Giardini Naxos",
     "creditUrl": "https://en.wikipedia.org/wiki/Giardini_Naxos",
-    "file": "/photos/ports/ITGIA.jpg",
+    "file": "/photos/ports/ITGIA.webp",
     "query": "Giardini Naxos",
     "source": "wikimedia"
   },
   "ITGOA": {
     "credit": "Wikimedia Commons — Genoa",
     "creditUrl": "https://en.wikipedia.org/wiki/Genoa",
-    "file": "/photos/ports/ITGOA.jpg",
+    "file": "/photos/ports/ITGOA.webp",
     "query": "Genoa",
     "source": "wikimedia"
   },
   "ITLIP": {
-    "file": "/photos/ports/ITLIP.jpg",
+    "file": "/photos/ports/ITLIP.webp",
     "credit": "Wikimedia Commons — Lipari",
     "creditUrl": "https://en.wikipedia.org/wiki/Lipari",
     "source": "wikimedia",
     "query": "Lipari"
   },
   "ITLIV": {
-    "file": "/photos/ports/ITLIV.jpg",
+    "file": "/photos/ports/ITLIV.webp",
     "credit": "Wikimedia Commons — Terragio67",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Livorno_-_Hotel_Palazzo_-_2025-09-29_20-09-38_001.jpg",
     "source": "wikimedia-commons",
     "query": "Livorno Italy"
   },
   "ITMSN": {
-    "file": "/photos/ports/ITMSN.jpg",
+    "file": "/photos/ports/ITMSN.webp",
     "credit": "Wikimedia Commons — Messina",
     "creditUrl": "https://en.wikipedia.org/wiki/Messina",
     "source": "wikimedia",
     "query": "Messina"
   },
   "ITOLB": {
-    "file": "/photos/ports/ITOLB.jpg",
+    "file": "/photos/ports/ITOLB.webp",
     "credit": "Wikimedia Commons — Dr. Thomas Liptak",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Sardinia,_Olbia,_Lungomare_di_Olbia_(waterfront).jpg",
     "source": "wikimedia-commons",
     "query": "Olbia Italy"
   },
   "ITPCE": {
-    "file": "/photos/ports/ITPCE.jpg",
+    "file": "/photos/ports/ITPCE.webp",
     "credit": "Wikimedia Commons — Porto Cervo",
     "creditUrl": "https://en.wikipedia.org/wiki/Porto_Cervo",
     "source": "wikimedia",
@@ -1212,103 +1212,103 @@
   "ITPRJ": {
     "credit": "Wikimedia Commons — Capri",
     "creditUrl": "https://en.wikipedia.org/wiki/Capri",
-    "file": "/photos/ports/ITPRJ.jpg",
+    "file": "/photos/ports/ITPRJ.webp",
     "query": "Capri",
     "source": "wikimedia"
   },
   "ITPSS": {
-    "file": "/photos/ports/ITPSS.jpg",
+    "file": "/photos/ports/ITPSS.webp",
     "credit": "Wikimedia Commons — Porto Santo Stefano",
     "creditUrl": "https://en.wikipedia.org/wiki/Porto_Santo_Stefano",
     "source": "wikimedia",
     "query": "Porto Santo Stefano"
   },
   "ITPTF": {
-    "file": "/photos/ports/ITPTF.jpg",
+    "file": "/photos/ports/ITPTF.webp",
     "credit": "Wikimedia Commons — Portofino",
     "creditUrl": "https://en.wikipedia.org/wiki/Portofino",
     "source": "wikimedia",
     "query": "Portofino"
   },
   "ITRAN": {
-    "file": "/photos/ports/ITRAN.jpg",
+    "file": "/photos/ports/ITRAN.webp",
     "credit": "Wikimedia Commons — Ravenna",
     "creditUrl": "https://en.wikipedia.org/wiki/Ravenna",
     "source": "wikimedia",
     "query": "Ravenna"
   },
   "ITRRO": {
-    "file": "/photos/ports/ITRRO.jpg",
+    "file": "/photos/ports/ITRRO.webp",
     "credit": "Wikimedia Commons — Sorrento",
     "creditUrl": "https://en.wikipedia.org/wiki/Sorrento",
     "source": "wikimedia",
     "query": "Sorrento"
   },
   "ITSAL": {
-    "file": "/photos/ports/ITSAL.jpg",
+    "file": "/photos/ports/ITSAL.webp",
     "credit": "Wikimedia Commons — Salerno",
     "creditUrl": "https://en.wikipedia.org/wiki/Salerno",
     "source": "wikimedia",
     "query": "Salerno"
   },
   "ITSIR": {
-    "file": "/photos/ports/ITSIR.jpg",
+    "file": "/photos/ports/ITSIR.webp",
     "credit": "Wikimedia Commons — Syracuse, Sicily",
     "creditUrl": "https://en.wikipedia.org/wiki/Syracuse,_Sicily",
     "source": "wikimedia",
     "query": "Siracusa"
   },
   "ITSPE": {
-    "file": "/photos/ports/ITSPE.jpg",
+    "file": "/photos/ports/ITSPE.webp",
     "credit": "Wikimedia Commons — La Spezia",
     "creditUrl": "https://en.wikipedia.org/wiki/La_Spezia",
     "source": "wikimedia",
     "query": "La Spezia"
   },
   "ITTAO": {
-    "file": "/photos/ports/ITTAO.jpg",
+    "file": "/photos/ports/ITTAO.webp",
     "credit": "Wikimedia Commons — Naxos",
     "creditUrl": "https://en.wikipedia.org/wiki/Naxos",
     "source": "wikimedia",
     "query": "Naxos"
   },
   "ITTPS": {
-    "file": "/photos/ports/ITTPS.jpg",
+    "file": "/photos/ports/ITTPS.webp",
     "credit": "Wikimedia Commons — Trapani",
     "creditUrl": "https://en.wikipedia.org/wiki/Trapani",
     "source": "wikimedia",
     "query": "Trapani"
   },
   "JMOCJ": {
-    "file": "/photos/ports/JMOCJ.jpg",
+    "file": "/photos/ports/JMOCJ.webp",
     "credit": "Wikimedia Commons — Ocho Rios",
     "creditUrl": "https://en.wikipedia.org/wiki/Ocho_Rios",
     "source": "wikimedia",
     "query": "Ocho Rios"
   },
   "JOAQJ": {
-    "file": "/photos/ports/JOAQJ.jpg",
+    "file": "/photos/ports/JOAQJ.webp",
     "credit": "Wikimedia Commons — Justwiki",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Aqaba-ghandour08.jpg",
     "source": "wikimedia-commons",
     "query": "Aqaba"
   },
   "JPAOJ": {
-    "file": "/photos/ports/JPAOJ.jpg",
+    "file": "/photos/ports/JPAOJ.webp",
     "credit": "Wikimedia Commons — 663highland",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Aomori_Bay_Asamushi_Onsen_Japan02bs5.jpg",
     "source": "wikimedia-commons",
     "query": "Aomori Japan"
   },
   "JPAXT": {
-    "file": "/photos/ports/JPAXT.jpg",
+    "file": "/photos/ports/JPAXT.webp",
     "credit": "Wikimedia Commons — 掬茶",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Akita_City_Hall_main_building_20190114.jpg",
     "source": "wikimedia-commons",
     "query": "Akita Japan"
   },
   "JPBEP": {
-    "file": "/photos/ports/JPBEP.jpg",
+    "file": "/photos/ports/JPBEP.webp",
     "credit": "Wikimedia Commons — 663highland",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Beppu_Bay02n4272.jpg",
     "source": "wikimedia-commons",
@@ -1317,54 +1317,54 @@
   "JPHIJ": {
     "credit": "Wikimedia Commons — Hiroshima",
     "creditUrl": "https://en.wikipedia.org/wiki/Hiroshima",
-    "file": "/photos/ports/JPHIJ.jpg",
+    "file": "/photos/ports/JPHIJ.webp",
     "query": "Hiroshima",
     "source": "wikimedia"
   },
   "JPHKD": {
-    "file": "/photos/ports/JPHKD.jpg",
+    "file": "/photos/ports/JPHKD.webp",
     "credit": "Wikimedia Commons — 掬茶",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Future_University_Hakodate_202411a.jpg",
     "source": "wikimedia-commons",
     "query": "Hakodate Japan"
   },
   "JPNAH": {
-    "file": "/photos/ports/JPNAH.jpg",
+    "file": "/photos/ports/JPNAH.webp",
     "credit": "Wikimedia Commons — Kugel~commonswiki",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Tomari_Fishing_Port,_Naha,_Okinawa_202407_01.jpg",
     "source": "wikimedia-commons",
     "query": "Naha port_name Japan"
   },
   "JPNGO": {
-    "file": "/photos/ports/JPNGO.jpg",
+    "file": "/photos/ports/JPNGO.webp",
     "credit": "Wikimedia Commons — Nagoya",
     "creditUrl": "https://en.wikipedia.org/wiki/Nagoya",
     "source": "wikimedia",
     "query": "Nagoya"
   },
   "JPNGS": {
-    "file": "/photos/ports/JPNGS.jpg",
+    "file": "/photos/ports/JPNGS.webp",
     "credit": "Wikimedia Commons — Nagasaki",
     "creditUrl": "https://en.wikipedia.org/wiki/Nagasaki",
     "source": "wikimedia",
     "query": "Nagasaki"
   },
   "JPOSA": {
-    "file": "/photos/ports/JPOSA.jpg",
+    "file": "/photos/ports/JPOSA.webp",
     "credit": "Wikimedia Commons — Osaka",
     "creditUrl": "https://en.wikipedia.org/wiki/Osaka",
     "source": "wikimedia",
     "query": "Osaka"
   },
   "JPSHS": {
-    "file": "/photos/ports/JPSHS.jpg",
+    "file": "/photos/ports/JPSHS.webp",
     "credit": "Wikimedia Commons — ja:User:Sanjo",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Route9_Ends_Shimonoseki_stn.JPG",
     "source": "wikimedia-commons",
     "query": "Shimonoseki Japan"
   },
   "JPTOB": {
-    "file": "/photos/ports/JPTOB.jpg",
+    "file": "/photos/ports/JPTOB.webp",
     "credit": "Wikimedia Commons — Miyuki Meinaka",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Toba_elementary_school,_Toba,_Mie.jpg",
     "source": "wikimedia-commons",
@@ -1373,26 +1373,26 @@
   "JPTYO": {
     "credit": "Wikimedia Commons — Tokyo",
     "creditUrl": "https://en.wikipedia.org/wiki/Tokyo",
-    "file": "/photos/ports/JPTYO.jpg",
+    "file": "/photos/ports/JPTYO.webp",
     "query": "Tokyo",
     "source": "wikimedia"
   },
   "JPUKB": {
     "credit": "Wikimedia Commons — Kobe",
     "creditUrl": "https://en.wikipedia.org/wiki/Kobe",
-    "file": "/photos/ports/JPUKB.jpg",
+    "file": "/photos/ports/JPUKB.webp",
     "query": "Kobe",
     "source": "wikimedia"
   },
   "KNBAS": {
     "credit": "Wikimedia Commons — Basseterre",
     "creditUrl": "https://en.wikipedia.org/wiki/Basseterre",
-    "file": "/photos/ports/KNBAS.jpg",
+    "file": "/photos/ports/KNBAS.webp",
     "query": "Basseterre",
     "source": "wikimedia"
   },
   "KRCHA": {
-    "file": "/photos/ports/KRCHA.jpg",
+    "file": "/photos/ports/KRCHA.webp",
     "credit": "Wikimedia Commons — Basile Morin",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Hydrangea_macrophylla_in_front_of_Seongsan_Ilchulbong_volcano_at_blue_hour_in_Jeju_Island_South_Korea.jpg",
     "source": "wikimedia-commons",
@@ -1401,19 +1401,19 @@
   "KRPUS": {
     "credit": "Wikimedia Commons — Busan",
     "creditUrl": "https://en.wikipedia.org/wiki/Busan",
-    "file": "/photos/ports/KRPUS.jpg",
+    "file": "/photos/ports/KRPUS.webp",
     "query": "Busan",
     "source": "wikimedia"
   },
   "LCCAS": {
-    "file": "/photos/ports/LCCAS.jpg",
+    "file": "/photos/ports/LCCAS.webp",
     "credit": "Wikimedia Commons — Castries",
     "creditUrl": "https://en.wikipedia.org/wiki/Castries",
     "source": "wikimedia",
     "query": "Castries"
   },
   "LKCMB": {
-    "file": "/photos/ports/LKCMB.png",
+    "file": "/photos/ports/LKCMB.webp",
     "credit": "Wikimedia Commons — Colombo",
     "creditUrl": "https://en.wikipedia.org/wiki/Colombo",
     "source": "wikimedia",
@@ -1422,12 +1422,12 @@
   "LTKLJ": {
     "credit": "Wikimedia Commons — Klaipėda",
     "creditUrl": "https://en.wikipedia.org/wiki/Klaip%C4%97da",
-    "file": "/photos/ports/LTKLJ.jpg",
+    "file": "/photos/ports/LTKLJ.webp",
     "query": "Klaipeda",
     "source": "wikimedia"
   },
   "LVRIX": {
-    "file": "/photos/ports/LVRIX.jpg",
+    "file": "/photos/ports/LVRIX.webp",
     "credit": "Wikimedia Commons — Riga",
     "creditUrl": "https://en.wikipedia.org/wiki/Riga",
     "source": "wikimedia",
@@ -1436,12 +1436,12 @@
   "MAAGA": {
     "credit": "Wikimedia Commons — Agadir",
     "creditUrl": "https://en.wikipedia.org/wiki/Agadir",
-    "file": "/photos/ports/MAAGA.jpg",
+    "file": "/photos/ports/MAAGA.webp",
     "query": "Agadir",
     "source": "wikimedia"
   },
   "MATNG": {
-    "file": "/photos/ports/MATNG.jpg",
+    "file": "/photos/ports/MATNG.webp",
     "credit": "Wikimedia Commons — Tangier",
     "creditUrl": "https://en.wikipedia.org/wiki/Tangier",
     "source": "wikimedia",
@@ -1450,26 +1450,26 @@
   "MCMCM": {
     "credit": "Wikimedia Commons — Monte Carlo",
     "creditUrl": "https://en.wikipedia.org/wiki/Monte_Carlo",
-    "file": "/photos/ports/MCMCM.jpg",
+    "file": "/photos/ports/MCMCM.webp",
     "query": "Monte Carlo",
     "source": "wikimedia"
   },
   "MEKOT": {
     "credit": "Wikimedia Commons — Kotor",
     "creditUrl": "https://en.wikipedia.org/wiki/Kotor",
-    "file": "/photos/ports/MEKOT.jpg",
+    "file": "/photos/ports/MEKOT.webp",
     "query": "KOTOR",
     "source": "wikimedia"
   },
   "MQFDF": {
-    "file": "/photos/ports/MQFDF.jpg",
+    "file": "/photos/ports/MQFDF.webp",
     "credit": "Wikimedia Commons — Jean &amp; Nathalie",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Saint-Pierre,_Martinique_(seen_from_the_harbor_-_2005-06-15).jpg",
     "source": "wikimedia-commons",
     "query": "Martinique"
   },
   "MSLTB": {
-    "file": "/photos/ports/MSLTB.jpg",
+    "file": "/photos/ports/MSLTB.webp",
     "credit": "Wikimedia Commons — TotyVox",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Little_Bay_Beach,_New_South_Wales,_Australia.jpg",
     "source": "wikimedia-commons",
@@ -1478,54 +1478,54 @@
   "MTMLA": {
     "credit": "Wikimedia Commons — Valletta",
     "creditUrl": "https://en.wikipedia.org/wiki/Valletta",
-    "file": "/photos/ports/MTMLA.jpg",
+    "file": "/photos/ports/MTMLA.webp",
     "query": "La Valletta",
     "source": "wikimedia"
   },
   "MVMLE": {
-    "file": "/photos/ports/MVMLE.jpg",
+    "file": "/photos/ports/MVMLE.webp",
     "credit": "Wikimedia Commons — Malé",
     "creditUrl": "https://en.wikipedia.org/wiki/Mal%C3%A9",
     "source": "wikimedia",
     "query": "Malé"
   },
   "MXCOM": {
-    "file": "/photos/ports/MXCOM.jpg",
+    "file": "/photos/ports/MXCOM.webp",
     "credit": "Wikimedia Commons — Larry D. Moore",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Port_Costa_Maya_Quintana_Roo_2023.jpg",
     "source": "wikimedia-commons",
     "query": "Costa Maya Mexico"
   },
   "MXCZM": {
-    "file": "/photos/ports/MXCZM.jpg",
+    "file": "/photos/ports/MXCZM.webp",
     "credit": "Wikimedia Commons — P.Lindgren",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Green_Moray_Eel_(Gymnothorax_funebris),_Cozumel.jpg",
     "source": "wikimedia-commons",
     "query": "Cozumel Mexico"
   },
   "MXHTO": {
-    "file": "/photos/ports/MXHTO.jpg",
+    "file": "/photos/ports/MXHTO.webp",
     "credit": "Wikimedia Commons — Own work",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Santa_Mar%C3%ADa_Huatulco_2.jpg",
     "source": "wikimedia-commons",
     "query": "Huatulco (Santa Maria Huatulco Mexico"
   },
   "MYLGK": {
-    "file": "/photos/ports/MYLGK.jpg",
+    "file": "/photos/ports/MYLGK.webp",
     "credit": "Wikimedia Commons — Langkawi",
     "creditUrl": "https://en.wikipedia.org/wiki/Langkawi",
     "source": "wikimedia",
     "query": "Langkawi"
   },
   "MYPKG": {
-    "file": "/photos/ports/MYPKG.jpg",
+    "file": "/photos/ports/MYPKG.webp",
     "credit": "Wikimedia Commons — James Kerwin from Tbilisi",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:The_Twins_SE_Asia_2019_(49171985716).jpg",
     "source": "wikimedia-commons",
     "query": "Kuala Lumpur Malaysia Petronas Twin Towers skyline sunset"
   },
   "NLAMS": {
-    "file": "/photos/ports/NLAMS.png",
+    "file": "/photos/ports/NLAMS.webp",
     "credit": "Wikimedia Commons — Amsterdam",
     "creditUrl": "https://en.wikipedia.org/wiki/Amsterdam",
     "source": "wikimedia",
@@ -1534,131 +1534,131 @@
   "NOAES": {
     "credit": "Wikimedia Commons — Ålesund",
     "creditUrl": "https://en.wikipedia.org/wiki/%C3%85lesund",
-    "file": "/photos/ports/NOAES.jpg",
+    "file": "/photos/ports/NOAES.webp",
     "query": "Ålesund",
     "source": "wikimedia"
   },
   "NOBGO": {
     "credit": "Wikimedia Commons — Bergen",
     "creditUrl": "https://en.wikipedia.org/wiki/Bergen",
-    "file": "/photos/ports/NOBGO.jpg",
+    "file": "/photos/ports/NOBGO.webp",
     "query": "Bergen",
     "source": "wikimedia"
   },
   "NOEDF": {
     "credit": "Wikimedia Commons — Eidfjord (village)",
     "creditUrl": "https://en.wikipedia.org/wiki/Eidfjord_(village)",
-    "file": "/photos/ports/NOEDF.jpg",
+    "file": "/photos/ports/NOEDF.webp",
     "query": "Eidfjord",
     "source": "wikimedia"
   },
   "NOFLA": {
     "credit": "Wikimedia Commons — Flåm",
     "creditUrl": "https://en.wikipedia.org/wiki/Fl%C3%A5m",
-    "file": "/photos/ports/NOFLA.jpg",
+    "file": "/photos/ports/NOFLA.webp",
     "query": "Flåm",
     "source": "wikimedia"
   },
   "NOGNR": {
     "credit": "Wikimedia Commons — Geiranger",
     "creditUrl": "https://en.wikipedia.org/wiki/Geiranger",
-    "file": "/photos/ports/NOGNR.jpg",
+    "file": "/photos/ports/NOGNR.webp",
     "query": "Geiranger",
     "source": "wikimedia"
   },
   "NOHAU": {
     "credit": "Wikimedia Commons — Haugesund",
     "creditUrl": "https://en.wikipedia.org/wiki/Haugesund",
-    "file": "/photos/ports/NOHAU.jpg",
+    "file": "/photos/ports/NOHAU.webp",
     "query": "Haugesund",
     "source": "wikimedia"
   },
   "NOHRD": {
     "credit": "Wikimedia Commons — Harstad (town)",
     "creditUrl": "https://en.wikipedia.org/wiki/Harstad_(town)",
-    "file": "/photos/ports/NOHRD.jpg",
+    "file": "/photos/ports/NOHRD.webp",
     "query": "Harstad",
     "source": "wikimedia"
   },
   "NOHVG": {
     "credit": "Wikimedia Commons — Honningsvåg",
     "creditUrl": "https://en.wikipedia.org/wiki/Honningsv%C3%A5g",
-    "file": "/photos/ports/NOHVG.jpg",
+    "file": "/photos/ports/NOHVG.webp",
     "query": "Honningsvåg",
     "source": "wikimedia"
   },
   "NOLKN": {
-    "file": "/photos/ports/NOLKN.jpg",
+    "file": "/photos/ports/NOLKN.webp",
     "credit": "Wikimedia Commons — Diego Delso",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Vista_de_Leknes,_Lofoten,_Noruega,_2019-09-05,_DD_09.jpg",
     "source": "wikimedia-commons",
     "query": "Leknes Norway"
   },
   "NOLRI": {
-    "file": "/photos/ports/NOLRI.jpg",
+    "file": "/photos/ports/NOLRI.webp",
     "credit": "Wikimedia Commons — Marius Vassnes",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Rosedoktoren_departing_Leirvik_03.jpg",
     "source": "wikimedia-commons",
     "query": "Leirvik Norway"
   },
   "NOMAN": {
-    "file": "/photos/ports/NOMAN.jpg",
+    "file": "/photos/ports/NOMAN.webp",
     "credit": "Wikimedia Commons — Mandal, Norway",
     "creditUrl": "https://en.wikipedia.org/wiki/Mandal,_Norway",
     "source": "wikimedia",
     "query": "Mandal"
   },
   "NONFD": {
-    "file": "/photos/ports/NONFD.jpg",
+    "file": "/photos/ports/NONFD.webp",
     "credit": "Wikimedia Commons — Nordfjordeid",
     "creditUrl": "https://en.wikipedia.org/wiki/Nordfjordeid",
     "source": "wikimedia",
     "query": "Nordfjordeid"
   },
   "NOOLD": {
-    "file": "/photos/ports/NOOLD.jpg",
+    "file": "/photos/ports/NOOLD.webp",
     "credit": "Wikimedia Commons — Olden, Norway",
     "creditUrl": "https://en.wikipedia.org/wiki/Olden,_Norway",
     "source": "wikimedia",
     "query": "Olden"
   },
   "NOOSL": {
-    "file": "/photos/ports/NOOSL.jpg",
+    "file": "/photos/ports/NOOSL.webp",
     "credit": "Wikimedia Commons — Oslo",
     "creditUrl": "https://en.wikipedia.org/wiki/Oslo",
     "source": "wikimedia",
     "query": "Oslo"
   },
   "NORSE": {
-    "file": "/photos/ports/NORSE.jpg",
+    "file": "/photos/ports/NORSE.webp",
     "credit": "Wikimedia Commons — Rosendal, Norway",
     "creditUrl": "https://en.wikipedia.org/wiki/Rosendal,_Norway",
     "source": "wikimedia",
     "query": "Rosendal"
   },
   "NOSAS": {
-    "file": "/photos/ports/NOSAS.jpg",
+    "file": "/photos/ports/NOSAS.webp",
     "credit": "Wikimedia Commons — Sandnes",
     "creditUrl": "https://en.wikipedia.org/wiki/Sandnes",
     "source": "wikimedia",
     "query": "Sandnes"
   },
   "NOSVG": {
-    "file": "/photos/ports/NOSVG.jpg",
+    "file": "/photos/ports/NOSVG.webp",
     "credit": "Wikimedia Commons — Stavanger",
     "creditUrl": "https://en.wikipedia.org/wiki/Stavanger",
     "source": "wikimedia",
     "query": "Stavanger"
   },
   "NOTOS": {
-    "file": "/photos/ports/NOTOS.jpg",
+    "file": "/photos/ports/NOTOS.webp",
     "credit": "Wikimedia Commons — Tromsø",
     "creditUrl": "https://en.wikipedia.org/wiki/Troms%C3%B8",
     "source": "wikimedia",
     "query": "Tromsø"
   },
   "NOTRD": {
-    "file": "/photos/ports/NOTRD.jpg",
+    "file": "/photos/ports/NOTRD.webp",
     "credit": "Wikimedia Commons — Trondheim",
     "creditUrl": "https://en.wikipedia.org/wiki/Trondheim",
     "source": "wikimedia",
@@ -1667,47 +1667,47 @@
   "NZAKL": {
     "credit": "Wikimedia Commons — Auckland",
     "creditUrl": "https://en.wikipedia.org/wiki/Auckland",
-    "file": "/photos/ports/NZAKL.jpg",
+    "file": "/photos/ports/NZAKL.webp",
     "query": "Auckland",
     "source": "wikimedia"
   },
   "NZLYT": {
     "credit": "Wikimedia Commons — Christchurch",
     "creditUrl": "https://en.wikipedia.org/wiki/Christchurch",
-    "file": "/photos/ports/NZLYT.jpg",
+    "file": "/photos/ports/NZLYT.webp",
     "query": "Christchurch",
     "source": "wikimedia"
   },
   "NZMFN": {
-    "file": "/photos/ports/NZMFN.jpg",
+    "file": "/photos/ports/NZMFN.webp",
     "credit": "Wikimedia Commons — Milford Sound",
     "creditUrl": "https://en.wikipedia.org/wiki/Milford_Sound",
     "source": "wikimedia",
     "query": "Milford Sound"
   },
   "NZPOE": {
-    "file": "/photos/ports/NZPOE.jpg",
+    "file": "/photos/ports/NZPOE.webp",
     "credit": "Wikimedia Commons — Port Chalmers",
     "creditUrl": "https://en.wikipedia.org/wiki/Port_Chalmers",
     "source": "wikimedia",
     "query": "Port Chalmers"
   },
   "NZTRG": {
-    "file": "/photos/ports/NZTRG.jpg",
+    "file": "/photos/ports/NZTRG.webp",
     "credit": "Wikimedia Commons — Tauranga",
     "creditUrl": "https://en.wikipedia.org/wiki/Tauranga",
     "source": "wikimedia",
     "query": "Tauranga"
   },
   "NZWLG": {
-    "file": "/photos/ports/NZWLG.jpg",
+    "file": "/photos/ports/NZWLG.webp",
     "credit": "Wikimedia Commons — Wellington",
     "creditUrl": "https://en.wikipedia.org/wiki/Wellington",
     "source": "wikimedia",
     "query": "Wellington"
   },
   "NZWTG": {
-    "file": "/photos/ports/NZWTG.jpg",
+    "file": "/photos/ports/NZWTG.webp",
     "credit": "Wikimedia Commons — W. Bulach",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:00_2585_Waitangi_National_Reserve_(New_Zealand).jpg",
     "source": "wikimedia-commons",
@@ -1716,26 +1716,26 @@
   "OMKHS": {
     "credit": "Wikimedia Commons — Khasab",
     "creditUrl": "https://en.wikipedia.org/wiki/Khasab",
-    "file": "/photos/ports/OMKHS.jpg",
+    "file": "/photos/ports/OMKHS.webp",
     "query": "Khasab",
     "source": "wikimedia"
   },
   "OMMCT": {
-    "file": "/photos/ports/OMMCT.jpg",
+    "file": "/photos/ports/OMMCT.webp",
     "credit": "Wikimedia Commons — Muscat",
     "creditUrl": "https://en.wikipedia.org/wiki/Muscat",
     "source": "wikimedia",
     "query": "Muscat"
   },
   "OMSLL": {
-    "file": "/photos/ports/OMSLL.jpg",
+    "file": "/photos/ports/OMSLL.webp",
     "credit": "Wikimedia Commons — Dr. Thomas Liptak",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Oman,_Salalah_Grand_Mall.jpg",
     "source": "wikimedia-commons",
     "query": "Salalah Oman"
   },
   "OMSUH": {
-    "file": "/photos/ports/OMSUH.jpg",
+    "file": "/photos/ports/OMSUH.webp",
     "credit": "Wikimedia Commons — Sur, Oman",
     "creditUrl": "https://en.wikipedia.org/wiki/Sur,_Oman",
     "source": "wikimedia",
@@ -1744,61 +1744,61 @@
   "PAAMD": {
     "credit": "Wikimedia Commons — Panama City",
     "creditUrl": "https://en.wikipedia.org/wiki/Panama_City",
-    "file": "/photos/ports/PAAMD.jpg",
+    "file": "/photos/ports/PAAMD.webp",
     "query": "Panama City",
     "source": "wikimedia"
   },
   "PABOC": {
     "credit": "Wikimedia Commons — Bocas del Toro Province",
     "creditUrl": "https://en.wikipedia.org/wiki/Bocas_del_Toro_Province",
-    "file": "/photos/ports/PABOC.jpg",
+    "file": "/photos/ports/PABOC.webp",
     "query": "Bocas del Toro",
     "source": "wikimedia"
   },
   "PAONX": {
     "credit": "Wikimedia Commons — Colón, Panama",
     "creditUrl": "https://en.wikipedia.org/wiki/Col%C3%B3n,_Panama",
-    "file": "/photos/ports/PAONX.jpg",
+    "file": "/photos/ports/PAONX.webp",
     "query": "Colón",
     "source": "wikimedia"
   },
   "PECLL": {
-    "file": "/photos/ports/PECLL.jpg",
+    "file": "/photos/ports/PECLL.webp",
     "credit": "Wikimedia Commons — Lima",
     "creditUrl": "https://en.wikipedia.org/wiki/Lima",
     "source": "wikimedia",
     "query": "Lima"
   },
   "PESVY": {
-    "file": "/photos/ports/PESVY.jpg",
+    "file": "/photos/ports/PESVY.webp",
     "credit": "Wikimedia Commons — MIKE_USA2004",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:SalaverryTruxillo2.jpg",
     "source": "wikimedia-commons",
     "query": "Salaverry Peru"
   },
   "PFBOB": {
-    "file": "/photos/ports/PFBOB.jpg",
+    "file": "/photos/ports/PFBOB.webp",
     "credit": "Wikimedia Commons — Borabora.jpg: User:Taka-0905 derivative work: Marsilio (talk)",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Borabora3.jpg",
     "source": "wikimedia-commons",
     "query": "Bora-Bora"
   },
   "PFFAV": {
-    "file": "/photos/ports/PFFAV.jpg",
+    "file": "/photos/ports/PFFAV.webp",
     "credit": "Wikimedia Commons — Frédéric Jacquot (deelight@poulet.org)",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Fakarava-ponton-rotoava.jpg",
     "source": "wikimedia-commons",
     "query": "Fakarava"
   },
   "PFMOZ": {
-    "file": "/photos/ports/PFMOZ.jpg",
+    "file": "/photos/ports/PFMOZ.webp",
     "credit": "Wikimedia Commons — Moʼorea",
     "creditUrl": "https://en.wikipedia.org/wiki/Mo%CA%BCorea",
     "source": "wikimedia",
     "query": "Moorea"
   },
   "PFPPT": {
-    "file": "/photos/ports/PFPPT.jpg",
+    "file": "/photos/ports/PFPPT.webp",
     "credit": "Wikimedia Commons — Papeete",
     "creditUrl": "https://en.wikipedia.org/wiki/Papeete",
     "source": "wikimedia",
@@ -1807,12 +1807,12 @@
   "PGGUR": {
     "credit": "Wikimedia Commons — Alotau",
     "creditUrl": "https://en.wikipedia.org/wiki/Alotau",
-    "file": "/photos/ports/PGGUR.jpg",
+    "file": "/photos/ports/PGGUR.webp",
     "query": "Alotau",
     "source": "wikimedia"
   },
   "PGPOM": {
-    "file": "/photos/ports/PGPOM.jpg",
+    "file": "/photos/ports/PGPOM.webp",
     "credit": "Wikimedia Commons — Port Moresby",
     "creditUrl": "https://en.wikipedia.org/wiki/Port_Moresby",
     "source": "wikimedia",
@@ -1821,19 +1821,19 @@
   "PLGDY": {
     "credit": "Wikimedia Commons — Gdańsk",
     "creditUrl": "https://en.wikipedia.org/wiki/Gda%C5%84sk",
-    "file": "/photos/ports/PLGDY.jpg",
+    "file": "/photos/ports/PLGDY.webp",
     "query": "Gdansk",
     "source": "wikimedia"
   },
   "PMFSP": {
-    "file": "/photos/ports/PMFSP.png",
+    "file": "/photos/ports/PMFSP.webp",
     "credit": "Wikimedia Commons — Nicolas Garon",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Photo_Saint-Pierre,_Saint_Pierre_and_Miquelon.png",
     "source": "wikimedia-commons",
     "query": "St. Pierre"
   },
   "PNPCN": {
-    "file": "/photos/ports/PNPCN.jpg",
+    "file": "/photos/ports/PNPCN.webp",
     "credit": "Wikimedia Commons — wileypics",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Pitcairn_Island_In_The_Distance.jpg",
     "source": "wikimedia-commons",
@@ -1842,26 +1842,26 @@
   "PRSJU": {
     "credit": "Wikimedia Commons — San Juan, Puerto Rico",
     "creditUrl": "https://en.wikipedia.org/wiki/San_Juan,_Puerto_Rico",
-    "file": "/photos/ports/PRSJU.jpg",
+    "file": "/photos/ports/PRSJU.webp",
     "query": "San Juan",
     "source": "wikimedia"
   },
   "PTFNC": {
     "credit": "Wikimedia Commons — Funchal",
     "creditUrl": "https://en.wikipedia.org/wiki/Funchal",
-    "file": "/photos/ports/PTFNC.jpg",
+    "file": "/photos/ports/PTFNC.webp",
     "query": "Funchal",
     "source": "wikimedia"
   },
   "PTHOR": {
-    "file": "/photos/ports/PTHOR.jpg",
+    "file": "/photos/ports/PTHOR.webp",
     "credit": "Wikimedia Commons — Diego Delso",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Iglesia_de_Nuestra_Se%C3%B1ora_de_las_Angustias,_Horta,_isla_de_Fayal,_Azores,_Portugal,_2020-07-28,_DD_22-24_HDR.jpg",
     "source": "wikimedia-commons",
     "query": "Horta Portugal"
   },
   "PTLEI": {
-    "file": "/photos/ports/PTLEI.jpg",
+    "file": "/photos/ports/PTLEI.webp",
     "credit": "Wikimedia Commons — Porto",
     "creditUrl": "https://en.wikipedia.org/wiki/Porto",
     "source": "wikimedia",
@@ -1870,19 +1870,19 @@
   "PTLIS": {
     "credit": "Wikimedia Commons — Lisbon",
     "creditUrl": "https://en.wikipedia.org/wiki/Lisbon",
-    "file": "/photos/ports/PTLIS.jpg",
+    "file": "/photos/ports/PTLIS.webp",
     "query": "Lisbon",
     "source": "wikimedia"
   },
   "PTPDL": {
-    "file": "/photos/ports/PTPDL.jpg",
+    "file": "/photos/ports/PTPDL.webp",
     "credit": "Wikimedia Commons — Ponta Delgada",
     "creditUrl": "https://en.wikipedia.org/wiki/Ponta_Delgada",
     "source": "wikimedia",
     "query": "Ponta Delgada"
   },
   "PTPRM": {
-    "file": "/photos/ports/PTPRM.jpg",
+    "file": "/photos/ports/PTPRM.webp",
     "credit": "Wikimedia Commons — Vitor Oliveira from Torres Vedras, PORTUGAL",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Portim%C3%A3o_-_Portugal_(49757631447).jpg",
     "source": "wikimedia-commons",
@@ -1891,19 +1891,19 @@
   "QADOH": {
     "credit": "Wikimedia Commons — Doha",
     "creditUrl": "https://en.wikipedia.org/wiki/Doha",
-    "file": "/photos/ports/QADOH.jpg",
+    "file": "/photos/ports/QADOH.webp",
     "query": "Doha",
     "source": "wikimedia"
   },
   "SAALW": {
     "credit": "Wikimedia Commons — Al-Ula",
     "creditUrl": "https://en.wikipedia.org/wiki/Al-Ula",
-    "file": "/photos/ports/SAALW.jpg",
+    "file": "/photos/ports/SAALW.webp",
     "query": "AlUla",
     "source": "wikimedia"
   },
   "SADMM": {
-    "file": "/photos/ports/SADMM.jpg",
+    "file": "/photos/ports/SADMM.webp",
     "credit": "Wikimedia Commons — User:Abhijitvarghese",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Dammam_medical_complex_2014-01-19_22-43.jpg",
     "source": "wikimedia-commons",
@@ -1912,19 +1912,19 @@
   "SAJED": {
     "credit": "Wikimedia Commons — Jeddah",
     "creditUrl": "https://en.wikipedia.org/wiki/Jeddah",
-    "file": "/photos/ports/SAJED.jpg",
+    "file": "/photos/ports/SAJED.webp",
     "query": "Jeddah",
     "source": "wikimedia"
   },
   "SEGOT": {
     "credit": "Wikimedia Commons — Gothenburg",
     "creditUrl": "https://en.wikipedia.org/wiki/Gothenburg",
-    "file": "/photos/ports/SEGOT.jpg",
+    "file": "/photos/ports/SEGOT.webp",
     "query": "Göteborg",
     "source": "wikimedia"
   },
   "SELYS": {
-    "file": "/photos/ports/SELYS.jpg",
+    "file": "/photos/ports/SELYS.webp",
     "credit": "Wikimedia Commons — W.carter",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:North_Harbour_Lysekil_warm_and_sunny.jpg",
     "source": "wikimedia-commons",
@@ -1933,12 +1933,12 @@
   "SESTO": {
     "credit": "Wikimedia Commons — Stockholm",
     "creditUrl": "https://en.wikipedia.org/wiki/Stockholm",
-    "file": "/photos/ports/SESTO.jpg",
+    "file": "/photos/ports/SESTO.webp",
     "query": "Stockholm",
     "source": "wikimedia"
   },
   "SEVBY": {
-    "file": "/photos/ports/SEVBY.jpg",
+    "file": "/photos/ports/SEVBY.webp",
     "credit": "Wikimedia Commons — Visby",
     "creditUrl": "https://en.wikipedia.org/wiki/Visby",
     "source": "wikimedia",
@@ -1947,33 +1947,33 @@
   "SIKOP": {
     "credit": "Wikimedia Commons — Koper",
     "creditUrl": "https://en.wikipedia.org/wiki/Koper",
-    "file": "/photos/ports/SIKOP.jpg",
+    "file": "/photos/ports/SIKOP.webp",
     "query": "Koper",
     "source": "wikimedia"
   },
   "SVAQJ": {
-    "file": "/photos/ports/SVAQJ.jpg",
+    "file": "/photos/ports/SVAQJ.webp",
     "credit": "Wikimedia Commons — Roberto Alas",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Barrio_El_Campamento_-_panoramio_(1).jpg",
     "source": "wikimedia-commons",
     "query": "Acajutla"
   },
   "TCGDT": {
-    "file": "/photos/ports/TCGDT.jpg",
+    "file": "/photos/ports/TCGDT.webp",
     "credit": "Wikimedia Commons — Jersyko at English Wikipedia",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Grand_Turk_beach.JPG",
     "source": "wikimedia-commons",
     "query": "Grand Turk"
   },
   "TCPLS": {
-    "file": "/photos/ports/TCPLS.jpg",
+    "file": "/photos/ports/TCPLS.webp",
     "credit": "Wikimedia Commons — Providenciales",
     "creditUrl": "https://en.wikipedia.org/wiki/Providenciales",
     "source": "wikimedia",
     "query": "Providenciales"
   },
   "THHKT": {
-    "file": "/photos/ports/THHKT.jpg",
+    "file": "/photos/ports/THHKT.webp",
     "credit": "Wikimedia Commons — Phuket province",
     "creditUrl": "https://en.wikipedia.org/wiki/Phuket_province",
     "source": "wikimedia",
@@ -1982,33 +1982,33 @@
   "THKRV": {
     "credit": "Wikimedia Commons — Krabi",
     "creditUrl": "https://en.wikipedia.org/wiki/Krabi",
-    "file": "/photos/ports/THKRV.jpg",
+    "file": "/photos/ports/THKRV.webp",
     "query": "Krabi",
     "source": "wikimedia"
   },
   "THLCH": {
     "credit": "Wikimedia Commons — Bangkok",
     "creditUrl": "https://en.wikipedia.org/wiki/Bangkok",
-    "file": "/photos/ports/THLCH.jpg",
+    "file": "/photos/ports/THLCH.webp",
     "query": "Bangkok",
     "source": "wikimedia"
   },
   "THUSM": {
     "credit": "Wikimedia Commons — Ko Samui",
     "creditUrl": "https://en.wikipedia.org/wiki/Ko_Samui",
-    "file": "/photos/ports/THUSM.jpg",
+    "file": "/photos/ports/THUSM.webp",
     "query": "Koh Samui",
     "source": "wikimedia"
   },
   "TNLGN": {
-    "file": "/photos/ports/TNLGN.jpg",
+    "file": "/photos/ports/TNLGN.webp",
     "credit": "Wikimedia Commons — Tunis",
     "creditUrl": "https://en.wikipedia.org/wiki/Tunis",
     "source": "wikimedia",
     "query": "Tunis"
   },
   "TOTBU": {
-    "file": "/photos/ports/TOTBU.jpg",
+    "file": "/photos/ports/TOTBU.webp",
     "credit": "Wikimedia Commons — Nukuʻalofa",
     "creditUrl": "https://en.wikipedia.org/wiki/Nuku%CA%BBalofa",
     "source": "wikimedia",
@@ -2017,40 +2017,40 @@
   "TRBXN": {
     "credit": "Wikimedia Commons — Bodrum",
     "creditUrl": "https://en.wikipedia.org/wiki/Bodrum",
-    "file": "/photos/ports/TRBXN.jpg",
+    "file": "/photos/ports/TRBXN.webp",
     "query": "Bodrum",
     "source": "wikimedia"
   },
   "TRCKZ": {
     "credit": "Wikimedia Commons — Çanakkale",
     "creditUrl": "https://en.wikipedia.org/wiki/%C3%87anakkale",
-    "file": "/photos/ports/TRCKZ.jpg",
+    "file": "/photos/ports/TRCKZ.webp",
     "query": "Çanakkale",
     "source": "wikimedia"
   },
   "TRIST": {
     "credit": "Wikimedia Commons — Istanbul",
     "creditUrl": "https://en.wikipedia.org/wiki/Istanbul",
-    "file": "/photos/ports/TRIST.jpg",
+    "file": "/photos/ports/TRIST.webp",
     "query": "Istanbul",
     "source": "wikimedia"
   },
   "TRKUS": {
-    "file": "/photos/ports/TRKUS.jpg",
+    "file": "/photos/ports/TRKUS.webp",
     "credit": "Wikimedia Commons — Kuşadası",
     "creditUrl": "https://en.wikipedia.org/wiki/Ku%C5%9Fadas%C4%B1",
     "source": "wikimedia",
     "query": "Kusadasi"
   },
   "TRMRM": {
-    "file": "/photos/ports/TRMRM.jpg",
+    "file": "/photos/ports/TRMRM.webp",
     "credit": "Wikimedia Commons — George Chernilevsky",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Marmaris_Castle_2019_G6.jpg",
     "source": "wikimedia-commons",
     "query": "Marmaris Turkey"
   },
   "TTPOS": {
-    "file": "/photos/ports/TTPOS.jpg",
+    "file": "/photos/ports/TTPOS.webp",
     "credit": "Wikimedia Commons — Port of Spain",
     "creditUrl": "https://en.wikipedia.org/wiki/Port_of_Spain",
     "source": "wikimedia",
@@ -2059,26 +2059,26 @@
   "TWKEL": {
     "credit": "Wikimedia Commons — Taipei",
     "creditUrl": "https://en.wikipedia.org/wiki/Taipei",
-    "file": "/photos/ports/TWKEL.jpg",
+    "file": "/photos/ports/TWKEL.webp",
     "query": "Taipei",
     "source": "wikimedia"
   },
   "TWKHH": {
     "credit": "Wikimedia Commons — Kaohsiung",
     "creditUrl": "https://en.wikipedia.org/wiki/Kaohsiung",
-    "file": "/photos/ports/TWKHH.jpg",
+    "file": "/photos/ports/TWKHH.webp",
     "query": "Kaohsiung",
     "source": "wikimedia"
   },
   "USBOS": {
     "credit": "Wikimedia Commons — Boston",
     "creditUrl": "https://en.wikipedia.org/wiki/Boston",
-    "file": "/photos/ports/USBOS.jpg",
+    "file": "/photos/ports/USBOS.webp",
     "query": "Boston",
     "source": "wikimedia"
   },
   "USDUT": {
-    "file": "/photos/ports/USDUT.jpg",
+    "file": "/photos/ports/USDUT.webp",
     "credit": "Wikimedia Commons — Carla Stanley",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Dutch_Harbor_net_pile_FWS.jpg",
     "source": "wikimedia-commons",
@@ -2087,19 +2087,19 @@
   "USENC": {
     "credit": "Wikimedia Commons — Tracy Arm",
     "creditUrl": "https://en.wikipedia.org/wiki/Tracy_Arm",
-    "file": "/photos/ports/USENC.jpg",
+    "file": "/photos/ports/USENC.webp",
     "query": "Endicott Arm",
     "source": "wikimedia"
   },
   "USEYW": {
     "credit": "Wikimedia Commons — Key West",
     "creditUrl": "https://en.wikipedia.org/wiki/Key_West",
-    "file": "/photos/ports/USEYW.jpg",
+    "file": "/photos/ports/USEYW.webp",
     "query": "Key West",
     "source": "wikimedia"
   },
   "USHNH": {
-    "file": "/photos/ports/USHNH.jpg",
+    "file": "/photos/ports/USHNH.webp",
     "credit": "Wikimedia Commons — Joseph",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Aerial_photo_of_Hoonah,_Alaska.jpg",
     "source": "wikimedia-commons",
@@ -2108,33 +2108,33 @@
   "USHNS": {
     "credit": "Wikimedia Commons — Haines, Alaska",
     "creditUrl": "https://en.wikipedia.org/wiki/Haines,_Alaska",
-    "file": "/photos/ports/USHNS.jpg",
+    "file": "/photos/ports/USHNS.webp",
     "query": "Haines",
     "source": "wikimedia"
   },
   "USJNU": {
     "credit": "Wikimedia Commons — Juneau, Alaska",
     "creditUrl": "https://en.wikipedia.org/wiki/Juneau,_Alaska",
-    "file": "/photos/ports/USJNU.jpg",
+    "file": "/photos/ports/USJNU.webp",
     "query": "Juneau",
     "source": "wikimedia"
   },
   "USKTN": {
     "credit": "Wikimedia Commons — Ketchikan, Alaska",
     "creditUrl": "https://en.wikipedia.org/wiki/Ketchikan,_Alaska",
-    "file": "/photos/ports/USKTN.jpg",
+    "file": "/photos/ports/USKTN.webp",
     "query": "Ketchikan",
     "source": "wikimedia"
   },
   "USLAX": {
     "credit": "Wikimedia Commons — Los Angeles",
     "creditUrl": "https://en.wikipedia.org/wiki/Los_Angeles",
-    "file": "/photos/ports/USLAX.jpg",
+    "file": "/photos/ports/USLAX.webp",
     "query": "Los Angeles",
     "source": "wikimedia"
   },
   "USMIA": {
-    "file": "/photos/ports/USMIA.jpg",
+    "file": "/photos/ports/USMIA.webp",
     "credit": "Wikimedia Commons — Radomianin",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Lifeguard_stand,_Miami_Beach.jpg",
     "source": "wikimedia-commons",
@@ -2143,54 +2143,54 @@
   "USNYC": {
     "credit": "Wikimedia Commons — New York City",
     "creditUrl": "https://en.wikipedia.org/wiki/New_York_City",
-    "file": "/photos/ports/USNYC.jpg",
+    "file": "/photos/ports/USNYC.webp",
     "query": "New York City",
     "source": "wikimedia"
   },
   "USPWM": {
-    "file": "/photos/ports/USPWM.jpg",
+    "file": "/photos/ports/USPWM.webp",
     "credit": "Wikimedia Commons — Frank Schulenburg",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Kelly%E2%80%99s_Olympian_Bar_%26_Diner,_Portland_(2024)-L1006267.jpg",
     "source": "wikimedia-commons",
     "query": "Portland United States"
   },
   "USSAN": {
-    "file": "/photos/ports/USSAN.jpg",
+    "file": "/photos/ports/USSAN.webp",
     "credit": "Wikimedia Commons — San Diego",
     "creditUrl": "https://en.wikipedia.org/wiki/San_Diego",
     "source": "wikimedia",
     "query": "San Diego"
   },
   "USSFO": {
-    "file": "/photos/ports/USSFO.jpg",
+    "file": "/photos/ports/USSFO.webp",
     "credit": "Wikimedia Commons — San Francisco",
     "creditUrl": "https://en.wikipedia.org/wiki/San_Francisco",
     "source": "wikimedia",
     "query": "San Francisco"
   },
   "USSGY": {
-    "file": "/photos/ports/USSGY.jpg",
+    "file": "/photos/ports/USSGY.webp",
     "credit": "Wikimedia Commons — Skagway, Alaska",
     "creditUrl": "https://en.wikipedia.org/wiki/Skagway,_Alaska",
     "source": "wikimedia",
     "query": "Skagway"
   },
   "USSIT": {
-    "file": "/photos/ports/USSIT.jpg",
+    "file": "/photos/ports/USSIT.webp",
     "credit": "Wikimedia Commons — Seth Anderson",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Sitka_post_office.jpg",
     "source": "wikimedia-commons",
     "query": "Sitka United States"
   },
   "USVDZ": {
-    "file": "/photos/ports/USVDZ.jpg",
+    "file": "/photos/ports/USVDZ.webp",
     "credit": "Wikimedia Commons — Valdez, Alaska",
     "creditUrl": "https://en.wikipedia.org/wiki/Valdez,_Alaska",
     "source": "wikimedia",
     "query": "Valdez"
   },
   "USWRG": {
-    "file": "/photos/ports/USWRG.jpg",
+    "file": "/photos/ports/USWRG.webp",
     "credit": "Wikimedia Commons — Diego Delso",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Lago_Plateado,_Parque_nacional_y_reserva_Wrangell-San_El%C3%ADas,_Alaska,_Estados_Unidos,_2017-08-22,_DD_135.jpg",
     "source": "wikimedia-commons",
@@ -2199,12 +2199,12 @@
   "VGJVD": {
     "credit": "Wikimedia Commons — Jost Van Dyke",
     "creditUrl": "https://en.wikipedia.org/wiki/Jost_Van_Dyke",
-    "file": "/photos/ports/VGJVD.jpg",
+    "file": "/photos/ports/VGJVD.webp",
     "query": "Jost van Dyke",
     "source": "wikimedia"
   },
   "VGRAD": {
-    "file": "/photos/ports/VGRAD.jpg",
+    "file": "/photos/ports/VGRAD.webp",
     "credit": "Wikimedia Commons — Tortola",
     "creditUrl": "https://en.wikipedia.org/wiki/Tortola",
     "source": "wikimedia",
@@ -2213,12 +2213,12 @@
   "VICHA": {
     "credit": "Wikimedia Commons — Charlotte Amalie, U.S. Virgin Islands",
     "creditUrl": "https://en.wikipedia.org/wiki/Charlotte_Amalie,_U.S._Virgin_Islands",
-    "file": "/photos/ports/VICHA.jpg",
+    "file": "/photos/ports/VICHA.webp",
     "query": "Charlotte Amalie",
     "source": "wikimedia"
   },
   "VICZB": {
-    "file": "/photos/ports/VICZB.jpg",
+    "file": "/photos/ports/VICZB.webp",
     "credit": "Wikimedia Commons — Saint John, U.S. Virgin Islands",
     "creditUrl": "https://en.wikipedia.org/wiki/Saint_John,_U.S._Virgin_Islands",
     "source": "wikimedia",
@@ -2227,40 +2227,40 @@
   "VIFRD": {
     "credit": "Wikimedia Commons — Frederiksted, U.S. Virgin Islands",
     "creditUrl": "https://en.wikipedia.org/wiki/Frederiksted,_U.S._Virgin_Islands",
-    "file": "/photos/ports/VIFRD.jpg",
+    "file": "/photos/ports/VIFRD.webp",
     "query": "Frederiksted",
     "source": "wikimedia"
   },
   "VNDAD": {
     "credit": "Wikimedia Commons — Da Nang",
     "creditUrl": "https://en.wikipedia.org/wiki/Da_Nang",
-    "file": "/photos/ports/VNDAD.jpg",
+    "file": "/photos/ports/VNDAD.webp",
     "query": "Da Nang",
     "source": "wikimedia"
   },
   "VNHLG": {
     "credit": "Wikimedia Commons — Hạ Long",
     "creditUrl": "https://en.wikipedia.org/wiki/H%E1%BA%A1_Long",
-    "file": "/photos/ports/VNHLG.jpg",
+    "file": "/photos/ports/VNHLG.webp",
     "query": "Ha Long",
     "source": "wikimedia"
   },
   "VNNHA": {
-    "file": "/photos/ports/VNNHA.jpg",
+    "file": "/photos/ports/VNNHA.webp",
     "credit": "Wikimedia Commons — Leonid",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Nha_Trang,_Vietnam_-_53120927853.jpg",
     "source": "wikimedia-commons",
     "query": "Nha Trang Vietnam"
   },
   "VNPHU": {
-    "file": "/photos/ports/VNPHU.jpg",
+    "file": "/photos/ports/VNPHU.webp",
     "credit": "Wikimedia Commons — Lam Tr Th",
     "creditUrl": "https://commons.wikimedia.org/wiki/File:Nguy%E1%BB%85n_C%C6%B0_Trinh,_Ph%C3%BA_M%E1%BB%B9,_T%C3%A2n_Th%C3%A0nh,_B%C3%A0_R%E1%BB%8Ba_-_V%C5%A9ng_T%C3%A0u,_Vietnam_-_panoramio_(1).jpg",
     "source": "wikimedia-commons",
     "query": "Phu My Vietnam"
   },
   "VNPQC": {
-    "file": "/photos/ports/VNPQC.jpg",
+    "file": "/photos/ports/VNPQC.webp",
     "credit": "Wikimedia Commons — Phú Quốc",
     "creditUrl": "https://en.wikipedia.org/wiki/Ph%C3%BA_Qu%E1%BB%91c",
     "source": "wikimedia",

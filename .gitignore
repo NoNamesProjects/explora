@@ -45,4 +45,4 @@ coverage/
 .claude/
 
 # Pre-optimisation image originals (never deployed)
-public/photos/_originals/
+image-originals/

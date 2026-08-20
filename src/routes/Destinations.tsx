@@ -52,7 +52,7 @@ export default function Destinations() {
   const { t } = useTranslation();
   const reduce = useReducedMotion();
   const [stats, setStats] = useState<StatsMap>({});
-  const heroImage = bannerOverride('destinations.hero') ?? '/photos/ports/HRDBV.jpg';
+  const heroImage = bannerOverride('destinations.hero') ?? '/photos/ports/HRDBV.webp';
 
   useEffect(() => {
     let alive = true;

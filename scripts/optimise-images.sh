@@ -10,10 +10,10 @@
 # pulled ~2.9MB. Resizing to 1200px and encoding WebP at q82 cuts that by about
 # 85% with no visible difference at card or hero size.
 #
-# The originals are moved to public/photos/_originals (gitignored, never
-# deployed) rather than deleted, so a re-encode at different settings is always
-# possible. src/lib/portImages.ts resolves .webp first, then the original
-# extension, so the site keeps working mid-migration.
+# The originals are moved to image-originals/ (repo root, NOT under public/ —
+# Vite copies public/ verbatim into dist/ with no exclude mechanism, so a
+# gitignored folder inside public/ still ships to production) rather than
+# deleted, so a re-encode at different settings is always possible.
 #
 # Requires cwebp (brew install webp) and sips (macOS built-in).
 
@@ -23,7 +23,7 @@ cd "$(dirname "$0")/.."
 DIR="${DIR:-public/photos/ports}"
 MAXW="${MAXW:-1200}"
 QUALITY="${QUALITY:-82}"
-ORIG_DIR="public/photos/_originals/$(basename "$DIR")"
+ORIG_DIR="image-originals/$(basename "$DIR")"
 
 command -v cwebp >/dev/null || { echo "cwebp not found — brew install webp"; exit 1; }
 
@@ -49,10 +49,15 @@ while IFS= read -r -d '' src; do
 
   tmp="$(mktemp -t exp-img).${src##*.}"
   cp "$src" "$tmp"
-  # Only shrink: never upscale a photo that is already narrower than MAXW.
+  # Cap the LONGER edge, not just width: a portrait source (e.g. 1280x1920)
+  # capped only on width stays 1200x1800 — nearly as many pixels as the
+  # original, and the file size barely drops. -Z caps whichever dimension is
+  # larger, so both orientations end up around the same pixel budget. Only
+  # ever shrinks, never upscales a photo already smaller than MAXW.
   w=$(sips -g pixelWidth "$tmp" 2>/dev/null | awk '/pixelWidth/{print $2}')
-  if [ -n "$w" ] && [ "$w" -gt "$MAXW" ]; then
-    sips --resampleWidth "$MAXW" "$tmp" >/dev/null 2>&1
+  h=$(sips -g pixelHeight "$tmp" 2>/dev/null | awk '/pixelHeight/{print $2}')
+  if [ -n "$w" ] && [ -n "$h" ] && { [ "$w" -gt "$MAXW" ] || [ "$h" -gt "$MAXW" ]; }; then
+    sips -Z "$MAXW" "$tmp" >/dev/null 2>&1
   fi
   cwebp -quiet -q "$QUALITY" -m 6 "$tmp" -o "$out" 2>/dev/null || { rm -f "$tmp"; echo "  ! failed: $base"; continue; }
   rm -f "$tmp"
