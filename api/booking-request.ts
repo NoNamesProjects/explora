@@ -8,7 +8,9 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { z } from 'zod';
 import { db, jsonbArg } from '../lib/db/client';
 import { readJson, sendJson, reqMeta } from '../lib/http';
+import { rateLimited } from '../lib/rate-limit';
 import { genRef, computeQuote } from '../lib/booking';
+import { suiteBerths, ADULTS_MAX, CHILDREN_MAX, INFANTS_MAX } from '../lib/pricing';
 import { paypalConfigured } from '../lib/paypal';
 import { sendBookingNotification } from '../lib/email';
 
@@ -43,14 +45,37 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     res.setHeader('Allow', 'POST');
     return res.end();
   }
+  // Generous window — the booking wizard may legitimately retry — but bounded,
+  // so junk pending rows and chained PayPal order creation stay contained.
+  if (rateLimited(req, res, { scope: 'booking', limit: 10, windowMs: 10 * 60_000 })) return;
   const parsed = schema.safeParse(await readJson(req));
   if (!parsed.success) return sendJson(res, 400, { ok: false, error: 'invalid', issues: parsed.error.issues });
   const q = parsed.data;
+
+  // Authoritative party from the ACTUAL guest list (guests[].type), never the
+  // client-sent counts — this is the anti-tamper guarantee: the price is derived
+  // from who is really in the cabin, so a crafted "1 adult" claim over a 4-guest
+  // list can't be priced as a cheap solo. A guest with no type counts as an adult
+  // (the no-undercharge default).
+  const party = { adults: 0, children: 0, infants: 0 };
+  for (const g of q.guests) {
+    if (g.type === 'child') party.children++;
+    else if (g.type === 'infant') party.infants++;
+    else party.adults++;
+  }
+
+  // Composition + capacity guards (mirror the client rules in guestRules/bookingUI).
+  if (party.adults < 1) return sendJson(res, 400, { ok: false, error: 'need-adult' });
+  if (q.guestCount !== q.guests.length) return sendJson(res, 400, { ok: false, error: 'guest-count-mismatch' });
+  if (party.adults > ADULTS_MAX || party.children > CHILDREN_MAX || party.infants > INFANTS_MAX)
+    return sendJson(res, 400, { ok: false, error: 'party-too-large' });
+  if (q.guests.length > suiteBerths(q.suiteCategory))
+    return sendJson(res, 400, { ok: false, error: 'exceeds-capacity' });
+  // If the client also sent explicit counts, they must agree with the guest list.
+  if (q.adults != null && (q.adults !== party.adults || (q.children ?? 0) !== party.children || (q.infants ?? 0) !== party.infants))
+    return sendJson(res, 400, { ok: false, error: 'party-mismatch' });
+
   try {
-    // Price per guest type (infants usually free); team confirms the final price.
-    const party = q.adults != null
-      ? { adults: q.adults, children: q.children ?? 0, infants: q.infants ?? 0 }
-      : { adults: q.guestCount, children: 0, infants: 0 };
     const { bookable, indicativeTotal, depositAmount, currency } = await computeQuote(q.journeyId, q.suiteCategory, q.fareCode, party);
     // Withdrawn/expired sailing or vanished fare — refuse instead of creating
     // a deposit-less request for something that can't be fulfilled.

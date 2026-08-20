@@ -5,19 +5,14 @@
  * agree on how many of each guest type are allowed.
  */
 
-// A cabin sleeps at most 4 (MSC/Explora policy). A specific suite may sleep only
-// 2 — that per-suite cap is derived from the fare's 3rd/4th pricing and passed to
-// clampParty()/the steppers at runtime.
-export const MAX_GUESTS = 4;
-
-// Per-category occupancy limits. The combined total is additionally capped at the
-// suite's max occupancy via each stepper's `canIncrease`.
-export const ADULTS_MIN = 1;
-export const ADULTS_MAX = 4;
-export const CHILDREN_MIN = 0;
-export const CHILDREN_MAX = 3;
-export const INFANTS_MIN = 0;
-export const INFANTS_MAX = 2;
+// Occupancy caps now live in the shared pricing module, so the server booking
+// validator and these client steppers enforce identical limits (no drift).
+// Imported for clampParty() below and re-exported so existing importers keep
+// pulling them from here.
+import {
+  MAX_GUESTS, ADULTS_MIN, ADULTS_MAX, CHILDREN_MIN, CHILDREN_MAX, INFANTS_MIN, INFANTS_MAX,
+} from '@lib/pricing';
+export { MAX_GUESTS, ADULTS_MIN, ADULTS_MAX, CHILDREN_MIN, CHILDREN_MAX, INFANTS_MIN, INFANTS_MAX };
 
 export const ADULT_BAND = '18+ years';
 export const CHILD_BAND = '2–17 years';

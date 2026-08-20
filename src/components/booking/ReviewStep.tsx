@@ -43,6 +43,30 @@ export function ReviewStep() {
   const items = fare?.items ?? [];
   const lead = selection.guests[0];
 
+  // Per-guest price lines: pair each priced berth (ordered adults→children→infants
+  // by priceCabin) with the matching named guest of that type, so every guest sees
+  // exactly what they cost instead of one opaque total.
+  const headcount = party.adults + party.children + party.infants;
+  const namedByType: Record<'adult' | 'child' | 'infant', typeof selection.guests> = { adult: [], child: [], infant: [] };
+  for (const g of selection.guests.slice(0, headcount)) namedByType[g.type ?? 'adult'].push(g);
+  const typeLabel: Record<'adult' | 'child' | 'infant', string> = {
+    adult: t('booking.review.typeAdult', { defaultValue: 'Adult' }),
+    child: t('booking.review.typeChild', { defaultValue: 'Child' }),
+    infant: t('booking.review.typeInfant', { defaultValue: 'Infant' }),
+  };
+  const seen = { adult: 0, child: 0, infant: 0 };
+  const lineItems = (pricing?.guests ?? []).map((pg, i) => {
+    seen[pg.type] += 1;
+    const named = namedByType[pg.type].shift();
+    const name = named ? `${named.firstName ?? ''} ${named.lastName ?? ''}`.trim() : '';
+    return {
+      key: i,
+      type: pg.type,
+      price: pg.price,
+      label: name || `${typeLabel[pg.type]} ${seen[pg.type]}`,
+    };
+  });
+
   async function ensureRequest(): Promise<{ ref: string; depositAmount: number | null }> {
     if (refState.current) {
       return refState.current;
@@ -129,28 +153,20 @@ export function ReviewStep() {
             ))}
           </div>
         )}
-        {pricing && (
+        {pricing && lineItems.length > 0 && (
           <dl className="mt-5 pt-5 border-t border-cream-300/60 space-y-2 text-sm">
-            {pricing.byType.adults.count > 0 && (
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-600">{pricing.solo
-                  ? t('booking.review.adultSolo', { defaultValue: 'Adult · solo' })
-                  : t('booking.review.adultsCount', { count: pricing.byType.adults.count, defaultValue: 'Adults · {{count}}' })}</dt>
-                <dd className="text-ink tabular-nums">{formatEUR(pricing.byType.adults.total)}</dd>
+            {lineItems.map((li) => (
+              <div key={li.key} className="flex justify-between gap-4">
+                <dt className="text-ink-600">
+                  <span className="text-ink">{li.label}</span>
+                  <span className="text-ink-400"> · {typeLabel[li.type]}</span>
+                  {li.type === 'adult' && pricing.solo && (
+                    <span className="text-ink-400"> · {t('booking.review.singleOccupancy', { defaultValue: 'single occupancy' })}</span>
+                  )}
+                </dt>
+                <dd className="text-ink tabular-nums">{li.price > 0 ? formatEUR(li.price) : t('booking.review.free', { defaultValue: 'Free' })}</dd>
               </div>
-            )}
-            {pricing.byType.children.count > 0 && (
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-600">{t('booking.review.childrenCount', { count: pricing.byType.children.count, defaultValue: 'Children · {{count}}' })}</dt>
-                <dd className="text-ink tabular-nums">{formatEUR(pricing.byType.children.total)}</dd>
-              </div>
-            )}
-            {pricing.byType.infants.count > 0 && (
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-600">{t('booking.review.infantsCount', { count: pricing.byType.infants.count, defaultValue: 'Infants · {{count}}' })}</dt>
-                <dd className="text-ink tabular-nums">{pricing.byType.infants.total > 0 ? formatEUR(pricing.byType.infants.total) : t('booking.review.free', { defaultValue: 'Free' })}</dd>
-              </div>
-            )}
+            ))}
           </dl>
         )}
         <div className="mt-4 pt-4 border-t border-cream-300/60 flex items-end justify-between">

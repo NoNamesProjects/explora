@@ -7,6 +7,7 @@
 import { randomBytes } from 'node:crypto';
 import { db } from './db/client';
 import { fareToPricing, priceCabin, type Party } from './pricing';
+import { isCustomId, getCustomFare, customFareToApiShape } from './custom-packages';
 
 export interface BookingGuestRow {
   title?: string;
@@ -50,6 +51,42 @@ export function depositPercent(): number {
   return Number.isFinite(n) && n > 0 && n <= 100 ? n : 20;
 }
 
+/** Today + MIN_LEAD_DAYS as YYYY-MM-DD (UTC), the earliest bookable departure. */
+function earliestSailingDate(): string {
+  const d = new Date();
+  d.setUTCDate(d.getUTCDate() + MIN_LEAD_DAYS);
+  return d.toISOString().slice(0, 10);
+}
+
+/**
+ * Quote a CUSTOM package (see lib/custom-packages.ts). Same pricing engine and
+ * the same lead-time gate as the feed path — only the storage differs, so the
+ * deposit a custom package charges is computed exactly like a feed sailing's.
+ * A per-package deposit_pct overrides the global DEPOSIT_PERCENT.
+ */
+async function computeCustomQuote(
+  publicId: string,
+  suiteCategory: string,
+  fareCode: string,
+  party: Party,
+): Promise<{ bookable: boolean; indicativeTotal: number | null; depositAmount: number | null; currency: string }> {
+  const found = await getCustomFare(publicId, suiteCategory, fareCode);
+  if (!found) return { bookable: false, indicativeTotal: null, depositAmount: null, currency: 'EUR' };
+  const { pkg, fare } = found;
+  // A dated package must still be far enough out; an undated one is not listable
+  // publicly and must not be bookable either.
+  if (!pkg.sailing_date || pkg.sailing_date < earliestSailingDate()) {
+    return { bookable: false, indicativeTotal: null, depositAmount: null, currency: 'EUR' };
+  }
+  const shaped = customFareToApiShape(fare);
+  const fp = fareToPricing(shaped.prices, shaped.raw);
+  const indicativeTotal = fp ? priceCabin(fp, party).total : null;
+  const pctRaw = pkg.deposit_pct != null ? Number(pkg.deposit_pct) : NaN;
+  const pct = Number.isFinite(pctRaw) && pctRaw > 0 && pctRaw <= 100 ? pctRaw : depositPercent();
+  const depositAmount = indicativeTotal != null ? Math.round((indicativeTotal * pct) / 100) : null;
+  return { bookable: true, indicativeTotal, depositAmount, currency: shaped.currency || 'EUR' };
+}
+
 /**
  * Indicative total + deposit from the journey's flatfile fare (EUR), priced
  * per guest type (adult/child/infant) via the shared pricing model. The same
@@ -69,6 +106,8 @@ export async function computeQuote(
   fareCode: string,
   party: Party,
 ): Promise<{ bookable: boolean; indicativeTotal: number | null; depositAmount: number | null; currency: string }> {
+  // Custom packages live outside the flatfile tables — same engine, own storage.
+  if (isCustomId(journeyId)) return computeCustomQuote(journeyId, suiteCategory, fareCode, party);
   const sql = db();
   const rows = (await sql`
     SELECT f.prices, f.raw, f.currency, o.override_price

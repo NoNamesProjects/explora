@@ -1,20 +1,11 @@
 import type { JourneyDetail } from '@/lib/api';
-import { fareToPricing, priceCabin, type FarePricing, type CabinPrice, type Party } from '@lib/pricing';
+import { fareToPricing, priceCabin, suiteBerths, type FarePricing, type CabinPrice, type Party } from '@lib/pricing';
 import i18n from '@/i18n';
 
-/**
- * Per-suite max berths. The flatfile carries NO occupancy field (suite_categories.
- * max_occupancy is empty), so the cabins that physically sleep only 2 are listed
- * here; every other suite sleeps up to 4 (the cabin cap). Occupancy is independent
- * of the 3rd/4th-adult *discount* rate — a 4-berth suite with no discount still takes
- * a 3rd/4th adult, just at the full per-person fare (handled in priceCabin).
- */
-const TWO_BERTH_SUITES = new Set(['OT1', 'OT2', 'OT3', 'OT4', 'GT']);
-
-/** How many guests a suite category physically sleeps (2 for Ocean Terrace / Grand Terrace, else 4). */
-export function suiteBerths(suiteCategory?: string): number {
-  return suiteCategory && TWO_BERTH_SUITES.has(suiteCategory) ? 2 : 4;
-}
+// suiteBerths now lives in the shared pricing module so the server booking
+// validator and this client use one source of truth (occupancy can't drift from
+// pricing). Re-exported here so existing importers keep working.
+export { suiteBerths };
 
 /** Explora suite_category code → display name (from the suite_categories catalog). */
 export const SUITE_LABELS: Record<string, string> = {
