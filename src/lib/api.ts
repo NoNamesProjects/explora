@@ -58,6 +58,10 @@ export interface JourneyCard {
   lowestPriceEUR: number | null;
   /** Full ordered list of real destinations (sea days excluded). */
   destinations: JourneyDestination[];
+  /** Owner-managed custom package (not from the Explora flatfile). */
+  isCustom?: boolean;
+  /** Custom packages carry their own hero image; feed cards derive one from ship/port codes. */
+  heroImage?: string | null;
 }
 
 /** One destination stop on a journey card. */
@@ -98,6 +102,16 @@ export interface JourneyDetail {
     nights: number;
     embkTime: string | null;
     disEmbkTime: string | null;
+    /** ── Custom packages only (owner-managed, not from the flatfile) ── */
+    isCustom?: boolean;
+    titleEl?: string | null;
+    summary?: string | null;
+    summaryEl?: string | null;
+    description?: string | null;
+    descriptionEl?: string | null;
+    heroImage?: string | null;
+    photos?: Array<{ url: string; altEn?: string | null; altEl?: string | null }>;
+    inclusions?: string[];
   };
   ship: {
     ship_cd: string;

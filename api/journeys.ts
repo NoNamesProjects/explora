@@ -51,6 +51,10 @@ interface JourneyCardRow {
   ship_name: string | null;
   lowest_eur: number | null;
   destinations: Array<{ code: string; name: string; day: number; country: string | null; arrivalTime: string | null; departureTime: string | null }> | null;
+  /** Owner-managed custom package rather than a flatfile sailing. */
+  is_custom: boolean;
+  /** Custom packages carry their own hero image (feed cards derive one from ship/port codes). */
+  hero_image: string | null;
 }
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
@@ -89,6 +93,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     // ── Faceted filter options ───────────────────────────────────────────────
     if (q.facets) {
       // Available destinations — apply ship + port + month, NOT region.
+      // Custom packages join every facet list too (they carry a region and a
+      // date), but drop out whenever a ship/port filter is active since they
+      // have neither.
       const regions = (await sql`
         SELECT DISTINCT j.region AS region
         FROM journeys j
@@ -100,6 +107,17 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           AND (${fPort}::text IS NULL OR j.sailing_port = ${fPort})
           AND (${monthStart}::date IS NULL OR j.sailing_date >= ${monthStart}::date)
           AND (${monthEnd}::date IS NULL OR j.sailing_date < ${monthEnd}::date)
+        UNION
+        SELECT DISTINCT cp.region AS region
+        FROM custom_packages cp
+        WHERE cp.visible = true
+          AND cp.sailing_date IS NOT NULL
+          AND cp.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
+          AND cp.region IS NOT NULL
+          AND ${fShip}::text IS NULL
+          AND ${fPort}::text IS NULL
+          AND (${monthStart}::date IS NULL OR cp.sailing_date >= ${monthStart}::date)
+          AND (${monthEnd}::date IS NULL OR cp.sailing_date < ${monthEnd}::date)
       `) as Array<{ region: string | null }>;
 
       // Available ships — apply region + port + month, NOT ship.
@@ -125,6 +143,15 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           AND (${fRegion}::text IS NULL OR j.region = ${fRegion})
           AND (${fShip}::text IS NULL OR j.ship_cd = ${fShip})
           AND (${fPort}::text IS NULL OR j.sailing_port = ${fPort})
+        UNION
+        SELECT DISTINCT to_char(cp.sailing_date, 'YYYY-MM') AS ym
+        FROM custom_packages cp
+        WHERE cp.visible = true
+          AND cp.sailing_date IS NOT NULL
+          AND cp.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
+          AND (${fRegion}::text IS NULL OR cp.region = ${fRegion})
+          AND ${fShip}::text IS NULL
+          AND ${fPort}::text IS NULL
         ORDER BY ym
       `) as Array<{ ym: string }>;
 
@@ -151,22 +178,44 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           FROM fares
           WHERE currency = 'EUR' AND now_available = true
           GROUP BY journey_id
+        ),
+        custom_min_fare AS (
+          SELECT package_id, MIN(NULLIF(per_person, 0))::float8 AS lowest_eur
+          FROM custom_package_fares
+          WHERE currency = 'EUR' AND now_available = true
+          GROUP BY package_id
+        ),
+        bounded AS (
+          SELECT j.nights, mf.lowest_eur
+          FROM journeys j
+          LEFT JOIN min_fare mf ON mf.journey_id = j.journey_id
+          WHERE j.is_available = true
+            AND j.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
+            AND j.ship_cd NOT IN ('EP05', 'EP06')
+            AND (${fRegion}::text IS NULL OR j.region = ${fRegion})
+            AND (${fShip}::text IS NULL OR j.ship_cd = ${fShip})
+            AND (${fPort}::text IS NULL OR j.sailing_port = ${fPort})
+            AND (${monthStart}::date IS NULL OR j.sailing_date >= ${monthStart}::date)
+            AND (${monthEnd}::date IS NULL OR j.sailing_date < ${monthEnd}::date)
+          UNION ALL
+          SELECT cp.nights, cmf.lowest_eur
+          FROM custom_packages cp
+          LEFT JOIN custom_min_fare cmf ON cmf.package_id = cp.id
+          WHERE cp.visible = true
+            AND cp.sailing_date IS NOT NULL
+            AND cp.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
+            AND (${fRegion}::text IS NULL OR cp.region = ${fRegion})
+            AND ${fShip}::text IS NULL
+            AND ${fPort}::text IS NULL
+            AND (${monthStart}::date IS NULL OR cp.sailing_date >= ${monthStart}::date)
+            AND (${monthEnd}::date IS NULL OR cp.sailing_date < ${monthEnd}::date)
         )
         SELECT
-          MIN(j.nights)::int AS nights_min,
-          MAX(j.nights)::int AS nights_max,
-          FLOOR(MIN(mf.lowest_eur))::int AS price_min,
-          CEIL(MAX(mf.lowest_eur))::int AS price_max
-        FROM journeys j
-        LEFT JOIN min_fare mf ON mf.journey_id = j.journey_id
-        WHERE j.is_available = true
-          AND j.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
-          AND j.ship_cd NOT IN ('EP05', 'EP06')
-          AND (${fRegion}::text IS NULL OR j.region = ${fRegion})
-          AND (${fShip}::text IS NULL OR j.ship_cd = ${fShip})
-          AND (${fPort}::text IS NULL OR j.sailing_port = ${fPort})
-          AND (${monthStart}::date IS NULL OR j.sailing_date >= ${monthStart}::date)
-          AND (${monthEnd}::date IS NULL OR j.sailing_date < ${monthEnd}::date)
+          MIN(nights)::int AS nights_min,
+          MAX(nights)::int AS nights_max,
+          FLOOR(MIN(lowest_eur))::int AS price_min,
+          CEIL(MAX(lowest_eur))::int AS price_max
+        FROM bounded
       `) as Array<{ nights_min: number | null; nights_max: number | null; price_min: number | null; price_max: number | null }>;
 
       const b = bounds[0];
@@ -214,48 +263,98 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         FROM journey_days jd
         LEFT JOIN ports p ON p.port_cd = jd.port_cd
         GROUP BY jd.journey_id
+      ),
+      custom_min_fare AS (
+        SELECT package_id, MIN(NULLIF(per_person, 0))::float8 AS lowest_eur
+        FROM custom_package_fares
+        WHERE currency = 'EUR' AND now_available = true
+        GROUP BY package_id
+      ),
+      -- Feed sailings and owner-managed custom packages, projected to one shape
+      -- so filtering, sorting, pagination and the total all treat them alike and
+      -- they interleave naturally in the grid.
+      unified AS (
+        SELECT
+          j.journey_id,
+          j.ship_cd,
+          j.itin_desc,
+          j.region,
+          j.sailing_port,
+          j.termination_port,
+          emb.port_name AS sailing_port_name,
+          dis.port_name AS termination_port_name,
+          j.sailing_date,
+          j.nights,
+          s.ship_name,
+          COALESCE(o.override_price, mf.lowest_eur)::float8 AS lowest_eur,
+          pv.destinations,
+          false AS is_custom,
+          NULL::text AS hero_image
+        FROM journeys j
+        LEFT JOIN ships s ON s.ship_cd = j.ship_cd
+        LEFT JOIN ports emb ON emb.port_cd = j.sailing_port
+        LEFT JOIN ports dis ON dis.port_cd = j.termination_port
+        LEFT JOIN min_fare mf ON mf.journey_id = j.journey_id
+        LEFT JOIN fare_overrides o
+          ON o.journey_id = j.journey_id AND o.suite_category = '' AND o.currency = 'EUR' AND o.enabled
+        LEFT JOIN itin pv ON pv.journey_id = j.journey_id
+        WHERE j.is_available = true
+          AND j.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
+          AND j.ship_cd NOT IN ('EP05', 'EP06') -- EXPLORA V/VI hidden until launch
+        UNION ALL
+        SELECT
+          cp.public_id,
+          NULL::text,
+          cp.title_en,
+          cp.region,
+          NULL::text,
+          NULL::text,
+          cp.sailing_port_name,
+          cp.termination_port_name,
+          cp.sailing_date,
+          cp.nights,
+          NULL::text,
+          cmf.lowest_eur,
+          (SELECT json_agg(json_build_object(
+                    'code', NULL::text,
+                    'name', d->>'portName',
+                    'day', NULLIF(d->>'dayNumber', '')::int,
+                    'country', d->>'country',
+                    'arrivalTime', d->>'arrivalTime',
+                    'departureTime', d->>'departureTime')
+                  ORDER BY NULLIF(d->>'dayNumber', '')::int)
+           FROM jsonb_array_elements(cp.itinerary) AS d
+           WHERE coalesce(d->>'portName', '') <> ''),
+          true,
+          cp.hero_image
+        FROM custom_packages cp
+        LEFT JOIN custom_min_fare cmf ON cmf.package_id = cp.id
+        WHERE cp.visible = true
+          AND cp.sailing_date IS NOT NULL
+          AND cp.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
       )
       SELECT
-        j.journey_id,
-        j.ship_cd,
-        j.itin_desc,
-        j.region,
-        j.sailing_port,
-        j.termination_port,
-        emb.port_name AS sailing_port_name,
-        dis.port_name AS termination_port_name,
-        j.sailing_date::text,
-        j.nights,
-        s.ship_name,
-        COALESCE(o.override_price, mf.lowest_eur)::float8 AS lowest_eur,
-        pv.destinations
-      FROM journeys j
-      LEFT JOIN ships s ON s.ship_cd = j.ship_cd
-      LEFT JOIN ports emb ON emb.port_cd = j.sailing_port
-      LEFT JOIN ports dis ON dis.port_cd = j.termination_port
-      LEFT JOIN min_fare mf ON mf.journey_id = j.journey_id
-      LEFT JOIN fare_overrides o
-        ON o.journey_id = j.journey_id AND o.suite_category = '' AND o.currency = 'EUR' AND o.enabled
-      LEFT JOIN itin pv ON pv.journey_id = j.journey_id
-      WHERE j.is_available = true
-        AND j.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
-        AND j.ship_cd NOT IN ('EP05', 'EP06') -- EXPLORA V/VI hidden until launch
-        AND (${q.region ?? null}::text IS NULL OR j.region = ${q.region ?? null})
-        AND (${q.ship ?? null}::text IS NULL OR j.ship_cd = ${q.ship ?? null})
-        AND (${q.nights ?? null}::int IS NULL OR j.nights = ${q.nights ?? null})
-        AND (${q.minNights ?? null}::int IS NULL OR j.nights >= ${q.minNights ?? null})
-        AND (${q.maxNights ?? null}::int IS NULL OR j.nights <= ${q.maxNights ?? null})
-        AND (${q.departurePort ?? null}::text IS NULL OR j.sailing_port = ${q.departurePort ?? null})
-        AND (${q.minPrice ?? null}::float8 IS NULL OR COALESCE(o.override_price, mf.lowest_eur) >= ${q.minPrice ?? null})
-        AND (${q.maxPrice ?? null}::float8 IS NULL OR COALESCE(o.override_price, mf.lowest_eur) <= ${q.maxPrice ?? null})
-        AND (${monthStart}::date IS NULL OR j.sailing_date >= ${monthStart}::date)
-        AND (${monthEnd}::date IS NULL OR j.sailing_date < ${monthEnd}::date)
+        u.journey_id, u.ship_cd, u.itin_desc, u.region, u.sailing_port, u.termination_port,
+        u.sailing_port_name, u.termination_port_name,
+        u.sailing_date::text AS sailing_date,
+        u.nights, u.ship_name, u.lowest_eur, u.destinations, u.is_custom, u.hero_image
+      FROM unified u
+      WHERE (${q.region ?? null}::text IS NULL OR u.region = ${q.region ?? null})
+        AND (${q.ship ?? null}::text IS NULL OR u.ship_cd = ${q.ship ?? null})
+        AND (${q.nights ?? null}::int IS NULL OR u.nights = ${q.nights ?? null})
+        AND (${q.minNights ?? null}::int IS NULL OR u.nights >= ${q.minNights ?? null})
+        AND (${q.maxNights ?? null}::int IS NULL OR u.nights <= ${q.maxNights ?? null})
+        AND (${q.departurePort ?? null}::text IS NULL OR u.sailing_port = ${q.departurePort ?? null})
+        AND (${q.minPrice ?? null}::float8 IS NULL OR u.lowest_eur >= ${q.minPrice ?? null})
+        AND (${q.maxPrice ?? null}::float8 IS NULL OR u.lowest_eur <= ${q.maxPrice ?? null})
+        AND (${monthStart}::date IS NULL OR u.sailing_date >= ${monthStart}::date)
+        AND (${monthEnd}::date IS NULL OR u.sailing_date < ${monthEnd}::date)
       ORDER BY
-        CASE WHEN ${q.sort} = 'price-asc'   THEN COALESCE(o.override_price, mf.lowest_eur) END ASC NULLS LAST,
-        CASE WHEN ${q.sort} = 'price-desc'  THEN COALESCE(o.override_price, mf.lowest_eur) END DESC NULLS LAST,
-        CASE WHEN ${q.sort} = 'nights-asc'  THEN j.nights END ASC,
-        CASE WHEN ${q.sort} = 'nights-desc' THEN j.nights END DESC,
-        j.sailing_date ASC
+        CASE WHEN ${q.sort} = 'price-asc'   THEN u.lowest_eur END ASC NULLS LAST,
+        CASE WHEN ${q.sort} = 'price-desc'  THEN u.lowest_eur END DESC NULLS LAST,
+        CASE WHEN ${q.sort} = 'nights-asc'  THEN u.nights END ASC,
+        CASE WHEN ${q.sort} = 'nights-desc' THEN u.nights END DESC,
+        u.sailing_date ASC
       LIMIT ${q.pageSize} OFFSET ${offset}
     `) as JourneyCardRow[];
 
@@ -267,25 +366,45 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         WHERE currency = 'EUR'
           AND now_available = true
         GROUP BY journey_id
+      ),
+      custom_min_fare AS (
+        SELECT package_id, MIN(NULLIF(per_person, 0))::float8 AS lowest_eur
+        FROM custom_package_fares
+        WHERE currency = 'EUR' AND now_available = true
+        GROUP BY package_id
+      ),
+      unified AS (
+        SELECT
+          j.ship_cd, j.region, j.sailing_port, j.sailing_date, j.nights,
+          COALESCE(o.override_price, mf.lowest_eur)::float8 AS lowest_eur
+        FROM journeys j
+        LEFT JOIN min_fare mf ON mf.journey_id = j.journey_id
+        LEFT JOIN fare_overrides o
+          ON o.journey_id = j.journey_id AND o.suite_category = '' AND o.currency = 'EUR' AND o.enabled
+        WHERE j.is_available = true
+          AND j.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
+          AND j.ship_cd NOT IN ('EP05', 'EP06') -- EXPLORA V/VI hidden until launch
+        UNION ALL
+        SELECT
+          NULL::text, cp.region, NULL::text, cp.sailing_date, cp.nights, cmf.lowest_eur
+        FROM custom_packages cp
+        LEFT JOIN custom_min_fare cmf ON cmf.package_id = cp.id
+        WHERE cp.visible = true
+          AND cp.sailing_date IS NOT NULL
+          AND cp.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
       )
       SELECT COUNT(*)::int AS total
-      FROM journeys j
-      LEFT JOIN min_fare mf ON mf.journey_id = j.journey_id
-      LEFT JOIN fare_overrides o
-        ON o.journey_id = j.journey_id AND o.suite_category = '' AND o.currency = 'EUR' AND o.enabled
-      WHERE j.is_available = true
-        AND j.sailing_date >= CURRENT_DATE + ${MIN_LEAD_DAYS}::int
-        AND j.ship_cd NOT IN ('EP05', 'EP06') -- EXPLORA V/VI hidden until launch
-        AND (${q.region ?? null}::text IS NULL OR j.region = ${q.region ?? null})
-        AND (${q.ship ?? null}::text IS NULL OR j.ship_cd = ${q.ship ?? null})
-        AND (${q.nights ?? null}::int IS NULL OR j.nights = ${q.nights ?? null})
-        AND (${q.minNights ?? null}::int IS NULL OR j.nights >= ${q.minNights ?? null})
-        AND (${q.maxNights ?? null}::int IS NULL OR j.nights <= ${q.maxNights ?? null})
-        AND (${q.departurePort ?? null}::text IS NULL OR j.sailing_port = ${q.departurePort ?? null})
-        AND (${q.minPrice ?? null}::float8 IS NULL OR COALESCE(o.override_price, mf.lowest_eur) >= ${q.minPrice ?? null})
-        AND (${q.maxPrice ?? null}::float8 IS NULL OR COALESCE(o.override_price, mf.lowest_eur) <= ${q.maxPrice ?? null})
-        AND (${monthStart}::date IS NULL OR j.sailing_date >= ${monthStart}::date)
-        AND (${monthEnd}::date IS NULL OR j.sailing_date < ${monthEnd}::date)
+      FROM unified u
+      WHERE (${q.region ?? null}::text IS NULL OR u.region = ${q.region ?? null})
+        AND (${q.ship ?? null}::text IS NULL OR u.ship_cd = ${q.ship ?? null})
+        AND (${q.nights ?? null}::int IS NULL OR u.nights = ${q.nights ?? null})
+        AND (${q.minNights ?? null}::int IS NULL OR u.nights >= ${q.minNights ?? null})
+        AND (${q.maxNights ?? null}::int IS NULL OR u.nights <= ${q.maxNights ?? null})
+        AND (${q.departurePort ?? null}::text IS NULL OR u.sailing_port = ${q.departurePort ?? null})
+        AND (${q.minPrice ?? null}::float8 IS NULL OR u.lowest_eur >= ${q.minPrice ?? null})
+        AND (${q.maxPrice ?? null}::float8 IS NULL OR u.lowest_eur <= ${q.maxPrice ?? null})
+        AND (${monthStart}::date IS NULL OR u.sailing_date >= ${monthStart}::date)
+        AND (${monthEnd}::date IS NULL OR u.sailing_date < ${monthEnd}::date)
     `) as Array<{ total: number }>;
 
     res.statusCode = 200;
@@ -309,6 +428,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         nights: r.nights,
         lowestPriceEUR: r.lowest_eur,
         destinations: r.destinations ?? [],
+        ...(r.is_custom ? { isCustom: true as const, heroImage: r.hero_image } : {}),
       })),
     }));
   } catch (err) {

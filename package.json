@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Partner-facing site for Explora Journeys — Vite + React + TS, Vercel /api/* + cPanel dual deploy, Neon Postgres, ingested daily from the Explora flatfile API.",
+  "description": "Partner-facing site for Explora Journeys \u2014 Vite + React + TS, Vercel /api/* + cPanel dual deploy, Neon Postgres, ingested daily from the Explora flatfile API.",
   "engines": {
     "node": ">=20"
   },
@@ -16,6 +16,7 @@
     "start": "node server.js",
     "server:dev": "npm run build:deploy && node server.js",
     "smoke": "node scripts/smoke-server.mjs",
+    "test:pricing": "tsx scripts/test-pricing.ts",
     "typecheck": "tsc --noEmit",
     "probe": "tsx scripts/probe.ts",
     "probe:auth": "tsx scripts/probe.ts -- --auth-only",
@@ -28,6 +29,7 @@
     "seed:home-sections": "tsx scripts/seed-home-sections.ts",
     "seed:ships": "tsx scripts/seed-ship-entities.ts",
     "seed:ship-sections": "tsx scripts/seed-ship-sections.ts",
+    "seed:custom-package": "tsx scripts/seed-custom-package.ts",
     "ingest:dry": "INGEST_DRY_RUN=1 tsx scripts/ingest-once.ts",
     "fetch:port-images": "tsx scripts/fetch-port-images.ts"
   },

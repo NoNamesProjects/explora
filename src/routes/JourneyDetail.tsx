@@ -75,7 +75,16 @@ export default function JourneyDetailRoute() {
     try { return getShipAssets(shipSlug).hero; } catch { return getShipAssets('explora-i').hero; }
   })();
   // Hero = the departure-port destination photo (region/ocean fallback), not the ship.
-  const heroImage = destinationImage(journey.sailingPort, journey.region);
+  // Custom packages ship their own art and copy; feed sailings derive both from
+  // the port/region and the generated overview line.
+  const isCustom = !!journey.isCustom;
+  const heroImage = journey.heroImage || destinationImage(journey.sailingPort, journey.region);
+  const customBody = locale.startsWith('el')
+    ? journey.descriptionEl || journey.description
+    : journey.description;
+  const customSummary = locale.startsWith('el')
+    ? journey.summaryEl || journey.summary
+    : journey.summary;
   const dateFmt: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
   const departureDate = new Date(journey.sailingDate).toLocaleDateString(locale, dateFmt);
   // Return/arrival date = sailing date + nights (an N-night sailing disembarks N days later).
@@ -184,15 +193,45 @@ export default function JourneyDetailRoute() {
             <h2 className="font-serif text-display-sm mb-6 leading-tight">
               {journey.itinDesc ?? t('journeyDetail.nightsAtSea', { nights: journey.nights, defaultValue: '{{nights}} nights at sea' })}
             </h2>
-            <p className="text-ink-soft text-lg text-pretty max-w-prose">
-              {t('journeyDetail.overviewBody', {
-                nights: journey.nights,
-                ship: ship?.ship_name ?? journey.shipCd,
-                port: fromPort ?? '—',
-                date: departureDate,
-                defaultValue: 'A {{nights}}-night sailing aboard {{ship}}, departing {{port}} on {{date}}.',
-              })}
-            </p>
+            {isCustom ? (
+              <div className="max-w-prose space-y-4">
+                {customSummary && <p className="text-ink-soft text-lg text-pretty">{customSummary}</p>}
+                {customBody && customBody.split('\n').filter(Boolean).map((para: string, i: number) => (
+                  <p key={i} className="text-ink-soft text-pretty">{para}</p>
+                ))}
+                {!customSummary && !customBody && (
+                  <p className="text-ink-soft text-lg text-pretty">
+                    {t('journeyDetail.customFallback', {
+                      nights: journey.nights,
+                      port: fromPort ?? '—',
+                      date: departureDate,
+                      defaultValue: 'A {{nights}}-night journey departing {{port}} on {{date}}.',
+                    })}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <p className="text-ink-soft text-lg text-pretty max-w-prose">
+                {t('journeyDetail.overviewBody', {
+                  nights: journey.nights,
+                  ship: ship?.ship_name ?? journey.shipCd,
+                  port: fromPort ?? '—',
+                  date: departureDate,
+                  defaultValue: 'A {{nights}}-night sailing aboard {{ship}}, departing {{port}} on {{date}}.',
+                })}
+              </p>
+            )}
+
+            {isCustom && (journey.inclusions?.length ?? 0) > 0 && (
+              <ul className="mt-8 grid gap-x-8 gap-y-2 sm:grid-cols-2 max-w-prose">
+                {journey.inclusions!.map((inc) => (
+                  <li key={inc} className="flex items-start gap-2 text-ink-soft">
+                    <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent-gold" />
+                    <span>{inc}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-8 border-t border-cream-300">
               <Fact label={t('journeyDetail.fields.departs', { defaultValue: 'Departs' })} value={departureDate} />
               <Fact label={t('journeyDetail.fields.from', { defaultValue: 'From' })} value={fromPort ?? '—'} />
@@ -213,6 +252,26 @@ export default function JourneyDetailRoute() {
           </div>
         </div>
       </section>
+
+      {/* ═══════════════ CUSTOM PACKAGE GALLERY (owner's photos) ═══════════ */}
+      {isCustom && (journey.photos?.length ?? 0) > 0 && (
+        <section className="py-section-y bg-cream">
+          <div className="container max-w-page">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {journey.photos!.map((p, i) => (
+                <figure key={`${p.url}-${i}`} className="overflow-hidden bg-cream-200 aspect-[4/3] group">
+                  <img
+                    src={p.url}
+                    alt={(locale.startsWith('el') ? p.altEl || p.altEn : p.altEn) ?? ''}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out-soft group-hover:scale-[1.04] motion-reduce:transition-none"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ═══════════════════ DAY-BY-DAY ITINERARY ══════════════════════ */}
       <section id="itinerary" className="py-section-y bg-cream-soft border-y border-cream-300/60 scroll-mt-32">

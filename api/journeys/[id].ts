@@ -10,6 +10,8 @@
 
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { db } from '../../lib/db/client';
+import { isCustomId, getCustomPackage, getCustomPackageFares, customPackageDetail } from '../../lib/custom-packages';
+import { MIN_LEAD_DAYS } from '../../lib/booking';
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   res.setHeader('Content-Type', 'application/json');
@@ -33,6 +35,24 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 
   try {
+    // ── Custom packages (own tables, ingest-proof) ───────────────────────────
+    // Same response shape as a feed sailing plus the custom media/copy fields,
+    // so JourneyDetail and the whole booking wizard work unchanged.
+    if (isCustomId(id)) {
+      const pkg = await getCustomPackage(id);
+      const earliest = new Date();
+      earliest.setUTCDate(earliest.getUTCDate() + MIN_LEAD_DAYS);
+      const listable = pkg && pkg.sailing_date && pkg.sailing_date >= earliest.toISOString().slice(0, 10);
+      if (!pkg || !listable) {
+        res.statusCode = 404;
+        return res.end(JSON.stringify({ ok: false, error: 'not-found' }));
+      }
+      const fares = await getCustomPackageFares(pkg.id);
+      res.statusCode = 200;
+      res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+      return res.end(JSON.stringify(customPackageDetail(pkg, fares)));
+    }
+
     const sql = db();
 
     const journeyRows = (await sql`

@@ -19,6 +19,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: '/admin', end: true, label: 'admin.nav.overview', icon: I('M3 12l9-9 9 9|M5 10v10h14V10') },
   { to: '/admin/clients', label: 'admin.nav.clients', icon: I('M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2|M9 7a4 4 0 1 0 0 .01|M22 21v-2a4 4 0 0 0-3-3.87') },
   { to: '/admin/catalog', label: 'admin.nav.catalog', icon: I('M4 19.5A2.5 2.5 0 0 1 6.5 17H20|M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z') },
+  { to: '/admin/packages', label: 'admin.nav.packages', adminOnly: true, icon: I('M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z|M3.27 6.96 12 12.01l8.73-5.05|M12 22.08V12') },
   { to: '/admin/insights', label: 'admin.nav.insights', icon: I('M3 3v18h18|M7 14l3-3 3 3 4-5') },
   { to: '/admin/pages', label: 'admin.nav.pages', adminOnly: true, icon: I('M3 3h18v6H3z|M3 13h8v8H3z|M15 13h6v8h-6z') },
   { to: '/admin/entities', label: 'admin.nav.entities', adminOnly: true, icon: I('M2 20h20|M4 20V9l8-5 8 5v11|M9 20v-6h6v6') },

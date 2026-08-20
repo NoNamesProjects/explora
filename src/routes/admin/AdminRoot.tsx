@@ -14,6 +14,7 @@ import { Users } from './Users';
 import { Content } from './Content';
 import { Pages } from './Pages';
 import { Entities } from './Entities';
+import { Packages } from './Packages';
 import { Media } from './Media';
 import { Subscribers } from './Subscribers';
 import { AdminNotFound } from './AdminNotFound';
@@ -34,6 +35,7 @@ export default function AdminRoot() {
               <Route element={<RequireRole role="admin" />}>
                 <Route path="pages" element={<Pages />} />
                 <Route path="entities" element={<Entities />} />
+                <Route path="packages" element={<Packages />} />
                 <Route path="content" element={<Content />} />
                 <Route path="media" element={<Media />} />
                 <Route path="subscribers" element={<Subscribers />} />

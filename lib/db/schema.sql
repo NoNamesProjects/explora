@@ -462,3 +462,72 @@ CREATE INDEX IF NOT EXISTS page_sections_order_idx
 -- drags, `position_published` is what the live site sorts by. Added after the
 -- first cut of page_sections, hence the ALTER rather than an inline column.
 ALTER TABLE page_sections ADD COLUMN IF NOT EXISTS position_published int;
+
+-- ── Custom packages ─────────────────────────────────────────────────────────
+-- Owner-managed offers that are NOT in the Explora flatfile: own price, photos,
+-- copy and itinerary, edited in the admin like a CMS record.
+--
+-- They live in their OWN tables on purpose. The nightly ingest's soft-delete
+-- (last_seen_at < now() - 12h) and 7-day hard delete are not scoped to
+-- feed-sourced rows, so a manual row inside `journeys` would be wiped within a
+-- day. lib/explora-flatfile/ingest.ts never references these tables, so they
+-- physically cannot be touched by a refresh — the same survive-the-ingest
+-- pattern as fare_overrides / site_content / site_entities / page_sections.
+--
+-- public_id is namespaced 'CUSTOM-<slug>' so it can never collide with a feed
+-- journey_id, and the read/booking paths branch on that prefix.
+-- booking_requests.journey_id is deliberately FK-free, so a custom public_id is
+-- already storable there with no schema change.
+CREATE TABLE IF NOT EXISTS custom_packages (
+  id                    bigserial PRIMARY KEY,
+  public_id             text NOT NULL UNIQUE,
+  slug                  text NOT NULL UNIQUE,
+  title_en              text NOT NULL,
+  title_el              text,
+  summary_en            text,
+  summary_el            text,
+  description_en        text,
+  description_el        text,
+  region                text,
+  nights                int NOT NULL DEFAULT 0,
+  sailing_date          date,
+  sailing_port_name     text,
+  termination_port_name text,
+  hero_image            text,
+  photos                jsonb NOT NULL DEFAULT '[]'::jsonb,
+  itinerary             jsonb NOT NULL DEFAULT '[]'::jsonb,
+  inclusions            jsonb NOT NULL DEFAULT '[]'::jsonb,
+  deposit_pct           numeric,
+  visible               boolean NOT NULL DEFAULT false,
+  created_by            bigint REFERENCES admin_users(id) ON DELETE SET NULL,
+  updated_by            bigint REFERENCES admin_users(id) ON DELETE SET NULL,
+  created_at            timestamptz NOT NULL DEFAULT now(),
+  updated_at            timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS custom_packages_visible_idx ON custom_packages (visible, sailing_date);
+
+-- One row per bookable suite+fare on a custom package. Column set mirrors the
+-- flatfile fare components so lib/pricing.ts fareToPricing()/priceCabin() price
+-- a custom package with the SAME engine as a feed sailing (per-person 2A,
+-- reduced 3rd/4th adult, child, infant, solo fare / solo supplement %).
+CREATE TABLE IF NOT EXISTS custom_package_fares (
+  id                  bigserial PRIMARY KEY,
+  package_id          bigint NOT NULL REFERENCES custom_packages(id) ON DELETE CASCADE,
+  suite_category      text NOT NULL,
+  suite_name          text,
+  fare_code           text NOT NULL,
+  fare_label          text,
+  currency            text NOT NULL DEFAULT 'EUR',
+  per_person          numeric NOT NULL,
+  third_fourth_adult  numeric,
+  third_fourth_child  numeric,
+  third_fourth_infant numeric,
+  solo_fare           numeric,
+  solo_suppl_pct      numeric,
+  now_available       boolean NOT NULL DEFAULT true,
+  items               jsonb NOT NULL DEFAULT '[]'::jsonb,
+  sort_order          int NOT NULL DEFAULT 0
+);
+CREATE UNIQUE INDEX IF NOT EXISTS custom_package_fares_identity_idx
+  ON custom_package_fares (package_id, suite_category, fare_code, currency);
+CREATE INDEX IF NOT EXISTS custom_package_fares_pkg_idx ON custom_package_fares (package_id, sort_order);

@@ -77,8 +77,10 @@ export function JourneyCard({ card, index = 0 }: JourneyCardProps) {
     >
       {/* Ship photo */}
       <div className="aspect-[16/10] overflow-hidden bg-cream-200 relative">
+        {/* Custom packages carry their own hero; feed sailings derive one from
+            the embarkation port / region. */}
         <img
-          src={destinationImage(card.sailingPort, card.region)}
+          src={card.heroImage || destinationImage(card.sailingPort, card.region)}
           alt={card.sailingPortName ?? card.region ?? t('journey.card.destinationAlt', { defaultValue: 'Destination' })}
           className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out-soft group-hover:scale-[1.06]"
           loading="lazy"

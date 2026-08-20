@@ -1530,7 +1530,11 @@
       "errorSubmit": "Sorry — we couldn’t submit your request just now. Please try again.",
       "helper": "No live availability is taken from this request; our team confirms within 24 hours. Use the <cta>Request to book</cta> button on the right to continue.",
       "submitting": "Submitting…",
-      "requestToBook": "Request to book"
+      "requestToBook": "Request to book",
+      "typeAdult": "Adult",
+      "typeChild": "Child",
+      "typeInfant": "Infant",
+      "singleOccupancy": "single occupancy"
     },
     "confirmation": {
       "notFoundTitle": "We couldn't find that request",
@@ -1827,6 +1831,7 @@
       "overview": "Overview",
       "clients": "Clients",
       "catalog": "Catalog",
+      "packages": "Packages",
       "insights": "Insights",
       "pages": "Pages",
       "entities": "Ships & destinations",

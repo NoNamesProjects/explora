@@ -28,6 +28,12 @@ console.log('• Seeding smoke fixtures (npm run seed:smoke)…');
 const seed = spawnSync('npm', ['run', 'seed:smoke'], { stdio: 'inherit' });
 if (seed.status !== 0) { console.error('✗ seed:smoke failed'); process.exit(1); }
 
+// 1c) Seed the demo custom package (own tables, ingest-proof) so the
+//     custom-package listing / detail / booking checks below have a subject.
+console.log('• Seeding custom package fixture (npm run seed:custom-package)…');
+const seedPkg = spawnSync('npm', ['run', 'seed:custom-package'], { stdio: 'inherit' });
+if (seedPkg.status !== 0) { console.error('✗ seed:custom-package failed'); process.exit(1); }
+
 // 2) Boot server.js on the smoke port.
 console.log(`• Booting server.js on :${PORT}…`);
 const srv = spawn('node', ['server.js'], {
@@ -96,6 +102,30 @@ const checks = [
   }],
   ['POST /api/booking-request (withdrawn journey) → 409', async () =>
     (await get('/api/booking-request', JSON_POST(bookingBody(FX.journeyGone)))).status === 409],
+
+  // ── Server-side party validation (anti-tamper: price derives from the guest list) ──
+  ['POST /api/booking-request tamper: guestCount ≠ guest list → 400', async () =>
+    (await get('/api/booking-request', JSON_POST({ ...bookingBody(FX.journeyOk), guestCount: 4 }))).status === 400],
+  ['POST /api/booking-request tamper: adults claim ≠ guest list → 400', async () =>
+    (await get('/api/booking-request', JSON_POST({ ...bookingBody(FX.journeyOk), adults: 1 }))).status === 400],
+  ['POST /api/booking-request over capacity (3 in 2-berth OT1) → 400', async () =>
+    (await get('/api/booking-request', JSON_POST({
+      journeyId: FX.journeyOk, suiteCategory: FX.suite, fareCode: FX.fareCode, guestCount: 3, adults: 3,
+      guests: [{ firstName: 'A', lastName: 'One', lead: true, type: 'adult' }, { firstName: 'A', lastName: 'Two', type: 'adult' }, { firstName: 'A', lastName: 'Three', type: 'adult' }],
+    }))).status === 400],
+  ['POST /api/booking-request no adult (child only) → 400', async () =>
+    (await get('/api/booking-request', JSON_POST({
+      journeyId: FX.journeyOk, suiteCategory: FX.suite, fareCode: FX.fareCode, guestCount: 1, children: 1,
+      guests: [{ firstName: 'K', lastName: 'Kid', type: 'child' }],
+    }))).status === 400],
+  ['POST /api/booking-request 1 adult + 1 infant → accepted, priced as solo', async () => {
+    const d = await json('/api/booking-request', JSON_POST({
+      journeyId: FX.journeyOk, suiteCategory: FX.suite, fareCode: FX.fareCode, guestCount: 2, adults: 1, infants: 1,
+      guests: [{ firstName: 'Solo', lastName: 'Parent', lead: true, type: 'adult' }, { firstName: 'Baby', lastName: 'One', type: 'infant' }],
+    }));
+    // OT1/ALLIN has no solo premium in the fixture, so solo == override 1500; infant free; 20% deposit = 300.
+    return d.ok === true && d.indicativeTotal === 1500 && d.depositAmount === 300;
+  }],
   ['POST /api/paypal/capture-order (wrong orderId) → 409 order-mismatch', async () => {
     const r = await get('/api/paypal/capture-order', JSON_POST({ ref: FX.bookingRef, orderId: 'SOMETHING-ELSE' }));
     return r.status === 409 && (await r.json()).error === 'order-mismatch';
@@ -199,6 +229,107 @@ const checks = [
     (await get('/api/content/entities?kind=ship&slug=no-such-ship')).status === 404],
   ['GET  /api/content/entities (no kind) → 400', async () =>
     (await get('/api/content/entities')).status === 400],
+
+  // ── Custom packages: own tables, merged into the public paths, bookable ────
+  ['CUSTOM: seeded package is listed alongside feed sailings', async () => {
+    // Query the package's own departure month so the assertion does not depend
+    // on how many feed sailings happen to sort ahead of it.
+    const detail = await json('/api/journeys/CUSTOM-demo-ionian-signature');
+    const month = String(detail.journey.sailingDate).slice(0, 7);
+    const d = await json(`/api/journeys?month=${month}&pageSize=60`);
+    const c = (d.journeys ?? []).filter((j) => j.isCustom);
+    return c.length >= 1 && c.every((j) => j.journeyId.startsWith('CUSTOM-') && j.heroImage);
+  }],
+  ['CUSTOM: detail returns custom copy, photos, itinerary + fares', async () => {
+    const d = await json('/api/journeys/CUSTOM-demo-ionian-signature');
+    return d.ok === true && d.journey.isCustom === true
+      && (d.journey.photos?.length ?? 0) > 0 && (d.journey.inclusions?.length ?? 0) > 0
+      && d.days.length > 0 && d.fares.length > 0
+      && typeof d.fares[0].prices['2A'] === 'number';
+  }],
+  ['CUSTOM: unknown package id → 404', async () =>
+    (await get('/api/journeys/CUSTOM-does-not-exist')).status === 404],
+  ['CUSTOM: bookable — 2 adults priced from the custom rate card', async () => {
+    const d = await json('/api/booking-request', JSON_POST({
+      journeyId: 'CUSTOM-demo-ionian-signature', suiteCategory: 'OT1', fareCode: 'SIGNATURE',
+      guestCount: 2, adults: 2,
+      guests: [{ firstName: 'C', lastName: 'One', lead: true, type: 'adult' }, { firstName: 'C', lastName: 'Two', type: 'adult' }],
+    }));
+    // 2 × 3200 per-person = 6400, 20% deposit = 1280
+    return d.ok === true && d.indicativeTotal === 6400 && d.depositAmount === 1280;
+  }],
+  ['CUSTOM: lone adult + infant pays the SOLO fare (5120), not double', async () => {
+    const d = await json('/api/booking-request', JSON_POST({
+      journeyId: 'CUSTOM-demo-ionian-signature', suiteCategory: 'OT1', fareCode: 'SIGNATURE',
+      guestCount: 2, adults: 1, infants: 1,
+      guests: [{ firstName: 'P', lastName: 'Parent', lead: true, type: 'adult' }, { firstName: 'B', lastName: 'Baby', type: 'infant' }],
+    }));
+    return d.ok === true && d.indicativeTotal === 5120;
+  }],
+  ['CUSTOM: over suite capacity → 400', async () =>
+    (await get('/api/booking-request', JSON_POST({
+      journeyId: 'CUSTOM-demo-ionian-signature', suiteCategory: 'OT1', fareCode: 'SIGNATURE',
+      guestCount: 3, adults: 3,
+      guests: [{ firstName: 'A', lastName: '1', lead: true, type: 'adult' }, { firstName: 'A', lastName: '2', type: 'adult' }, { firstName: 'A', lastName: '3', type: 'adult' }],
+    }))).status === 400],
+  ['CUSTOM: admin endpoints gated (no auth)→401', async () => {
+    const a = await get('/api/admin/custom-packages');
+    const b = await get('/api/admin/custom-packages/1');
+    return a.status === 401 && b.status === 401;
+  }],
+
+  // ── CSRF origin gate: mutations with a browser Origin must be same-origin ──
+  ['POST /api/admin/broadcast (foreign Origin, valid cookie) → 403 cross-origin', async () => {
+    const admin = await login(FX.adminEmail, FX.adminPassword);
+    if (!admin) return false;
+    const r = await get('/api/admin/broadcast', { method: 'POST', headers: { 'content-type': 'application/json', cookie: admin, origin: 'https://evil.example' }, body: '{}' });
+    return r.status === 403 && (await r.json()).error === 'cross-origin';
+  }],
+  ['POST /api/admin/broadcast (same Origin) → passes the gate (400 invalid body)', async () => {
+    const admin = await login(FX.adminEmail, FX.adminPassword);
+    if (!admin) return false;
+    const r = await get('/api/admin/broadcast', { method: 'POST', headers: { 'content-type': 'application/json', cookie: admin, origin: `http://localhost:${PORT}` }, body: '{}' });
+    return r.status === 400;
+  }],
+
+  // ── Abuse guards: body-size cap + rate limits (run LAST — they burn windows) ──
+  ['POST 300kb text/plain body → 413 (readJson cap, no OOM)', async () => {
+    const r = await get('/api/contact', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: 'x'.repeat(300 * 1024) });
+    return r.status === 413;
+  }],
+  ['POST 300kb JSON body → 413 (express.json cap mapped, not 500)', async () => {
+    const r = await get('/api/contact', JSON_POST({ name: 'S', email: 's@example.com', message: 'y'.repeat(300 * 1024) }));
+    return r.status === 413;
+  }],
+  ['POST malformed JSON → 400 (not 500)', async () => {
+    const r = await get('/api/contact', { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{broken' });
+    return r.status === 400;
+  }],
+  ['GET  /api/health after oversized posts → still healthy', async () => (await json('/api/health')).ok === true],
+  ['POST /api/newsletter plus-tag variants share one cooldown → 429 on 4th', async () => {
+    // cooldown+a@… / +b / +c / +d all deliver to cooldown@… — the per-email
+    // limiter (3/h) must key on the canonical address, not the raw string.
+    for (let i = 0; i < 4; i++) {
+      const r = await get('/api/newsletter', JSON_POST({ email: `cooldown+${i}@example.com` }));
+      if (i < 3 && r.status !== 200) return false;
+      if (i === 3) return r.status === 429;
+    }
+    return false;
+  }],
+  ['POST /api/contact flood → 429 rate-limited', async () => {
+    for (let i = 0; i < 12; i++) {
+      const r = await get('/api/contact', JSON_POST({}));
+      if (r.status === 429) return r.headers.get('retry-after') != null;
+    }
+    return false;
+  }],
+  ['POST /api/newsletter flood → 429 rate-limited', async () => {
+    for (let i = 0; i < 12; i++) {
+      const r = await get('/api/newsletter', JSON_POST({}));
+      if (r.status === 429) return (await r.json()).error === 'rate-limited';
+    }
+    return false;
+  }],
 ];
 
 let failures = 0;
