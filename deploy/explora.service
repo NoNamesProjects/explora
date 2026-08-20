@@ -1,0 +1,38 @@
+# systemd unit for the Explora partner site on the corfuwebsites VPS.
+# Install: cp deploy/explora.service /etc/systemd/system/explora.service
+#          systemctl daemon-reload && systemctl enable --now explora
+#
+# WorkingDirectory is LOAD-BEARING: the admin media handler writes to
+# process.cwd()/uploads while server.js serves __dirname/uploads — they only
+# coincide when the unit starts in the app root.
+#
+# Runs as the dedicated `explora` system user (created by deploy-vps.sh),
+# not root: the app fronts a public admin console and live payments.
+
+[Unit]
+Description=Explora partner site (Express, 127.0.0.1:8092 behind nginx)
+After=network.target
+
+[Service]
+Type=simple
+User=explora
+Group=explora
+WorkingDirectory=/opt/explora
+EnvironmentFile=/opt/explora/.env
+Environment=NODE_ENV=production
+Environment=PORT=8092
+ExecStart=/usr/local/bin/node server.js
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=explora
+# The nightly ingest parses xlsx workbooks in-process (transient spike of a
+# few hundred MB); this cap keeps a runaway from starving cruise2greece.
+MemoryMax=1200M
+NoNewPrivileges=true
+ProtectSystem=full
+ReadWritePaths=/opt/explora/uploads
+
+[Install]
+WantedBy=multi-user.target
