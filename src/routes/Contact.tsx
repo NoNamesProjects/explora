@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { api, ApiError } from '@/lib/api';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { useDocumentMeta } from '@/lib/useDocumentMeta';
 
 const schema = z.object({
   name: z.string().min(1).max(120),
@@ -21,7 +22,12 @@ type FormValues = z.infer<typeof schema>;
  * this is the soft-enquiry path for guests who want to speak to a specialist.
  */
 export default function Contact() {
+
   const { t } = useTranslation();
+  useDocumentMeta({
+    title: t('meta.contact.title', { defaultValue: 'Contact us' }),
+    description: t('meta.contact.description', { defaultValue: 'Speak to our team about an Explora Journeys sailing, a private charter or a tailored itinerary.' }),
+  });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({

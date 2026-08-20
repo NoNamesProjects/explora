@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+// Async: loads the Greek bundle on demand before switching (src/i18n.ts).
+import { changeLanguage } from '@/i18n';
 
 /**
  * Segmented EN | ΕΛ language toggle. Two pills; the active locale is filled
@@ -32,7 +34,7 @@ export function LanguageToggle({ className = '' }: { className?: string }) {
             type="button"
             aria-pressed={isActive}
             onClick={() => {
-              if (!isActive) void i18n.changeLanguage(l.code);
+              if (!isActive) void changeLanguage(l.code);
             }}
             className={[
               'min-w-[2.25rem] rounded-full px-2.5 py-1 text-[0.7rem] font-medium uppercase tracking-[0.16em] transition-colors duration-300',

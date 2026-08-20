@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Operational surfaces — nothing here is useful in an index, and the admin is
+# server-gated anyway.
+Disallow: /admin
+Disallow: /api/
+# Booking wizard steps are per-session and often deep-linked with a suite/fare
+# query; indexing them produces duplicate, expired-looking results.
+Disallow: /journeys/*/book
+
+Sitemap: https://ex.corfuwebsites.com/sitemap.xml

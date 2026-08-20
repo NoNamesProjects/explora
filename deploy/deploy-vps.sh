@@ -42,8 +42,12 @@ echo "── Uploading to ${HOST_ALIAS}:${APP_DIR}…"
 # (client-uploaded images) and --delete would wipe it on every deploy.
 # public/ is also excluded: Vite copies it into dist/ at build time and the
 # server only serves dist/, so uploading it would double the ~300 MB photo set.
+# *.map is excluded deliberately: sourcemaps embed the full original TypeScript
+# (including the admin console), so they must never be reachable in public.
+# vite.config.ts uses sourcemap:'hidden', so nothing references them anyway.
 rsync -avz --delete \
   --exclude='.env' --exclude='.env.local' --exclude='.env.example' \
+  --exclude='*.map' --exclude='.claude' \
   --exclude='.git' --exclude='node_modules' --exclude='uploads/' \
   --exclude='Photos/' --exclude='public/' \
   --exclude='scripts/.watchdog-last.json' \

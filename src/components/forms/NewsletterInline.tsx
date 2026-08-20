@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 
-const schema = z.object({
-  email: z.string().email(),
-  consent: z.literal(true).optional().default(true),
-});
-type FormValues = z.infer<typeof schema>;
+/**
+ * Footer newsletter box.
+ *
+ * Deliberately dependency-free. This component is a static import from the
+ * public layout's footer, so anything it pulls in lands in the eager entry
+ * chunk: it previously dragged zod + react-hook-form (about 80 KB) onto first
+ * paint to validate a single email field. The server re-validates with zod
+ * anyway (api/newsletter.ts), so this only needs to catch typos before the
+ * round trip.
+ */
+
+// Deliberately permissive: the authoritative check is server-side, and an
+// over-strict client regex rejects valid addresses.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 interface Props {
   variant?: 'light' | 'dark';
@@ -16,15 +22,19 @@ interface Props {
 
 export function NewsletterInline({ variant = 'light' }: Props) {
   const { t, i18n } = useTranslation();
+  const [email, setEmail] = useState('');
+  const [invalid, setInvalid] = useState(false);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: { consent: true },
-  });
-
-  const onSubmit = handleSubmit(async (values) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const value = email.trim();
+    if (!EMAIL_RE.test(value)) {
+      setInvalid(true);
+      return;
+    }
+    setInvalid(false);
     setStatus('submitting');
     setErrorMsg(null);
     try {
@@ -34,7 +44,7 @@ export function NewsletterInline({ variant = 'light' }: Props) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          email: values.email,
+          email: value,
           locale: i18n.language?.startsWith('el') ? 'el' : 'en',
         }),
       });
@@ -45,7 +55,7 @@ export function NewsletterInline({ variant = 'light' }: Props) {
       setStatus('error');
       setErrorMsg(t('newsletter.errors.server'));
     }
-  });
+  };
 
   if (status === 'success') {
     return <div className="text-sm">{t('newsletter.success')}</div>;
@@ -68,12 +78,15 @@ export function NewsletterInline({ variant = 'light' }: Props) {
         autoComplete="email"
         placeholder={t('newsletter.emailPlaceholder')}
         className={`flex-1 px-1 py-2 outline-none transition-colors ${inputCls}`}
-        {...register('email')}
+        value={email}
+        onChange={(e) => { setEmail(e.target.value); if (invalid) setInvalid(false); }}
+        aria-invalid={invalid || undefined}
+        aria-describedby={invalid ? 'newsletter-email-error' : undefined}
       />
       <button type="submit" className={btnCls} disabled={status === 'submitting'}>
         {status === 'submitting' ? t('newsletter.submitting') : t('newsletter.submit')}
       </button>
-      {errors.email && <div className="text-xs opacity-70">{t('newsletter.errors.emailInvalid')}</div>}
+      {invalid && <div id="newsletter-email-error" className="text-xs opacity-70">{t('newsletter.errors.emailInvalid')}</div>}
       {errorMsg && <div className="text-xs opacity-70">{errorMsg}</div>}
     </form>
   );

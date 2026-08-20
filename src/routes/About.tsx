@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { imageUrl } from '@/lib/image';
+import { useDocumentMeta } from '@/lib/useDocumentMeta';
 
 /**
  * About — a presentable, original, partner-replaceable narrative. Brand-neutral
@@ -10,7 +11,12 @@ import { imageUrl } from '@/lib/image';
  * partner swaps in approved brand copy when ready (see the IP boundary).
  */
 export default function About() {
+
   const { t } = useTranslation();
+  useDocumentMeta({
+    title: t('meta.about.title', { defaultValue: 'About us' }),
+    description: t('meta.about.description', { defaultValue: 'Who we are and how we plan Explora Journeys voyages for discerning travellers.' }),
+  });
   const values = (t('about.values', { returnObjects: true }) as { title: string; body: string }[]) ?? [];
 
   return (

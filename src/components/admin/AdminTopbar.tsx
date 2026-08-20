@@ -3,6 +3,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { NAV_ITEMS } from './navItems';
+// Async: loads the Greek bundle on demand before switching (src/i18n.ts).
+import { changeLanguage } from '@/i18n';
 
 function initials(name: string): string {
   return name.split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p[0]?.toUpperCase()).join('') || '?';
@@ -18,7 +20,7 @@ function LangToggle() {
         <button
           key={lng}
           type="button"
-          onClick={() => { if (active !== lng) void i18n.changeLanguage(lng); }}
+          onClick={() => { if (active !== lng) void changeLanguage(lng); }}
           aria-pressed={active === lng}
           className={`rounded-full px-2.5 py-1 uppercase tracking-ui transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink ${
             active === lng ? 'bg-ink text-cream' : 'text-ink-500 hover:text-ink'

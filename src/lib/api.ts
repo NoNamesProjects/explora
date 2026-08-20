@@ -102,6 +102,9 @@ export interface JourneyDetail {
     nights: number;
     embkTime: string | null;
     disEmbkTime: string | null;
+    /** Lowest EUR fare, after any manual override. Emitted by the detail API. */
+    lowestPriceEUR?: number | null;
+    priceOverridden?: boolean;
     /** ── Custom packages only (owner-managed, not from the flatfile) ── */
     isCustom?: boolean;
     titleEl?: string | null;

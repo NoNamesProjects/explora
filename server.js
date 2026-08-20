@@ -91,6 +91,12 @@ if (contentEntities) app.all('/api/content/entities', adapt(contentEntities));
 if (nlConfirm) app.all('/api/newsletter/confirm', adapt(nlConfirm));
 if (nlUnsub) app.all('/api/newsletter/unsubscribe', adapt(nlUnsub));
 
+// ── SEO: generated sitemap ─────────────────────────────────────────────────
+// Mounted at the root (not under /api) because crawlers look for it there, and
+// before the SPA fallback so it is not swallowed by index.html.
+const sitemap = await maybe('./api/sitemap.js');
+if (sitemap) app.all('/sitemap.xml', adapt(sitemap));
+
 // ── Cron endpoints (bearer-protected) ──────────────────────────────────────
 const ingestFlatfiles = await maybe('./api/cron/ingest-flatfiles.js');
 if (ingestFlatfiles) app.all('/api/cron/ingest-flatfiles', adapt(ingestFlatfiles));

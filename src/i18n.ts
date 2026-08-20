@@ -1,18 +1,20 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from './locales/en.json';
-import el from './locales/el.json';
 
 const STORAGE_KEY = 'explora.locale';
 const fromStorage = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
 const initial = fromStorage === 'el' || fromStorage === 'en' ? fromStorage : 'en';
 
+// Only English is bundled eagerly. Greek is ~117 KB of the entry chunk (Greek
+// is 2 bytes per character in UTF-8), which every English visitor was
+// downloading and parsing to never render. It now loads on demand: at boot when
+// Greek is the stored locale, and on the first switch to Greek otherwise.
 i18n.use(initReactI18next).init({
   resources: {
     en: { translation: en },
-    el: { translation: el },
   },
-  lng: initial,
+  lng: 'en',
   fallbackLng: 'en',
   interpolation: { escapeValue: false },
   // Repaint components when the CMS overlay calls addResource ('added'). Without
@@ -21,6 +23,39 @@ i18n.use(initReactI18next).init({
   react: { bindI18n: 'languageChanged loaded added removed' },
 });
 
+let elLoading: Promise<void> | null = null;
+
+/**
+ * Fetch and register the Greek bundle once. Safe to call repeatedly: concurrent
+ * callers share the in-flight promise, and a loaded bundle short-circuits.
+ */
+export function ensureGreekLoaded(): Promise<void> {
+  if (i18n.hasResourceBundle('el', 'translation')) return Promise.resolve();
+  if (!elLoading) {
+    elLoading = import('./locales/el.json')
+      .then((mod) => {
+        i18n.addResourceBundle('el', 'translation', mod.default, true, true);
+        // Re-apply any CMS overlay that arrived before Greek existed, otherwise
+        // client-edited Greek copy would be silently lost on first switch.
+        if (pendingOverlay) applyI18nOverlay(pendingOverlay);
+      })
+      .catch((err) => {
+        elLoading = null; // let a later switch retry
+        console.error('[i18n] Greek bundle failed to load:', err);
+      });
+  }
+  return elLoading;
+}
+
+/**
+ * Switch language, loading Greek first if it is not in memory yet, so the UI
+ * never flashes English keys mid-switch.
+ */
+export async function changeLanguage(lng: string): Promise<void> {
+  if (lng.startsWith('el')) await ensureGreekLoaded();
+  await i18n.changeLanguage(lng);
+}
+
 /**
  * Overlay client-edited copy onto i18next. Each key is set wholesale via
  * addResource (setPath overwrites the leaf — so a rich-doc replaces a string
@@ -28,11 +63,16 @@ i18n.use(initReactI18next).init({
  * synchronously from window.__CONTENT__ at boot (zero flash) and again by
  * ContentProvider after a fetch / live update.
  */
+let pendingOverlay: { en?: Record<string, unknown>; el?: Record<string, unknown> } | null = null;
+
 export function applyI18nOverlay(bundle: {
   en?: Record<string, unknown>;
   el?: Record<string, unknown>;
 } | null | undefined): void {
   if (!bundle) return;
+  // Remembered so the Greek half can be re-applied once that bundle loads: an
+  // overlay that lands before Greek exists would otherwise be dropped.
+  pendingOverlay = bundle;
   for (const lng of ['en', 'el'] as const) {
     const map = bundle[lng];
     if (!map) continue;
@@ -65,5 +105,9 @@ i18n.on('languageChanged', (lng) => {
 
 // Set the initial <html lang> once on load (before any toggle).
 syncDocumentLang(initial);
+
+// A returning Greek visitor: init started in English so the app can paint
+// immediately, then we swap as soon as the bundle arrives.
+if (initial === 'el') void changeLanguage('el');
 
 export default i18n;

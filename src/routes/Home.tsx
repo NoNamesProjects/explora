@@ -12,6 +12,7 @@ import { PageSections } from '@/components/sections/PageSections';
 import { imageUrl } from '@/lib/image';
 import { bannerOverride } from '@/lib/content/bannerSrc';
 import { RichText } from '@/components/content/RichText';
+import { useDocumentMeta } from '@/lib/useDocumentMeta';
 
 /**
  * Home is now assembled from admin-managed sections (page_sections, page_key
@@ -25,12 +26,17 @@ import { RichText } from '@/components/content/RichText';
  * live and stable for a while, this fallback can be deleted.
  */
 export default function Home() {
+
   return <PageSections page="home" fallback={<LegacyHome />} />;
 }
 
 /** The pre-page-builder Home, verbatim. See the note above before removing. */
 function LegacyHome() {
   const { t } = useTranslation();
+  useDocumentMeta({
+    title: t('meta.home.title', { defaultValue: 'All-suite ultra-luxury ocean journeys' }),
+    description: t('meta.home.description', { defaultValue: 'Explore Explora Journeys sailings: all-suite ships, ocean-front terraces and immersive itineraries across the Mediterranean, Northern Europe and beyond.' }),
+  });
 
   return (
     <>

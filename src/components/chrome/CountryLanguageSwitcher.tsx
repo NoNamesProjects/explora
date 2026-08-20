@@ -1,6 +1,8 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { useTranslation } from 'react-i18next';
 import i18n from '@/i18n';
+// Async: loads the Greek bundle on demand before switching (src/i18n.ts).
+import { changeLanguage } from '@/i18n';
 
 const LANGUAGES = [
   { code: 'en', labelKey: 'footer.switcher.languages.en' },
@@ -39,7 +41,7 @@ export function CountryLanguageSwitcher() {
                   type="button"
                   className={`pill ${i18n.language === lang.code ? 'bg-ink text-cream border-ink' : ''}`}
                   onClick={() => {
-                    void i18n.changeLanguage(lang.code);
+                    void changeLanguage(lang.code);
                   }}
                 >
                   {t(lang.labelKey)}

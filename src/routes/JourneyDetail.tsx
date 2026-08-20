@@ -8,6 +8,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { getShipAssets, cabinImageForSuite, suiteTierKey } from '@/lib/shipAssets';
 import { groupSuites } from '@/lib/bookingUI';
 import { destinationImage } from '@/lib/portImages';
+import { useDocumentMeta, useJsonLd } from '@/lib/useDocumentMeta';
 import type { SubNavSection } from '@/components/ship/StickySubNav';
 import { JourneySubNav } from '@/components/journey/JourneySubNav';
 import { ItineraryTable } from '@/components/journey/ItineraryTable';
@@ -39,6 +40,52 @@ export default function JourneyDetailRoute() {
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
   }, [id]);
+
+  // ── Per-route metadata ────────────────────────────────────────────────────
+  // MUST sit above the loading/error early-returns: these are hooks, and the
+  // returns below are conditional, so placing them lower would change hook
+  // order between renders. `ready` gates the write until the data lands.
+  const metaJourney = detail?.journey;
+  const metaFrom = metaJourney?.sailingPortName ?? metaJourney?.sailingPort ?? null;
+  const metaTo = metaJourney?.terminationPortName ?? metaJourney?.terminationPort ?? null;
+  const metaRoute = metaFrom && metaTo ? `${metaFrom} to ${metaTo}` : (metaJourney?.itinDesc ?? '');
+  const metaTitle = metaJourney
+    ? `${metaJourney.nights}-night ${metaRoute}`.trim()
+    : undefined;
+  const metaDesc = metaJourney
+    ? (metaJourney.summary
+      ?? `A ${metaJourney.nights}-night all-suite voyage${metaFrom ? ` departing ${metaFrom}` : ''}`
+        + `${metaJourney.sailingDate ? ` on ${metaJourney.sailingDate}` : ''}`
+        + `${metaTo ? ` and arriving ${metaTo}` : ''}. View the full itinerary, suites and fares.`)
+    : undefined;
+
+  useDocumentMeta({
+    title: metaTitle,
+    description: metaDesc ?? undefined,
+    image: metaJourney?.heroImage ?? undefined,
+    ready: !!metaJourney,
+  });
+
+  // TouristTrip is the closest schema.org type for a cruise itinerary and is
+  // what actually earns rich results for this page shape.
+  useJsonLd(metaJourney ? {
+    '@context': 'https://schema.org',
+    '@type': 'TouristTrip',
+    name: metaTitle,
+    description: metaDesc,
+    ...(metaJourney.heroImage ? { image: metaJourney.heroImage } : {}),
+    ...(metaFrom ? { departureLocation: { '@type': 'Place', name: metaFrom } } : {}),
+    ...(metaTo ? { arrivalLocation: { '@type': 'Place', name: metaTo } } : {}),
+    ...(metaJourney.sailingDate ? { startDate: metaJourney.sailingDate } : {}),
+    ...(metaJourney.lowestPriceEUR != null ? {
+      offers: {
+        '@type': 'Offer',
+        price: metaJourney.lowestPriceEUR,
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+      },
+    } : {}),
+  } : null);
 
   if (loading) {
     return (

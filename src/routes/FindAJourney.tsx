@@ -16,9 +16,15 @@ import { REGIONS, SHIP_OPTIONS, SORT_OPTIONS, DEFAULT_SORT, narrowOptions } from
 import { RangeSlider } from '@/components/ui/RangeSlider';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import { useDocumentMeta } from '@/lib/useDocumentMeta';
 
 export default function FindAJourney() {
+
   const { t, i18n } = useTranslation();
+  useDocumentMeta({
+    title: t('meta.find.title', { defaultValue: 'Find a journey' }),
+    description: t('meta.find.description', { defaultValue: 'Search every Explora Journeys sailing by destination, ship, month, duration and fare. Full itineraries, suite options and live prices.' }),
+  });
   const [searchParams, setSearchParams] = useSearchParams();
 
   const filters: JourneySearchParams = useMemo(() => {
